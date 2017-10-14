@@ -1,0 +1,14 @@
+Especificação Trabalho 1 SisComp :
+Módulos:
+Interpretador.c
+Escalonador.c
+Fila.c
+
+Interpretador.c: Ler de stdio os nomes de programas executáveis e paramentos e chamar o escalonador solicitando a execução concorrente dos processos desses programas.
+
+Escalonador.c : Executa de forma intercalada os processos de acordo com a politica de filas com níveis de prioridade(depende do comportamento de cada processo).Se o processo é I/O bound ele deve ter maior prioridade e se for CPU Bound deve ter prioridade diminuída.Deve ter 3 filas.Se for CPU bound transferir o processo para a fila de baixo e se for I/O bound transferir para a fila de cima.Todos os processos quando criados são inseridos em F1.Quando estão na mesma fila devem ser escalonados por Round Robin(cada processo executa em um quantum de tempo).Processos- usuário devem ter perfil variável durante a execução.Isso é determinado pela sequencia de parâmetros passados ao interpretador.
+O escalonador é o processo pai de todos os processos usuário e usa sinais (SIGCONT E SIGSTOP) para intercalar a execução entre os processos.I/O é simulado e todos os bloqueios de I/O tem 3 segundos(sleep(3)).Quando um processo filho termina ele emite um sinal(SIGCHD) para o pai e o pai o elimina do sistema.
+
+Programas Usuário:Um comando para cada rajada de CPU,imprimindo apenas o pid e dando sleep (1).O número de interações depende dos parametros passados para o interpretador e recebidos em argv.No final de cada for tem que emitir um sinal para o escalonador indicando que ele está waiting for I/O.É a partir desse sinal que o escalonador deve saber o que fazer com esse processo(em qual fila coloca-lo por exemplo).
+
+O Interpretador pode se comunicar de qualquer forma com o Escalonador(pipe talvez) e os processos usuário tem que se comunicar com o escalonador através de sinais.
