@@ -33,7 +33,8 @@ int main (int argc,char *argv[]){
     int j = 0;
 
     vet[i].nome = (char*)malloc(tamanho_max * sizeof(char));
-
+    vet[i].pid = 0;
+    vet[i].estado_Atual = Não_Iniciado;
     for(int x = 5;done && x < sizeof(argv[i]); x++){
       char c = argv[i][x];
 
@@ -67,20 +68,82 @@ void insereProcessosInicio() {
   }
 }
 
-void desceParaF2() {
-  Processo p1 = removeProcesso(f1);
+void desceParaF2(Processo p1) {
   insereProcesso(f2,p1);
 }
 
-void desceParaF3() {
-  Processo p2 = removeProcesso(f2);
+void desceParaF3(Processo p2) {
   insereProcesso(f3,p2);
 }
-void sobeParaF1() {
-  Processo p2 = removeProcesso(f2);
+void sobeParaF1(Processo p2) {
   insereProcesso(f1,p2);
 }
-void sobeParaF2() {
-  Processo p3 = removeProcesso(f3);
+void sobeParaF2(Processo p3) {
   insereProcesso(f2,p3);
+}
+
+void escalonaRoundRobin(Fila *fila,int quantumFila) {
+  int i = 0;
+  while(tamanhoFila(fila) != 0) {
+    Processo processo_Atual = removeProcesso(fila);
+    //CASO DE UM PROCESSO AINDA NÃO TER SIDO INICIALIZADO
+    if (processo_Atual.estado_Atual == Não_Iniciado) {
+        processo_Atual.pid = fork();
+        if(processo_Atual.pid != 0) {
+          //Processo Pai
+          //Para pelo tempo do quantum
+          sleep(quantumFila);
+          int j = 0;
+          for(j=0;processo_Atual.rajadas_tempo[j] <= 0;j++)
+          if(j>=3) break;
+
+          //Subtrai do array de rajadas_tempo o que já foi executado
+          processo_Atual.rajadas_tempo[j] -= quantumFila;
+          //Interrompe o processo
+          printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
+          kill(processo_Atual.pid,SIGSTOP);
+
+          //Checa qual o estado_Atual do Processo
+          for(j=0;processo_Atual.rajadas_tempo[j] <= 0;j++)
+          if(j>=3) break;
+          if(j<=3)
+          processo_Atual.estado_Atual = Em_Espera;
+          else
+          processo_Atual.estado_Atual = Finalizado;
+        }
+        else {
+          printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
+          execve(processo_Atual.nome, NULL, NULL);
+        }
+    }
+    else {
+        if (processo_Atual.estado_Atual != Finalizado) {
+          //Continuando a execução de um processo
+          printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
+          kill(processo_Atual.pid,SIGCONT);
+
+          sleep(quantumFila);
+          //Parando o processo
+          printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
+          kill(processo_Atual.pid,SIGSTOP);
+          int j = 0;
+          for(j=0;processo_Atual.rajadas_tempo[j] <= 0;j++)
+          if(j>=3) break;
+
+          //Subtrai do array de rajadas_tempo o que já foi executado
+          processo_Atual.rajadas_tempo[j] -= quantumFila;
+
+          //TODO:Checar se o processo acabou
+        }
+    }
+    /* TODO:Andar com o processo_Atual pelas 3 filas
+    switch quantumFila:
+        case 1:
+        if (processo_Atual.estado_Atual != Finalizado) {
+            desceParaF2();
+        }
+        case 2:
+        */
+    i++;
+  }
 }

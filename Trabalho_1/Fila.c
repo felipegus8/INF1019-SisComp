@@ -39,3 +39,7 @@ int filaCheia(Fila *fila) {
 int filaVazia(Fila *fila) {
     return (fila->count == 0);
 }
+
+int tamanhoFila(Fila *fila) {
+  return fila->count;
+}

@@ -16,3 +16,6 @@ int filaCheia(Fila *fila);
 
 //Checa se a fila está vazia
 int filaVazia(Fila *fila);
+
+//Retorna o tamanho da Fila
+int tamanhoFila(Fila *fila);
