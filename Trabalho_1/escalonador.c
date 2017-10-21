@@ -7,13 +7,18 @@
 #include "Fila.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "escalonador.h"
 
-struct processo {
-  char *nome;
-  int pid;
-  int rajadas_tempo[3];
-};
+
+Fila * f1;
+Fila *f2;
+Fila *f3;
+Processo *p;
+void insereProcessosInicio();
+void desceParaF2();
+void desceParaF3();
+void sobeParaF1();
+void sobeParaF2();
+
 
 int main (int argc,char *argv[]){
   int flag_rajada = 0;
@@ -54,6 +59,28 @@ int main (int argc,char *argv[]){
       }
     }
   }
+}
 
-  return 0;
+void insereProcessosInicio() {
+  for (int i = 0;i < 10;i++) {
+    insereProcesso(f1,p[i]);
+  }
+}
+
+void desceParaF2() {
+  Processo p1 = removeProcesso(f1);
+  insereProcesso(f2,p1);
+}
+
+void desceParaF3() {
+  Processo p2 = removeProcesso(f2);
+  insereProcesso(f3,p2);
+}
+void sobeParaF1() {
+  Processo p2 = removeProcesso(f2);
+  insereProcesso(f1,p2);
+}
+void sobeParaF2() {
+  Processo p3 = removeProcesso(f3);
+  insereProcesso(f2,p3);
 }
