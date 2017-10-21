@@ -8,7 +8,7 @@
 int main(void){
   char comando[21];
   char comandotemp[301];
-  char **parms = NULL;
+  char *parms[20];
   int num_cmd = 0;
   int flagIni = 1;
   int flagProg = 1;
@@ -35,7 +35,7 @@ int main(void){
           flagProg = 0;
         }else{
           //Aloca e preenche o vetor de parâmetros com o comando para executar o programa
-          parms[num_cmd] = (char*)malloc((strlen(comandotemp) - 4) * sizeof(char));
+          parms[num_cmd] = (char*)malloc((strlen(comandotemp)) * sizeof(char));
           if (parms[num_cmd] == NULL){
             printf("Erro ao alocar memoria\n\n");
             exit(1);
