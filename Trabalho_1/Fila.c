@@ -1,5 +1,5 @@
-#include "Fila.h"
 #include <stdlib.h>
+#include "Fila.h"
 
 #define MAXFILA 200
 
@@ -12,9 +12,14 @@ typedef struct fila {
 } Fila;
 
 void initFila(Fila *f) {
-    f->ini = 0;
-    f->fim = 0;
-    f->count = 0;
+  f = (Fila*)malloc(sizeof(Fila));
+  if(f == NULL){
+    printf("falta de memoria\n");
+    exit(1);
+  }
+  f->ini = 0;
+  f->fim = 0;
+  f->count = 0;
 }
 
 void insereProcesso(Fila *fila, Processo p) {

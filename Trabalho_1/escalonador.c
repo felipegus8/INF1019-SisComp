@@ -4,28 +4,36 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
-#include "Fila.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "Fila.h"
 
 
-Fila * f1;
+Fila *f1;
 Fila *f2;
 Fila *f3;
-Processo *p;
-void insereProcessosInicio();
-void desceParaF2();
-void desceParaF3();
-void sobeParaF1();
-void sobeParaF2();
 
+void escalonaRoundRobin(Fila *fila,int quantumFila);
+void insereProcessosInicio(Fila *p1, Processo* p);
+void desceParaF2(Processo p1);
+void desceParaF3(Processo p2);
+void sobeParaF1(Processo p2);
+void sobeParaF2(Processo p3);
 
 int main (int argc,char *argv[]){
   int flag_rajada = 0;
   Processo* vet;
 
+  initFila(f1);
+  initFila(f2);
+  initFila(f3);
+
   //Crio um vetor de processos
   vet = (Processo*)malloc((argc) * sizeof(Processo));
+  if(vet == NULL){
+    printf("falta de memoria\n");
+    exit(1);
+  }
 
   for (int i = 0; i < argc; i++){
     int done = 1;
@@ -34,7 +42,7 @@ int main (int argc,char *argv[]){
 
     vet[i].nome = (char*)malloc(tamanho_max * sizeof(char));
     vet[i].pid = 0;
-    vet[i].estado_Atual = Não_Iniciado;
+    vet[i].estado_Atual = Nao_Iniciado;
     for(int x = 5;done && x < sizeof(argv[i]); x++){
       char c = argv[i][x];
 
@@ -60,9 +68,13 @@ int main (int argc,char *argv[]){
       }
     }
   }
+
+  insereProcessosInicio(f1,vet);
+  escalonaRoundRobin(f1,0);
+
 }
 
-void insereProcessosInicio() {
+void insereProcessosInicio(Fila *p1, Processo* p) {
   for (int i = 0;i < 10;i++) {
     insereProcesso(f1,p[i]);
   }
@@ -87,7 +99,7 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
   while(tamanhoFila(fila) != 0) {
     Processo processo_Atual = removeProcesso(fila);
     //CASO DE UM PROCESSO AINDA NÃO TER SIDO INICIALIZADO
-    if (processo_Atual.estado_Atual == Não_Iniciado) {
+    if (processo_Atual.estado_Atual == Nao_Iniciado) {
         processo_Atual.pid = fork();
         if(processo_Atual.pid != 0) {
           //Processo Pai
@@ -140,25 +152,26 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
         }
     }
     /* TODO:Andar com o processo_Atual pelas 3 filas    */
-    switch quantumFila:
-        case 1:
+    switch (quantumFila){
+      case 1:
         if (processo_Atual.estado_Atual != Finalizado) {
-            desceParaF2();
+          desceParaF2(processo_Atual);
         }
-        case 2:
+      case 2:
         if (processo_Atual.estado_Atual != Finalizado) {
-            desceParaF3();
+          desceParaF3(processo_Atual);
         }
         if (processo_Atual.estado_Atual == Finalizado) {
-            sobeParaF1();
+          sobeParaF1(processo_Atual);
         }
-        case 3:
+      case 3:
         if (processo_Atual.estado_Atual == Finalizado) {
-            sobeParaF1();
+          sobeParaF1(processo_Atual);
         }
         if (processo_Atual.estado_Atual != Finalizado) {
-            sobeParaF2();
+          sobeParaF2(processo_Atual);
         }
+    }
     i++;
   }
 }
