@@ -133,17 +133,32 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
           //Subtrai do array de rajadas_tempo o que já foi executado
           processo_Atual.rajadas_tempo[j] -= quantumFila;
 
-          //TODO:Checar se o processo acabou
+          if(processo_Atual.rajadas_tempo[j] == 0){
+            printf("<< Finalizando processo de nome: %s \n\n", processo_Atual.nome);
+            processo_Atual.estado_Atual = Finalizado;
+          }
         }
     }
-    /* TODO:Andar com o processo_Atual pelas 3 filas
+    /* TODO:Andar com o processo_Atual pelas 3 filas    */
     switch quantumFila:
         case 1:
         if (processo_Atual.estado_Atual != Finalizado) {
             desceParaF2();
         }
         case 2:
-        */
+        if (processo_Atual.estado_Atual != Finalizado) {
+            desceParaF3();
+        }
+        if (processo_Atual.estado_Atual == Finalizado) {
+            sobeParaF1();
+        }
+        case 3:
+        if (processo_Atual.estado_Atual == Finalizado) {
+            sobeParaF1();
+        }
+        if (processo_Atual.estado_Atual != Finalizado) {
+            sobeParaF2();
+        }
     i++;
   }
 }
