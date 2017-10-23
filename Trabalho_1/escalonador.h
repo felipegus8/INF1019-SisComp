@@ -10,6 +10,6 @@ typedef enum {
 typedef struct processo  {
   char *nome;
   int pid;
-  int rajadas_tempo[20];
+  int *rajadas_tempo;
   Estados estado_Atual;
 } Processo;

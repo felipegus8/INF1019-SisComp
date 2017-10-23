@@ -26,6 +26,7 @@ void sobeParaF2(Processo p3);
 void sighandler(int signum);
 void sigChildHandler(int signum);
 void infiniteLoopUntilSignalORQuantumEnd(int quantumFila);
+int checkSizeOfArray(int *array);
 
 int main (int argc,char *argv[]) {
   int flag_rajada = 0;
@@ -75,7 +76,6 @@ int main (int argc,char *argv[]) {
 
       }
     }
-    //TODO:Funcão que retorna a qtd de rajadas de tempo pra eu poder usar isso no escalonador
   }
 
   insereProcessosInicio(f1,vet);
@@ -162,7 +162,8 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
           desceParaF2(processo_Atual);
         }
       case 2:
-        for(j=0;processo_Atual.rajadas_tempo[j] != 0;j++);
+        for(j=0;j < checkSizeOfArray(processo_Atual.rajadas_tempo);j++);
+
         if (processo_Atual.estado_Atual != Finalizado) {
           desceParaF3(processo_Atual);
         }
@@ -199,4 +200,8 @@ void sighandler(int signum) {
 
 void sigChildHandler(int signum) {
     current_Process.estado_Atual = Finalizado ;
+}
+
+int checkSizeOfArray(int *array) {
+  return sizeof(array)/sizeof(int);
 }
