@@ -81,7 +81,7 @@ int main (int argc,char *argv[]) {
 				tamanho_max = sizeof(argv[i]);
 				
 				//define o tamanho do array
-				while(pos < 20 || count < tamanho_max){
+				while(pos < 20 && count < tamanho_max){
 					tot++;
 				}
 
@@ -195,7 +195,7 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
           processo_Atual.estado_Atual = Finalizado;
           }
         }
-    /* TODO:Andar com o processo_Atual pelas 3 filas */
+    //Andar com o processo_Atual pelas 3 filas 
     switch (quantumFila){
       case 1:
         if (processo_Atual.estado_Atual != Finalizado) {
