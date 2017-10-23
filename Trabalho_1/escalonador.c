@@ -29,11 +29,12 @@ void infiniteLoopUntilSignalORQuantumEnd(int quantumFila);
 int checkSizeOfArray(int *array);
 
 int main (int argc,char *argv[]) {
-		printf("entrei");
   int flag_rajada = 0;
   Processo* vet;
+
   signal(SIGUSR1, sighandler);
   signal(SIGCHLD,sigChildHandler);
+
   initFila(f1);
   initFila(f2);
   initFila(f3);
@@ -49,10 +50,16 @@ int main (int argc,char *argv[]) {
     int done = 1;
     int tamanho_max = sizeof(argv[i]) - 8;
     int j = 0;
-		printf("entrei");
+
     vet[i].nome = (char*)malloc(tamanho_max * sizeof(char));
+		if(vet[i].nome == NULL){
+			printf("falta de memoria\n");
+			exit(1);
+		}
+
     vet[i].pid = 0;
     vet[i].estado_Atual = Nao_Iniciado;
+
     for(int x = 5;done && x < sizeof(argv[i]); x++){
       char c = argv[i][x];
 
@@ -67,14 +74,26 @@ int main (int argc,char *argv[]) {
       }
 
       if(flag_rajada){
-				int pos = 0;
+				int tot = 0;
 				int count = 7+j;
 				tamanho_max = sizeof(argv[i]);
-
+				
+				//define o tamanho do array
 				while(pos < 20 || count < tamanho_max){
+					tot++;
+				}
+
+				vet[i].rajadas_tempo = (int*)malloc(tot * sizeof(int));
+				if(vet[i].rajadas_tempo == NULL){
+					printf("falta de memoria\n");
+					exit(1);
+				}
+
+				//define os valores no array
+				count = 7+j;
+				for(int pos = 0;pos<tot;pos++){
 					vet[i].rajadas_tempo[pos] = argv[i][count] - '0';
 					count+=2;
-					pos++;
 				}
 
         done = 0;
@@ -84,8 +103,8 @@ int main (int argc,char *argv[]) {
     }
   }
 
-  //insereProcessosInicio(f1,vet);
-  //escalonaRoundRobin(f1,1);
+  insereProcessosInicio(f1,vet);
+  escalonaRoundRobin(f1,1);
 
 	return 0;
 
