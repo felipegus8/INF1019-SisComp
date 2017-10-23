@@ -12,11 +12,11 @@
 Fila *f1;
 Fila *f2;
 Fila *f3;
+Fila *processosEmIO;
 
 time_t current_time;
 int didCallSignal = 0;
 Processo current_Process;
-
 //Protótipos das funções
 void escalonaRoundRobin(Fila *fila,int quantumFila);
 void insereProcessosInicio(Fila *p1, Processo* p);
@@ -24,19 +24,18 @@ void desceParaF2(Processo p1);
 void desceParaF3(Processo p2);
 void sobeParaF1(Processo p2);
 void sobeParaF2(Processo p3);
-void sighandler(int signum);
-void sigChildHandler(int signum);
+void terminouExecucao(int signum);
+void entrouNoIO(int signum);
 void infiniteLoopUntilSignalORQuantumEnd(int quantumFila);
 int checkSizeOfArray(int *array);
 int checkWhereArrayReallyStarts(Processo processo_Atual);
+void terminouIO(int signum);
 
 int main (int argc,char *argv[]) {
   int flag_rajada = 0;
   Processo* vet;
-
-  signal(SIGUSR1, sighandler);
-  signal(SIGCHLD,sigChildHandler);
-
+  signal(SIGUSR1, entrouNoIO);
+  signal(SIGUSR2,terminouIO);
   initFila(f1);
   initFila(f2);
   initFila(f3);
@@ -79,7 +78,7 @@ int main (int argc,char *argv[]) {
 				int tot = 0;
 				int count = 7+j;
 				tamanho_max = sizeof(argv[i]);
-				
+
 				//define o tamanho do array
 				while(tot < tamanho_max){
 					tot++;
@@ -104,7 +103,6 @@ int main (int argc,char *argv[]) {
       }
     }
   }
-
   insereProcessosInicio(f1,vet);
   escalonaRoundRobin(f1,1);
 
@@ -162,11 +160,12 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
             else
             printf("<< Finalizando processo de nome: %s \n\n", processo_Atual.nome);
             processo_Atual.estado_Atual = Finalizado;
+            current_Process = processo_Atual;
         }
         else {
           printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
           current_time = time(NULL);
-          //execve(processo_Atual.nome, 0, 0);
+          execve(processo_Atual.nome, NULL, NULL);
         }
     }
     else {
@@ -193,9 +192,10 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
           else
           printf("<< Finalizando processo de nome: %s \n\n", processo_Atual.nome);
           processo_Atual.estado_Atual = Finalizado;
+          current_Process = processo_Atual;
           }
         }
-    //Andar com o processo_Atual pelas 3 filas 
+    //Andar com o processo_Atual pelas 3 filas
     switch (quantumFila){
       case 1:
         if (processo_Atual.estado_Atual != Finalizado) {
@@ -234,13 +234,15 @@ void infiniteLoopUntilSignalORQuantumEnd(int quantumFila) {
   }
 }
 
-void sighandler(int signum) {
+void entrouNoIO(int signum) {
+    insereProcesso(processosEmIO,current_Process);
     didCallSignal = 1;
     //I/O
+
 }
 
-void sigChildHandler(int signum) {
-    current_Process.estado_Atual = Finalizado ;
+void terminouIO(int signum) {
+
 }
 
 int checkSizeOfArray(int *array) {
