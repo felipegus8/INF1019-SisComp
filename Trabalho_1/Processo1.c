@@ -8,8 +8,11 @@ int main (int argc, char *argv[]) {
       printf("%d \n", getpid());
       sleep(1);
     }
+    kill(getppid(),SIGUSR1);
+    sleep(3);
+    kill(getppid(),SIGUSR2);
   }
-  kill(getppid(),SIGUSR1); 
+
 
   return 0;
 }
