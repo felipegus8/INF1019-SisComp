@@ -29,6 +29,7 @@ void infiniteLoopUntilSignalORQuantumEnd(int quantumFila);
 int checkSizeOfArray(int *array);
 
 int main (int argc,char *argv[]) {
+		printf("entrei");
   int flag_rajada = 0;
   Processo* vet;
   signal(SIGUSR1, sighandler);
@@ -48,7 +49,7 @@ int main (int argc,char *argv[]) {
     int done = 1;
     int tamanho_max = sizeof(argv[i]) - 8;
     int j = 0;
-
+		printf("entrei");
     vet[i].nome = (char*)malloc(tamanho_max * sizeof(char));
     vet[i].pid = 0;
     vet[i].estado_Atual = Nao_Iniciado;
@@ -66,10 +67,15 @@ int main (int argc,char *argv[]) {
       }
 
       if(flag_rajada){
+				int pos = 0;
+				int count = 7+j;
+				tamanho_max = sizeof(argv[i]);
 
-        vet[i].rajadas_tempo[0] = argv[i][7+j] - '0';
-        vet[i].rajadas_tempo[1] = argv[i][9+j] - '0';
-        vet[i].rajadas_tempo[2] = argv[i][11+j] - '0';
+				while(pos < 20 || count < tamanho_max){
+					vet[i].rajadas_tempo[pos] = argv[i][count] - '0';
+					count+=2;
+					pos++;
+				}
 
         done = 0;
         flag_rajada = 0;
@@ -78,8 +84,10 @@ int main (int argc,char *argv[]) {
     }
   }
 
-  insereProcessosInicio(f1,vet);
-  escalonaRoundRobin(f1,1);
+  //insereProcessosInicio(f1,vet);
+  //escalonaRoundRobin(f1,1);
+
+	return 0;
 
 }
 
@@ -131,7 +139,7 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
         else {
           printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
           current_time = time(NULL);
-          execve(processo_Atual.nome, NULL, NULL);
+          //execve(processo_Atual.nome, 0, 0);
         }
     }
     else {
