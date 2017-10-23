@@ -7,11 +7,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Fila.h"
-
+#include <time.h>
 
 Fila *f1;
 Fila *f2;
 Fila *f3;
+
+time_t current_time;
+int didCallSignal = 0;
+Processo current_Process;
 
 void escalonaRoundRobin(Fila *fila,int quantumFila);
 void insereProcessosInicio(Fila *p1, Processo* p);
@@ -19,11 +23,15 @@ void desceParaF2(Processo p1);
 void desceParaF3(Processo p2);
 void sobeParaF1(Processo p2);
 void sobeParaF2(Processo p3);
+void sighandler(int signum);
+void sigChildHandler(int signum);
+void infiniteLoopUntilSignalORQuantumEnd(int quantumFila);
 
-int main (int argc,char *argv[]){
+int main (int argc,char *argv[]) {
   int flag_rajada = 0;
   Processo* vet;
-
+  signal(SIGUSR1, sighandler);
+  signal(SIGCHLD,sigChildHandler);
   initFila(f1);
   initFila(f2);
   initFila(f3);
@@ -67,10 +75,11 @@ int main (int argc,char *argv[]){
 
       }
     }
+    //TODO:Funcão que retorna a qtd de rajadas de tempo pra eu poder usar isso no escalonador
   }
 
   insereProcessosInicio(f1,vet);
-  escalonaRoundRobin(f1,0);
+  escalonaRoundRobin(f1,1);
 
 }
 
@@ -95,36 +104,33 @@ void sobeParaF2(Processo p3) {
 }
 
 void escalonaRoundRobin(Fila *fila,int quantumFila) {
-  int i = 0;
+  int i = 0, j = 0;
   while(tamanhoFila(fila) != 0) {
     Processo processo_Atual = removeProcesso(fila);
+    current_Process = processo_Atual;
     //CASO DE UM PROCESSO AINDA NÃO TER SIDO INICIALIZADO
     if (processo_Atual.estado_Atual == Nao_Iniciado) {
         processo_Atual.pid = fork();
         if(processo_Atual.pid != 0) {
-          //Processo Pai
-          //Para pelo tempo do quantum
-          sleep(quantumFila);
-          int j = 0;
-          for(j=0;processo_Atual.rajadas_tempo[j] <= 0;j++)
-          if(j>=3) break;
-
-          //Subtrai do array de rajadas_tempo o que já foi executado
-          processo_Atual.rajadas_tempo[j] -= quantumFila;
-          //Interrompe o processo
-          printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
-          kill(processo_Atual.pid,SIGSTOP);
-
-          //Checa qual o estado_Atual do Processo
-          for(j=0;processo_Atual.rajadas_tempo[j] <= 0;j++)
-          if(j>=3) break;
-          if(j<=3)
-          processo_Atual.estado_Atual = Em_Espera;
-          else
-          processo_Atual.estado_Atual = Finalizado;
+            infiniteLoopUntilSignalORQuantumEnd(quantumFila);
+            //Interrompe o processo
+            printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
+            kill(processo_Atual.pid,SIGSTOP);
+            for(j=0;processo_Atual.rajadas_tempo[j] <= 0;j++)
+            if(j>=3) break;
+            //Subtrai do array de rajadas_tempo o que já foi executado
+            processo_Atual.rajadas_tempo[j] -= quantumFila;
+            //Checa qual o estado_Atual do Processo.Tem que fazer o loop de novo porque é depois da subtração.
+            for(j=0;processo_Atual.rajadas_tempo[j] <= 0;j++)
+            if(j>=3) break;
+            if(j<=3)
+            processo_Atual.estado_Atual = Em_Espera;
+            else
+            processo_Atual.estado_Atual = Finalizado;
         }
         else {
           printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
+          current_time = time(NULL);
           execve(processo_Atual.nome, NULL, NULL);
         }
     }
@@ -133,36 +139,36 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
           //Continuando a execução de um processo
           printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
           kill(processo_Atual.pid,SIGCONT);
-
-          sleep(quantumFila);
-          //Parando o processo
+          infiniteLoopUntilSignalORQuantumEnd(quantumFila);
           printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
           kill(processo_Atual.pid,SIGSTOP);
-          int j = 0;
-          for(j=0;processo_Atual.rajadas_tempo[j] <= 0;j++)
-          if(j>=3) break;
-
-          //Subtrai do array de rajadas_tempo o que já foi executado
-          processo_Atual.rajadas_tempo[j] -= quantumFila;
-
-          if(processo_Atual.rajadas_tempo[j] == 0){
-            printf("<< Finalizando processo de nome: %s \n\n", processo_Atual.nome);
-            processo_Atual.estado_Atual = Finalizado;
+          for (j=0;processo_Atual.rajadas_tempo[j] <=0;j++) {
+            if(j>=3) {
+              printf("<< Finalizando processo de nome: %s \n\n", processo_Atual.nome);
+              processo_Atual.estado_Atual = Finalizado;
+              break;
+            }
+          }
+          //Rever isso aqui.Pode não estar em espera por I/0.Pode só ter acabado o quantum da Fila.
+          if (j<3) {
+            processo_Atual.estado_Atual = Em_Espera;
           }
         }
     }
-    /* TODO:Andar com o processo_Atual pelas 3 filas    */
+    /* TODO:Andar com o processo_Atual pelas 3 filas */
     switch (quantumFila){
       case 1:
         if (processo_Atual.estado_Atual != Finalizado) {
           desceParaF2(processo_Atual);
         }
       case 2:
+        for(j=0;processo_Atual.rajadas_tempo[j] != 0;j++);
         if (processo_Atual.estado_Atual != Finalizado) {
           desceParaF3(processo_Atual);
         }
         if (processo_Atual.estado_Atual == Finalizado) {
           sobeParaF1(processo_Atual);
+          escalonaRoundRobin(f1,2);
         }
       case 3:
         if (processo_Atual.estado_Atual == Finalizado) {
@@ -174,4 +180,23 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
     }
     i++;
   }
+}
+
+void infiniteLoopUntilSignalORQuantumEnd(int quantumFila) {
+  while(1) {
+    int newTime = time(NULL);
+    if (didCallSignal == 1)
+    break;
+    if ((int)(newTime - current_time) <= quantumFila) {
+        break;
+    }
+  }
+}
+
+void sighandler(int signum) {
+    didCallSignal = 1;
+}
+
+void sigChildHandler(int signum) {
+    current_Process.estado_Atual = Finalizado ;
 }
