@@ -81,7 +81,7 @@ int main (int argc,char *argv[]) {
 				tamanho_max = sizeof(argv[i]);
 				
 				//define o tamanho do array
-				while(pos < 20 && count < tamanho_max){
+				while(tot < tamanho_max){
 					tot++;
 				}
 
