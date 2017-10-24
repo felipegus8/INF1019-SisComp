@@ -54,7 +54,6 @@ int main (int argc,char *argv[]) {
   for (i = 0; i < argc; i++){
     int tamanho_max = sizeof(argv[i]) - 8;
     int j = 0;
-
     vet[i].nome = (char*)malloc(tamanho_max * sizeof(char));
 		if(vet[i].nome == NULL){
 			printf("falta de memoria\n");
@@ -136,6 +135,9 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
   int i = 0, j = 0;
   int estourouQuantumFila = 0;
   while(tamanhoFila(fila) != 0) {
+    if (quantumFila != 1 && tamanhoFila(f1) != 0) {
+      escalonaRoundRobin(f1,1);
+    }
     Processo processo_Atual = removeProcesso(fila);
     current_Process = processo_Atual;
     didEndedProcess = false;
