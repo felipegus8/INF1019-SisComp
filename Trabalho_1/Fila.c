@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include "Fila.h"
 
-#define MAXFILA 200
+#define MAXFILA 100
 
 //TAD - Fila Circular
 typedef struct fila {
-    Processo f[200];
+    Processo f[100];
     int ini;
     int fim;
     int count;
