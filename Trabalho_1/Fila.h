@@ -2,7 +2,7 @@
 
 typedef struct fila Fila;
 //Cria uma fila
-void initFila(Fila *f);
+Fila* initFila(Fila *f);
 
 //Inserir processo na fila
 void insereProcesso(Fila *fila, Processo p);

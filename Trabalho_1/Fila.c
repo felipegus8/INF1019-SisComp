@@ -11,7 +11,7 @@ typedef struct fila {
     int count;
 } Fila;
 
-void initFila(Fila *f) {
+Fila* initFila(Fila *f) {
   f = (Fila*)malloc(sizeof(Fila));
   if(f == NULL){
     printf("falta de memoria\n");
@@ -20,6 +20,7 @@ void initFila(Fila *f) {
   f->ini = 0;
   f->fim = 0;
   f->count = 0;
+  return f;
 }
 
 void insereProcesso(Fila *fila, Processo p) {

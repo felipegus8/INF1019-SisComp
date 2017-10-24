@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include "Fila.h"
 #include <time.h>
+#define true 1
+#define false 0
 
 Fila *f1;
 Fila *f2;
@@ -15,7 +17,8 @@ Fila *f3;
 Fila *processosEmIO;
 
 time_t current_time;
-int didCallSignal = 0;
+int didCallSignal = false;
+int didEndedProcess = false;
 Processo current_Process;
 //Protótipos das funções
 void escalonaRoundRobin(Fila *fila,int quantumFila);
@@ -36,10 +39,11 @@ int main (int argc,char *argv[]) {
   Processo* vet;
   signal(SIGUSR1, entrouNoIO);
   signal(SIGUSR2,terminouIO);
-  initFila(f1);
-  initFila(f2);
-  initFila(f3);
-
+  signal(SIGCHLD,terminouExecucao);
+  f1 = initFila(f1);
+  f2 = initFila(f2);
+  f3 = initFila(f3);
+  printf("CHEGOU AQUI");
   //Crio um vetor de processos
   vet = (Processo*)malloc((argc) * sizeof(Processo));
   if(vet == NULL){
@@ -136,21 +140,24 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
   while(tamanhoFila(fila) != 0) {
     Processo processo_Atual = removeProcesso(fila);
     current_Process = processo_Atual;
+    didEndedProcess = false;
     //CASO DE UM PROCESSO AINDA NÃO TER SIDO INICIALIZADO
     if (processo_Atual.estado_Atual == Nao_Iniciado) {
         processo_Atual.pid = fork();
         if(processo_Atual.pid != 0) {
             infiniteLoopUntilSignalORQuantumEnd(quantumFila);
             //Interrompe o processo
+            if (!didEndedProcess) {
             printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
             kill(processo_Atual.pid,SIGSTOP);
+          }
             j = checkWhereArrayReallyStarts(processo_Atual);
             //Subtrai do array de rajadas_tempo o que já foi executado
             if (processo_Atual.rajadas_tempo[j] - quantumFila > 0) {
-              estourouQuantumFila = 1;
+              estourouQuantumFila = true;
             }
             else {
-              estourouQuantumFila = 0;
+              estourouQuantumFila = false;
             }
             processo_Atual.rajadas_tempo[j] -= quantumFila;
             //Checa qual o estado_Atual do Processo.Tem que fazer o loop de novo porque é depois da subtração.
@@ -174,15 +181,17 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
           printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
           kill(processo_Atual.pid,SIGCONT);
           infiniteLoopUntilSignalORQuantumEnd(quantumFila);
+          if (!didEndedProcess) {
           printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
           kill(processo_Atual.pid,SIGSTOP);
+        }
           j = checkWhereArrayReallyStarts(processo_Atual);
           //Subtrai do array de rajadas_tempo o que já foi executado
           if (processo_Atual.rajadas_tempo[j] - quantumFila >= 0) {
-            estourouQuantumFila = 1;
+            estourouQuantumFila = true;
           }
           else {
-            estourouQuantumFila = 0;
+            estourouQuantumFila = false;
           }
           processo_Atual.rajadas_tempo[j] -= quantumFila;
           //Checa qual o estado_Atual do Processo.Tem que fazer o loop de novo porque é depois da subtração.
@@ -226,7 +235,7 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
 void infiniteLoopUntilSignalORQuantumEnd(int quantumFila) {
   while(1) {
     int newTime = time(NULL);
-    if (didCallSignal == 1)
+    if (didCallSignal == true)
     break;
     if ((int)(newTime - current_time) <= quantumFila) {
         break;
@@ -236,13 +245,18 @@ void infiniteLoopUntilSignalORQuantumEnd(int quantumFila) {
 
 void entrouNoIO(int signum) {
     insereProcesso(processosEmIO,current_Process);
-    didCallSignal = 1;
+    didCallSignal = true;
     //I/O
 
 }
+void terminouExecucao(int signum) {
+    didEndedProcess = true;
+    kill(current_Process.pid,SIGKILL);
+}
 
 void terminouIO(int signum) {
-
+    Processo processoIOFinalizado = removeProcesso(processosEmIO);
+    insereProcesso(f1,processoIOFinalizado);
 }
 
 int checkSizeOfArray(int *array) {
