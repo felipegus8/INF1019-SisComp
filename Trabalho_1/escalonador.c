@@ -43,6 +43,7 @@ int main (int argc,char *argv[]) {
   f1 = initFila(f1);
   f2 = initFila(f2);
   f3 = initFila(f3);
+  processosEmIO = initFila(processosEmIO);
   printf("CHEGOU AQUI");
   //Crio um vetor de processos
   vet = (Processo*)malloc((argc) * sizeof(Processo));
