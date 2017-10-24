@@ -11,5 +11,7 @@ typedef struct processo  {
   char *nome;
   int pid;
   int *rajadas_tempo;
+  int pos_rajada;
+  int pos_fila;
   Estados estado_Atual;
 } Processo;

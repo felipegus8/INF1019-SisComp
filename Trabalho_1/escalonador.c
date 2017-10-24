@@ -36,10 +36,9 @@ void terminouIO(int signum);
 char** convert_int_to_string_array(int array[]);
 int forkDeTodosOsProcessos(Processo p);
 
-
-int main (int argc,char *argv[]) {
+int main(void){
+// int main (int argc,char *argv[]) {
   Processo* vet;
-  int flag_rajada = 0;
   signal(SIGUSR1, entrouNoIO);
   signal(SIGUSR2,terminouIO);
   signal(SIGCHLD,terminouExecucao);
@@ -59,7 +58,6 @@ int main (int argc,char *argv[]) {
 /*
   for (i = 0; i < argc; i++){
     int done = 1;
->>>>>>> Stashed changes
     int tamanho_max = sizeof(argv[i]) - 8;
     int j = 0;
     vet[i].nome = (char*)malloc(tamanho_max * sizeof(char));
@@ -111,18 +109,18 @@ int main (int argc,char *argv[]) {
 		}
   }
 
-
-=======
   */
   for(i = 0 ;i<5;i++) {
-  vet[i].pid = 0;
-  vet[i].estado_Atual = Nao_Iniciado;
-  vet[i].nome = (char*)malloc(20 * sizeof(char));
-  vet[i].rajadas_tempo = (int*)malloc(5 * sizeof(int));
-  vet[i].rajadas_tempo[0] = 3;
-  vet[i].rajadas_tempo[1] = 4;
-  vet[i].rajadas_tempo[2] = 5;
-}
+    vet[i].pid = 0;
+    vet[i].estado_Atual = Nao_Iniciado;
+    vet[i].nome = (char*)malloc(20 * sizeof(char));
+    vet[i].rajadas_tempo = (int*)malloc(5 * sizeof(int));
+    vet[i].rajadas_tempo[0] = 3;
+    vet[i].rajadas_tempo[1] = 4;
+    vet[i].rajadas_tempo[2] = 5;
+    vet[i].pos_fila=1;
+    vet[i].pos_rajada=0;
+  }
   strcpy(vet[0].nome,"processo1");
   strcpy(vet[1].nome,"processo2");
   strcpy(vet[2].nome,"processo3");
@@ -131,17 +129,18 @@ int main (int argc,char *argv[]) {
   printf("%d\n",getpid());
 
   for (i=0;i<5;i++) {
-  vet[i].pid = forkDeTodosOsProcessos(vet[i]);
-  printf("PID Aqui:%d\n",vet[i].pid);
+    vet[i].pid = forkDeTodosOsProcessos(vet[i]);
+    printf("PID Aqui:%d\n",vet[i].pid);
   }
 
   insereProcessosInicio(f1,vet);
+
   escalonaRoundRobin(f1,1);
 	return 0;
 
 }
 
-void insereProcessosInicio(Fila *p1, Processo* p) {
+void insereProcessosInicio(Fila *f1, Processo* p) {
   int i;
   for (i = 0;i < 5;i++) {
     printf("%s\n",p[i].nome);
@@ -156,8 +155,8 @@ int forkDeTodosOsProcessos(Processo p) {
       execv(p.nome,convert_int_to_string_array(p.rajadas_tempo));
     }
     else {
-      kill(pid,SIGSTOP);
       printf("PID:%d\n",pid);
+      kill(pid,SIGSTOP);
       return pid;
   }
   return 0;
@@ -238,10 +237,10 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
           printf("Está no sleep\n");
         //  sleep(quantumFila);
           if (!didEndedProcess) {
-          printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
-          printf("%d\n",processo_Atual.pid);
-          kill(processo_Atual.pid,SIGSTOP);
-        }
+            printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
+            printf("%d\n",processo_Atual.pid);
+            kill(processo_Atual.pid,SIGSTOP);
+          }
           j = checkWhereArrayReallyStarts(processo_Atual);
           //Subtrai do array de rajadas_tempo o que já foi executado
           if (processo_Atual.rajadas_tempo[j] - quantumFila >= 0) {
@@ -257,48 +256,55 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
           j = checkWhereArrayReallyStarts(processo_Atual);
           printf("J:%d\n",j);
           //TODO:Atributo na struct processo dizendo onde ele está no array de rajadas.A partir disso alterar o estado do processo para Espera_IO.
+          processo_Atual.pos_rajada = j;
           //TODO:Guardar a fila onde o processo estava antes de ser mandado para I/O.
           if(j<= checkSizeOfArray(processo_Atual.rajadas_tempo)) {
-          printf("Entrou em espera");
-          processo_Atual.estado_Atual = Em_Espera;
-        }
-          else  {
-          printf("<< Finalizando processo de nome: %s \n\n", processo_Atual.nome);
-          processo_Atual.estado_Atual = Finalizado;
-        }
-          current_Process = processo_Atual;
+            printf("Entrou em espera\n");
+            processo_Atual.estado_Atual = Em_Espera;
           }
+          else  {
+            printf("<< Finalizando processo de nome: %s \n\n", processo_Atual.nome);
+            processo_Atual.estado_Atual = Finalizado;
+          }
+          current_Process = processo_Atual;
+        }
 //        }
+    printf("POS NA FILA PORCESSO: %d\n", processo_Atual.pos_fila);
     //Andar com o processo_Atual pelas 3 filas
     switch (quantumFila){
       case 1:
         printf("Enum:%d\n",processo_Atual.estado_Atual);
         if (processo_Atual.estado_Atual != Finalizado) {
           printf("Desceu processo para  fila 2\n");
+          processo_Atual.pos_fila = 2;
           desceParaF2(processo_Atual);
           break;
         }
       case 2:
         if (estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
+          processo_Atual.pos_fila = 3;
           printf("Desceu processo para  fila 3\n");
-            desceParaF3(processo_Atual);
-            break;
+          desceParaF3(processo_Atual);
+          break;
         }
         else if (!estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
           printf("Subiu processo para  fila 1\n");
-            sobeParaF1(processo_Atual);
-            //Chamada recursiva de escalonaRoundRobin
-            escalonaRoundRobin(f1,1);
-            break;
+          processo_Atual.pos_fila = 1;
+          sobeParaF1(processo_Atual);
+          //Chamada recursiva de escalonaRoundRobin
+          escalonaRoundRobin(f1,1);
+          break;
         }
       case 3:
         if (estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
           printf("Ficou na fila 3\n");
+          processo_Atual.pos_fila = 3;
           insereProcesso(f3,processo_Atual);
           break;
         }
         if (!estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
           printf("Subiu processo para  fila 2\n");
+          processo_Atual.pos_fila = 2;
           sobeParaF2(processo_Atual);
             //Chamada recursiva de escalonaRoundRobin
           escalonaRoundRobin(f2,2);
@@ -312,9 +318,9 @@ void escalonaRoundRobin(Fila *fila,int quantumFila) {
   if(tamanhoFila(fila) == 0) {
     switch (quantumFila) {
     case 1:
-    escalonaRoundRobin(f2,2);
+      escalonaRoundRobin(f2,2);
     case 2:
-    escalonaRoundRobin(f3,4);
+      escalonaRoundRobin(f3,4);
   }
   }
 }
@@ -338,10 +344,11 @@ void entrouNoIO(int signum) {
 
 }
 void terminouExecucao(int signum) {
-  if (signum != 20) {
-  didEndedProcess = true;
-  kill(current_Process.pid,SIGKILL);
-}
+  if (signum != 17 && signum != 19 ) {
+    printf("%d\n", signum);
+    didEndedProcess = true;
+    kill(current_Process.pid,SIGKILL);
+  }
 }
 
 void terminouIO(int signum) {
@@ -356,7 +363,7 @@ int checkSizeOfArray(int *array) {
 int checkWhereArrayReallyStarts(Processo processo_Atual) {
   int j = 0;
   for(j=0;j < checkSizeOfArray(processo_Atual.rajadas_tempo);j++)
-  if (processo_Atual.rajadas_tempo[j] > 0) break;
+    if (processo_Atual.rajadas_tempo[j] > 0) break;
   return j;
 }
 
