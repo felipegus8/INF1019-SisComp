@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include "Fila.h"
 #include <time.h>
@@ -35,7 +34,6 @@ int checkWhereArrayReallyStarts(Processo processo_Atual);
 void terminouIO(int signum);
 
 int main (int argc,char *argv[]) {
-  int flag_rajada = 0;
   Processo* vet;
   signal(SIGUSR1, entrouNoIO);
   signal(SIGUSR2,terminouIO);
@@ -44,7 +42,7 @@ int main (int argc,char *argv[]) {
   f2 = initFila(f2);
   f3 = initFila(f3);
   processosEmIO = initFila(processosEmIO);
-  printf("CHEGOU AQUI");
+
   //Crio um vetor de processos
   vet = (Processo*)malloc((argc) * sizeof(Processo));
   if(vet == NULL){
@@ -52,8 +50,8 @@ int main (int argc,char *argv[]) {
     exit(1);
   }
 
-  for (int i = 0; i < argc; i++){
-    int done = 1;
+  int i;
+  for (i = 0; i < argc; i++){
     int tamanho_max = sizeof(argv[i]) - 8;
     int j = 0;
 
@@ -66,48 +64,46 @@ int main (int argc,char *argv[]) {
     vet[i].pid = 0;
     vet[i].estado_Atual = Nao_Iniciado;
 
-    for(int x = 5;done && x < sizeof(argv[i]); x++){
-      char c = argv[i][x];
+    //Preenche o array nome
+    int x = 5;
+    char c = argv[i][x];
 
-      if(c != ' '){
-
-        vet[i].nome[j] = argv[i][x];
-        j++;
-
-      }else{
-        vet[i].nome[j+1] = '\0';
-        flag_rajada = 1;
-      }
-
-      if(flag_rajada){
-				int tot = 0;
-				int count = 7+j;
-				tamanho_max = sizeof(argv[i]);
-
-				//define o tamanho do array
-				while(tot < tamanho_max){
-					tot++;
-				}
-
-				vet[i].rajadas_tempo = (int*)malloc(tot * sizeof(int));
-				if(vet[i].rajadas_tempo == NULL){
-					printf("falta de memoria\n");
-					exit(1);
-				}
-
-				//define os valores no array
-				count = 7+j;
-				for(int pos = 0;pos<tot;pos++){
-					vet[i].rajadas_tempo[pos] = argv[i][count] - '0';
-					count+=2;
-				}
-
-        done = 0;
-        flag_rajada = 0;
-
-      }
+    while(c != ' '){
+      vet[i].nome[j] = argv[i][x];
+      x++;
+      j++;
+      c = argv[i][x];
     }
+
+    vet[i].nome[j] = '\0';
+
+    //Preenche o array rajadas_tempo
+		int tot = 0;
+		int count = x+2;
+
+		//define o tamanho do array
+    c = argv[i][count];
+    while(c){
+			tot++;
+      count+=2;
+      c = argv[i][count];
+		}
+
+		vet[i].rajadas_tempo = (int*)malloc(tot * sizeof(int));
+		if(vet[i].rajadas_tempo == NULL){
+			printf("falta de memoria\n");
+			exit(1);
+		}
+
+		//define os valores no array
+		count = x+2;
+    int pos;
+		for(pos = 0; pos < tot ;pos++){
+			vet[i].rajadas_tempo[pos] = argv[i][count] - '0';
+			count+=2;
+		}
   }
+
   insereProcessosInicio(f1,vet);
   escalonaRoundRobin(f1,1);
 
@@ -116,7 +112,8 @@ int main (int argc,char *argv[]) {
 }
 
 void insereProcessosInicio(Fila *p1, Processo* p) {
-  for (int i = 0;i < 10;i++) {
+  int i;
+  for (i = 0;i < 10;i++) {
     insereProcesso(f1,p[i]);
   }
 }

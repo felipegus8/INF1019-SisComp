@@ -8,10 +8,16 @@
 int main(void){
   char comando[21];
   char comandotemp[301];
-  char *parms[20];
+  char **parms;
   int num_cmd = 0;
   int flagIni = 1;
   int flagProg = 1;
+
+  parms = (char**)malloc(20*sizeof(char*));
+  if(parms == NULL){
+    printf("falta de memoria\n");
+    exit(1);
+  }
 
   while (flagIni){
     //Solicita o comando (sair, ler programas)
@@ -44,7 +50,7 @@ int main(void){
           num_cmd++;
         }
       }
-      execve ("escalonador", parms, 0);
+      execve("escalonador", parms, 0);
     }
     else{
       printf("comando %s nao reconhecido.\n Comandos aceitos: \nler_programas \nsair \n\n", comando);
