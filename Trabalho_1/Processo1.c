@@ -13,14 +13,14 @@ int main (int argc, char *argv[]) {
 
   for(i=0; i < argc; i++) {
     for(j=0; j < atoi(argv[i]);j++) {
-      printf("QTD ARGV:%d\n",atoi(argv[i]));
-      printf("%d \n", getpid());
+      printf("PID:%d \n", getpid());
       sleep(1);
     }
-    //Isso é pra ele não fazer I/O na última vez
+    int p_pid = getppid();
+    kill(p_pid,SIGUSR1);
     sleep(3);
-    kill(getppid(),SIGUSR2);
-  }
+    kill(p_pid,SIGUSR2);
+}
 
 
   return 0;

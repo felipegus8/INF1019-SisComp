@@ -16,7 +16,8 @@ Fila *f2;
 Fila *f3;
 Fila *processosEmIO;
 Processo* vet;
-time_t current_time;
+long current_time;
+long timeAfter_IO_Sent;
 int didCallSignal = false;
 int didEndedProcess = false;
 Processo current_Process;
@@ -110,14 +111,14 @@ int main(void){
   }
 
   */
-  for(i = 0 ;i<5;i++) {
+  for(i = 0;i<5;i++) {
     vet[i].pid = 0;
     vet[i].estado_Atual = Nao_Iniciado;
     vet[i].nome = (char*)malloc(20 * sizeof(char));
     vet[i].rajadas_tempo = (int*)malloc(5 * sizeof(int));
-    vet[i].rajadas_tempo[0] = 4;
-    vet[i].rajadas_tempo[1] = 5;
-    vet[i].rajadas_tempo[2] = 6;
+    vet[i].rajadas_tempo[0] = 3;
+    vet[i].rajadas_tempo[1] = 4;
+    vet[i].rajadas_tempo[2] = 5;
     vet[i].pos_fila=1;
     vet[i].pos_rajada=0;
   }
@@ -159,7 +160,6 @@ int forkDeTodosOsProcessos(Processo p) {
 
 void desceParaF2(Processo p1) {
   insereProcesso(f2,p1);
-  printf("%d",tamanhoFila(f2));
 }
 
 void desceParaF3(Processo p2) {
@@ -178,55 +178,73 @@ void escalonaRoundRobin() {
   Processo processo_Atual;
   int didStartExecuting = false;
   int estourouQuantumFila = 0;
+  int execute = true;
   while(true) {
     if (tamanhoFila(f1) != 0) {
+        execute = true;
+        printf("Fila 1:%d\n",tamanhoFila(f1));
         processo_Atual = removeProcesso(f1);
         quantumFila = 1;
     }
     else if (tamanhoFila(f2) != 0) {
+      execute = true;
+      printf("Fila 2:%d\n",tamanhoFila(f2));
       processo_Atual = removeProcesso(f2);
       quantumFila = 2;
     }
     else if (tamanhoFila(f3) != 0) {
+      execute = true;
+      printf("Fila 3:%d\n",tamanhoFila(f3));
       processo_Atual = removeProcesso(f3);
       quantumFila = 4;
     }
-    else {
-      break;
+   else if (tamanhoFila(processosEmIO) != 0) {
+      execute = false;
     }
+    else {
+        break;
+    }
+
     current_Process = processo_Atual;
     didEndedProcess = false;
+    if (execute) {
         if (processo_Atual.estado_Atual != Finalizado) {
           //Continuando a execução de um processo
-         printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
-          current_time = time(NULL);
+          printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
           kill(processo_Atual.pid,SIGCONT);
+          j = checkWhereArrayReallyStarts(processo_Atual);
           infiniteLoopUntilSignalORQuantumEnd(quantumFila);
-        //  sleep(quantumFila);
           if (!didEndedProcess) {
             printf("<< Interrompendo processo de nome: %s por tempo\n\n", processo_Atual.nome);
           //  printf("%d\n",processo_Atual.pid);
-            kill(processo_Atual.pid,SIGSTOP);
+            if (processo_Atual.rajadas_tempo[j] - quantumFila <= 0) {
+                //Subtrai do array de rajadas_tempo o que já foi executado
+                processo_Atual.rajadas_tempo[j] -= quantumFila;
+                j = checkWhereArrayReallyStarts(processo_Atual);
+                  //Atributo na struct processo dizendo onde ele está no array de rajadas.A partir disso alterar o estado do processo para Espera_IO.
+                processo_Atual.pos_rajada = j;
+                processo_Atual.estado_Atual = Espera_IO;
+                estourouQuantumFila = false;
+                insereProcesso(processosEmIO,current_Process);
+                printf("Chegou no Pause\n");
+                //TODO:Isso aqui não funciona sempre.Isso aqui é pra esperar o sinal de I/O do Processo.Pause nem sempre funciona.BAD.
+                pause();
+            }
+            else {
+                processo_Atual.rajadas_tempo[j] -= quantumFila;
+                j = checkWhereArrayReallyStarts(processo_Atual);
+                  //Atributo na struct processo dizendo onde ele está no array de rajadas.A partir disso alterar o estado do processo para Espera_IO.
+                processo_Atual.pos_rajada = j;
+                estourouQuantumFila = true;
+                kill(processo_Atual.pid,SIGSTOP);
+            }
           }
-          j = checkWhereArrayReallyStarts(processo_Atual);
-          //Subtrai do array de rajadas_tempo o que já foi executado
-          if (processo_Atual.rajadas_tempo[j] - quantumFila > 0) {
-            estourouQuantumFila = true;
-          }
-          else {
-            //Processo ou acabou ou vai pro I/O
-            processo_Atual.estado_Atual = Espera_IO;
-            estourouQuantumFila = false;
-          }
-      //    printf("Rajada atual antes:%d\n",processo_Atual.rajadas_tempo[j]);
-          processo_Atual.rajadas_tempo[j] -= quantumFila;
+        //  printf("Rajada atual antes:%d\n",processo_Atual.rajadas_tempo[j]);
         //  printf("Rajada atual depois:%d\n",processo_Atual.rajadas_tempo[j]);
           //Checa qual o estado_Atual do Processo.Tem que fazer o loop de novo porque é depois da subtração.
-          j = checkWhereArrayReallyStarts(processo_Atual);
       //    printf("J:%d\n",j);
-          //TODO:Atributo na struct processo dizendo onde ele está no array de rajadas.A partir disso alterar o estado do processo para Espera_IO.
-          processo_Atual.pos_rajada = j;
-          //TODO:Guardar a fila onde o processo estava antes de ser mandado para I/O.
+
+          //Guardar a fila onde o processo estava antes de ser mandado para I/O.
           if (processo_Atual.estado_Atual != Espera_IO) {
           if(j<= checkSizeOfArray(processo_Atual.rajadas_tempo)) {
         //    printf("Entrou em espera\n");
@@ -239,12 +257,11 @@ void escalonaRoundRobin() {
           current_Process = processo_Atual;
         }
 //        }
-    printf("POS NA FILA PORCESSO: %d\n", processo_Atual.pos_fila);
+  //  printf("POS NA FILA PORCESSO: %d\n", processo_Atual.pos_fila);
     //Andar com o processo_Atual pelas 3 filas
     if (processo_Atual.estado_Atual != Espera_IO) {
     switch (quantumFila){
       case 1:
-        printf("Enum:%d\n",processo_Atual.estado_Atual);
         if (processo_Atual.estado_Atual != Finalizado) {
           printf("Desceu processo para  fila 2\n");
           processo_Atual.pos_fila = 2;
@@ -258,12 +275,14 @@ void escalonaRoundRobin() {
           desceParaF3(processo_Atual);
           break;
         }
-        else if (!estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
+        //Caso só ocorre se processo foi para I/O
+      /*  else if (!estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
           printf("Subiu processo para  fila 1\n");
           processo_Atual.pos_fila = 1;
           sobeParaF1(processo_Atual);
           break;
         }
+        */
       case 4:
         if (estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
           printf("Ficou na fila 3\n");
@@ -271,68 +290,80 @@ void escalonaRoundRobin() {
           insereProcesso(f3,processo_Atual);
           break;
         }
-        if (!estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
+        //Caso só ocorre se processo foi para I/O
+    /*    if (!estourouQuantumFila && processo_Atual.estado_Atual != Finalizado) {
           printf("Subiu processo para  fila 2\n");
           processo_Atual.pos_fila = 2;
           sobeParaF2(processo_Atual);
           break;
         }
+        */
     }
   }
-    else {
-      int pos_fila = quantumFila;
-      if (quantumFila == 4) {
-          pos_fila --;
-      }
-      processo_Atual.pos_fila = pos_fila;
-      printf("ESPERA POR IO\n");
-      insereProcesso(processosEmIO,current_Process);
-    }
-      printf("Chegou aqui");
+    // else {
+    //   int pos_fila = quantumFila;
+    //   if (quantumFila == 4) {
+    //       pos_fila --;
+    //   }
+    //   processo_Atual.pos_fila = pos_fila;
+    // }
+      printf("Finalizado\n");
 
   }
+}
 }
 }
 
 void infiniteLoopUntilSignalORQuantumEnd(int quantumFila) {
+  current_time = time(NULL);
   while(1) {
-    int newTime = time(NULL);
-    if (didCallSignal == true)
-    break;
-    if ((int)(newTime - current_time) >= quantumFila) {
+    long newTime = time(NULL);
+    if ((int)(newTime - current_time) >= quantumFila || didCallSignal) {
         break;
     }
   }
 }
 
 void entrouNoIO(int signum) {
-
+    if (signum == SIGUSR1) {
+    printf("ESPERA POR IO\n");
     didCallSignal = true;
-    //I/O
+    //Insere Processo na fila de Processos em I/O
+    printf("\nNOME:%s\n",current_Process.nome);
 
+    return;
+  }
+  //  timeAfter_IO_Sent = time(NULL);
 }
+
+
 void terminouExecucao(int signum) {
   if (signum != 17 && signum != 19 && signum != 20) {
-    printf("%d\n", signum);
     didEndedProcess = true;
     kill(current_Process.pid,SIGKILL);
   }
 }
 
 void terminouIO(int signum) {
+    if (signum == SIGUSR2) {
     Processo processoIOFinalizado = removeProcesso(processosEmIO);
+    kill(processoIOFinalizado.pid,SIGSTOP);
     printf("Chegou em terminouIO\n");
     switch (processoIOFinalizado.pos_fila) {
       case 1:
+      processoIOFinalizado.pos_fila = 1;
       insereProcesso(f1,processoIOFinalizado);
       break;
       case 2:
+      processoIOFinalizado.pos_fila = 1;
       insereProcesso(f1,processoIOFinalizado);
       break;
       case 3:
+      processoIOFinalizado.pos_fila = 2;
       insereProcesso(f2,processoIOFinalizado);
       break;
     }
+  }
 
 }
 
