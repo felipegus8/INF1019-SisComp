@@ -1,0 +1,363 @@
+########################################################################
+Digite o nome do comando desejado: 
+- ler_programas
+- sair
+########################################################################
+ler_programas
+########################################################################
+- Digite o nome de programas executaveis: 
+	exec <nome_programa> (<tempo em ms>,<tempo em ms>,...) 
+- Para finalizar a lista de programas digite 'parar'
+########################################################################
+exec processo1 (3,4,5)
+########################################################################
+- Digite o nome de programas executaveis: 
+	exec <nome_programa> (<tempo em ms>,<tempo em ms>,...) 
+- Para finalizar a lista de programas digite 'parar'
+########################################################################
+exec processo2 (3,4,5)
+########################################################################
+- Digite o nome de programas executaveis: 
+	exec <nome_programa> (<tempo em ms>,<tempo em ms>,...) 
+- Para finalizar a lista de programas digite 'parar'
+########################################################################
+exec processo3 (3,4,5)
+########################################################################
+- Digite o nome de programas executaveis: 
+	exec <nome_programa> (<tempo em ms>,<tempo em ms>,...) 
+- Para finalizar a lista de programas digite 'parar'
+########################################################################
+exec processo4 (3,4,5)                                 
+########################################################################
+- Digite o nome de programas executaveis: 
+	exec <nome_programa> (<tempo em ms>,<tempo em ms>,...) 
+- Para finalizar a lista de programas digite 'parar'
+########################################################################
+exec processo5 (3,4,5)
+########################################################################
+- Digite o nome de programas executaveis: 
+	exec <nome_programa> (<tempo em ms>,<tempo em ms>,...) 
+- Para finalizar a lista de programas digite 'parar'
+########################################################################
+parar
+Fila 1:5
+>> Executando processo de nome: processo1 
+
+PID:2356 
+<< Interrompendo processo de nome: processo1 por tempo
+
+Desceu processo para  fila 2
+Finalizado
+Fila 1:4
+>> Executando processo de nome: processo2 
+
+PID:2358 
+<< Interrompendo processo de nome: processo2 por tempo
+
+Desceu processo para  fila 2
+Finalizado
+Fila 1:3
+>> Executando processo de nome: processo3 
+
+PID:2360 
+<< Interrompendo processo de nome: processo3 por tempo
+
+Desceu processo para  fila 2
+Finalizado
+Fila 1:2
+>> Executando processo de nome: processo4 
+
+PID:2362 
+<< Interrompendo processo de nome: processo4 por tempo
+
+Desceu processo para  fila 2
+Finalizado
+Fila 1:1
+>> Executando processo de nome: processo5 
+
+PID:2364 
+<< Interrompendo processo de nome: processo5 por tempo
+
+Desceu processo para  fila 2
+Finalizado
+Fila 2:5
+>> Executando processo de nome: processo1 
+
+PID:2356 
+PID:2356 
+<< Interrompendo processo de nome: processo1 por tempo
+
+Chegou no Pause
+ESPERA POR IO
+
+NOME:processo1
+Finalizado
+Fila 2:4
+>> Executando processo de nome: processo2 
+
+<< Interrompendo processo de nome: processo2 por tempo
+
+Chegou no Pause
+PID:2358 
+Finalizado
+Fila 2:3
+>> Executando processo de nome: processo3 
+
+<< Interrompendo processo de nome: processo3 por tempo
+
+Chegou no Pause
+Finalizado
+Fila 2:2
+>> Executando processo de nome: processo4 
+
+<< Interrompendo processo de nome: processo4 por tempo
+
+Chegou no Pause
+PID:2360 
+PID:2362 
+Finalizado
+Fila 2:1
+>> Executando processo de nome: processo5 
+
+<< Interrompendo processo de nome: processo5 por tempo
+
+Chegou no Pause
+Finalizado
+PID:2364 
+PID:2358 
+PID:2360 
+PID:2362 
+PID:2364 
+ESPERA POR IO
+
+NOME:processo5
+ESPERA POR IO
+
+NOME:processo5
+ESPERA POR IO
+
+NOME:processo5
+ESPERA POR IO
+
+NOME:processo5
+Chegou em terminouIO
+Fila 1:1
+>> Executando processo de nome: processo1 
+
+<< Interrompendo processo de nome: processo1 por tempo
+
+PID:2356 
+Desceu processo para  fila 2
+Finalizado
+Fila 2:1
+>> Executando processo de nome: processo1 
+
+<< Interrompendo processo de nome: processo1 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Fila 3:1
+>> Executando processo de nome: processo1 
+
+<< Interrompendo processo de nome: processo1 por tempo
+
+Chegou no Pause
+Finalizado
+PID:2356 
+PID:2356 
+Chegou em terminouIO
+Fila 1:1
+>> Executando processo de nome: processo2 
+
+<< Interrompendo processo de nome: processo2 por tempo
+
+PID:2358 
+Desceu processo para  fila 2
+Finalizado
+Fila 2:1
+>> Executando processo de nome: processo2 
+
+<< Interrompendo processo de nome: processo2 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Fila 3:1
+>> Executando processo de nome: processo2 
+
+<< Interrompendo processo de nome: processo2 por tempo
+
+Chegou no Pause
+PID:2360 
+PID:2362 
+Chegou em terminouIO
+Chegou em terminouIO
+Finalizado
+Fila 1:2
+>> Executando processo de nome: processo3 
+
+<< Interrompendo processo de nome: processo3 por tempo
+
+Desceu processo para  fila 2
+Finalizado
+Fila 1:1
+>> Executando processo de nome: processo4 
+
+<< Interrompendo processo de nome: processo4 por tempo
+
+Desceu processo para  fila 2
+Finalizado
+Fila 2:2
+>> Executando processo de nome: processo3 
+
+<< Interrompendo processo de nome: processo3 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Finalizado
+Chegou em terminouIO
+Fila 1:1
+>> Executando processo de nome: processo5 
+
+<< Interrompendo processo de nome: processo5 por tempo
+
+Desceu processo para  fila 2
+Finalizado
+Fila 2:2
+>> Executando processo de nome: processo4 
+
+<< Interrompendo processo de nome: processo4 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Fila 2:1
+>> Executando processo de nome: processo5 
+
+<< Interrompendo processo de nome: processo5 por tempo
+
+PID:2364 
+Desceu processo para  fila 3
+Finalizado
+Fila 3:3
+>> Executando processo de nome: processo3 
+
+<< Interrompendo processo de nome: processo3 por tempo
+
+Chegou no Pause
+PID:2356 
+PID:2358 
+PID:2360 
+ESPERA POR IO
+
+NOME:processo3
+Finalizado
+Fila 3:2
+>> Executando processo de nome: processo4 
+
+<< Interrompendo processo de nome: processo4 por tempo
+
+Chegou no Pause
+Finalizado
+PID:2362 
+Fila 3:1
+>> Executando processo de nome: processo5 
+
+<< Interrompendo processo de nome: processo5 por tempo
+
+PID:2358 
+Chegou no Pause
+PID:2360 
+PID:2362 
+PID:2364 
+PID:2358 
+PID:2360 
+PID:2362 
+PID:2364 
+ESPERA POR IO
+
+NOME:processo5
+Finalizado
+ESPERA POR IO
+
+NOME:processo5
+Chegou em terminouIO
+Fila 2:1
+>> Executando processo de nome: processo1 
+
+<< Interrompendo processo de nome: processo1 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Fila 3:1
+>> Executando processo de nome: processo1 
+
+<< Interrompendo processo de nome: processo1 por tempo
+
+Chegou no Pause
+Finalizado
+PID:2364 
+ESPERA POR IO
+
+NOME:processo1
+ESPERA POR IO
+
+NOME:processo1
+Chegou em terminouIO
+Fila 2:1
+>> Executando processo de nome: processo2 
+
+<< Interrompendo processo de nome: processo2 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Fila 3:1
+>> Executando processo de nome: processo2 
+
+<< Interrompendo processo de nome: processo2 por tempo
+
+Chegou no Pause
+Finalizado
+Chegou em terminouIO
+Fila 2:1
+>> Executando processo de nome: processo3 
+
+<< Interrompendo processo de nome: processo3 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Fila 3:1
+>> Executando processo de nome: processo3 
+
+<< Interrompendo processo de nome: processo3 por tempo
+
+Chegou no Pause
+Finalizado
+Chegou em terminouIO
+Fila 2:1
+>> Executando processo de nome: processo4 
+
+<< Interrompendo processo de nome: processo4 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Fila 3:1
+>> Executando processo de nome: processo4 
+
+<< Interrompendo processo de nome: processo4 por tempo
+
+Chegou no Pause
+Finalizado
+Chegou em terminouIO
+Fila 2:1
+>> Executando processo de nome: processo5 
+
+<< Interrompendo processo de nome: processo5 por tempo
+
+Desceu processo para  fila 3
+Finalizado
+Fila 3:1
+>> Executando processo de nome: processo5 
+
+<< Interrompendo processo de nome: processo5 por tempo
+
+Chegou no Pause
+Finalizado

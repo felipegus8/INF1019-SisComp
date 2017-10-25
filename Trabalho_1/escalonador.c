@@ -48,7 +48,7 @@ int main(void){
   f3 = initFila(f3);
   processosEmIO = initFila(processosEmIO);
   //Crio um vetor de processos
-  vet = (Processo*)malloc((5) * sizeof(Processo));
+  vet = (Processo*)malloc(argc * sizeof(Processo));
   if(vet == NULL){
     printf("falta de memoria\n");
     exit(1);
@@ -56,7 +56,7 @@ int main(void){
 
   int i;
 
-/*
+
   for (i = 0; i < argc; i++){
     int done = 1;
     int tamanho_max = sizeof(argv[i]) - 8;
@@ -110,7 +110,7 @@ int main(void){
 		}
   }
 
-  */
+  /*
   for(i = 0;i<5;i++) {
     vet[i].pid = 0;
     vet[i].estado_Atual = Nao_Iniciado;
@@ -127,8 +127,8 @@ int main(void){
   strcpy(vet[2].nome,"processo3");
   strcpy(vet[3].nome,"processo4");
   strcpy(vet[4].nome,"processo5");
-
-  for (i=0;i<5;i++) {
+*/
+  for (i=0;i<argc;i++) {
     vet[i].pid = forkDeTodosOsProcessos(vet[i]);
   }
 
@@ -141,7 +141,7 @@ int main(void){
 
 void insereProcessosInicio(Fila *f1, Processo* p) {
   int i;
-  for (i = 0;i < 5;i++) {
+  for (i = 0;i < argc;i++) {
     insereProcesso(f1,p[i]);
   }
 }
