@@ -21,6 +21,7 @@ long timeAfter_IO_Sent;
 int didCallSignal = false;
 int didEndedProcess = false;
 Processo current_Process;
+int qtd_Processos;
 //Protótipos das funções
 void escalonaRoundRobin();
 void insereProcessosInicio(Fila *p1, Processo* p);
@@ -37,12 +38,12 @@ void terminouIO(int signum);
 char** convert_int_to_string_array(int array[]);
 int forkDeTodosOsProcessos(Processo p);
 
-int main(void){
-// int main (int argc,char *argv[]) {
+ int main (int argc,char *argv[]) {
   Processo* vet;
   signal(SIGUSR1, entrouNoIO);
   signal(SIGUSR2,terminouIO);
   signal(SIGCHLD,terminouExecucao);
+  qtd_Processos = argc;
   f1 = initFila(f1);
   f2 = initFila(f2);
   f3 = initFila(f3);
@@ -57,7 +58,7 @@ int main(void){
   int i;
 
 
-  for (i = 0; i < argc; i++){
+  for (i = 0; i < qtd_Processos; i++){
     int done = 1;
     int tamanho_max = sizeof(argv[i]) - 8;
     int j = 0;
@@ -128,7 +129,7 @@ int main(void){
   strcpy(vet[3].nome,"processo4");
   strcpy(vet[4].nome,"processo5");
 */
-  for (i=0;i<argc;i++) {
+  for (i=0;i<qtd_Processos;i++) {
     vet[i].pid = forkDeTodosOsProcessos(vet[i]);
   }
 
@@ -141,7 +142,7 @@ int main(void){
 
 void insereProcessosInicio(Fila *f1, Processo* p) {
   int i;
-  for (i = 0;i < argc;i++) {
+  for (i = 0;i < qtd_Processos;i++) {
     insereProcesso(f1,p[i]);
   }
 }
