@@ -57,8 +57,6 @@ int main (int argc,char *argv[]) {
   }
 
   int i;
-
-  printf("QTD:%d",qtd_Processos);
   for (i = 0; i < qtd_Processos; i++){
     int tamanho_max = sizeof(argv[i]) - 8;
     int j = 0;
@@ -108,7 +106,7 @@ int main (int argc,char *argv[]) {
     int pos;
     for(pos = 0; pos < tot ;pos++){
       vet[i].rajadas_tempo[pos] = argv[i][count] - '0';
-      printf("Rajada %d:%d",i,vet[i].rajadas_tempo[pos]);
+      // printf("Rajada %d:%d",i,vet[i].rajadas_tempo[pos]);
       count+=2;
     }
   }
@@ -140,12 +138,15 @@ int forkDeTodosOsProcessos(Processo p) {
   strcpy(aux,p.nome);
   strcpy(nomeCerto,"./");
   strcat(nomeCerto,aux);
+  int count_array = p.qtd_Rajadas;
+  char** array = (char**)malloc(count_array * sizeof(char*));
+  array = convert_int_to_string_array(p);
   int pid = fork();
   if (pid == 0) { //Filho
-    execvp(nomeCerto,convert_int_to_string_array(p));
+    execvp(nomeCerto,array);
+    perror("execvp");
   }
   else {
-  //  printf("\nStopando processo\n");
     kill(pid,SIGSTOP);
     return pid;
   }
@@ -177,7 +178,6 @@ void escalonaRoundRobin() {
       execute = true;
       printf("Está na fila 1\n");
       processo_Atual = removeProcesso(f1);
-      printf("PID PROCESSO ATUAL:%d\n",processo_Atual.pid);
       if (processo_Atual.pid == 0) {
         break;
       }
@@ -221,13 +221,7 @@ void escalonaRoundRobin() {
       if (processo_Atual.estado_Atual != Finalizado) {
         //Continuando a execução de um processo
         printf(">> Executando processo de nome: %s \n\n", processo_Atual.nome);
-        printf("\nPid Atual:%d\n",processo_Atual.pid);
-        printf("\nKILL:%d\n",kill(processo_Atual.pid,0));
-    //    while (kill(processo_Atual.pid,0) != 0) {
-      //  printf("Chegou aqui\n");
-        int rc =   kill(processo_Atual.pid,SIGCONT);
-        printf("Ret Kill:%d",rc);
-    //  }
+        kill(processo_Atual.pid,SIGCONT);
         j = checkWhereArrayReallyStarts(processo_Atual);
         int ret = infiniteLoopUntilSignalORQuantumEnd(quantumFila);
         printf("\nTime in Loop:%d\n",ret);
@@ -337,7 +331,6 @@ void terminouIO(int signum) {
   if (signum == SIGUSR2) {
     didRemoveFromIO = true;
     Processo processoIOFinalizado = removeProcesso(processosEmIO);
-    printf("PID:%d",processoIOFinalizado.pid);
     kill(processoIOFinalizado.pid,SIGSTOP);
     printf("Chegou em terminouIO\n");
     switch (processoIOFinalizado.pos_fila) {
@@ -377,6 +370,7 @@ char** convert_int_to_string_array(Processo processo_Atual) {
     string_array[i] = (char*)malloc(sizeof(c));
     strcpy(string_array[i], c);
   }
+  string_array[i] = NULL;
 
   return string_array;
 }
