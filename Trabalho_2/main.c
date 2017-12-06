@@ -3,6 +3,23 @@
 #include <string.h>
 #include <unistd.h>
 
+typedef struct tabelaPagina {
+	char r_ou_w;
+	int tempo_ultimo_acesso;
+} TabelaPagina;
+
+TabelaPagina *criaVetorTabelaPaginas(int paginaTam) {
+	TabelaPagina *vetorTabelaPaginas;
+
+	vetorTabelaPaginas = (TabelaPagina *)malloc(sizeof(TabelaPagina) * ); //NAO SEI O TAMANHO DA TABELA DE PAGINAS
+	if(!vetorTabelaPaginas) {
+		printf("Faltou memoria\n");
+		exit(1);
+	}
+
+	return vetorTabelaPaginas;
+}
+
 unsigned pegaIndicePagina(unsigned addr){
 	unsigned page = addr >> 16;
 	return page;
@@ -10,9 +27,11 @@ unsigned pegaIndicePagina(unsigned addr){
 
 int main(void){
   int P1,P2,P3,P4;
+	int segmento;
+	int *memoria_fisica;
 
-	int *memoria_fisica = (int *)malloc(sizeof(int) * 256);
-
+	segmento = shmget (8180, 256*sizeof(int), IPC_CREAT | S_IRUSR | S_IWUSR);
+	memoria_fisica = (int*) shmat (segmento, 0, 0);
 	if(!memoria_fisica) {
 		printf("Erro na alocacao da memoria fisica.\n");
 		exit(1);
@@ -40,6 +59,7 @@ int main(void){
           unsigned addr4;
 					char rw4;
           File *arq4 = fopen("simulador.log", "r");
+					TabelaPagina *vetorTabelaPaginas4 = criaVetorTabelaPaginas();
 
           while( fscanf(arq4, "%x %c", &addr4, &rw4) == 2 ) {
 						int indicePagina = pegaIndicePagina(addr4);
@@ -51,6 +71,7 @@ int main(void){
         unsigned addr3;
 				char rw3;
         File *arq3 = fopen("compressor.log", "r");
+				TabelaPagina *vetorTabelaPaginas3 = criaVetorTabelaPaginas();
 
         while( fscanf(arq3, "%x %c", &addr3, &rw3) == 2 ) {
 					int indicePagina = pegaIndicePagina(addr3);
@@ -62,6 +83,7 @@ int main(void){
       unsigned addr2;
 			char rw2;
       File *arq2 = fopen("matrix.log", "r");
+			TabelaPagina *vetorTabelaPaginas2 = criaVetorTabelaPaginas();
 
 	    while( fscanf(arq2, "%x %c", &addr2, &rw2) == 2 ) {
 				int indicePagina = pegaIndicePagina(addr2);
@@ -73,6 +95,7 @@ int main(void){
     unsigned addr1;
 		char rw1;
     File *arq1 = fopen("compilador.log", "r");
+		TabelaPagina *vetorTabelaPaginas1 = criaVetorTabelaPaginas();
 
     while( fscanf(arq1, "%x %c", &addr1, &rw1) == 2 ) {
 			int indicePagina = pegaIndicePagina(addr1);
