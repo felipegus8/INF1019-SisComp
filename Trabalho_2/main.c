@@ -2,16 +2,31 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#define MAXTABELA 256 //NAO SEI O TAMANHO DA TABELA DE PAGINAS
 
 typedef struct tabelaPagina {
 	char r_ou_w;
-	int tempo_ultimo_acesso;
+	int modificado;
+	int ta_no_frame;
+	int numero_frame;
+	int acesso; //contador de acessos
 } TabelaPagina;
+
+int busca_menos_acessado(TabelaPagina *t){
+	int i, menor;
+	menor = 0;
+	for(i=1;i < MAXTABELA; i++){
+		if(t[menor].acesso > t[i].acesso){
+			menor = i;
+		}
+	}
+	return menor;
+}
 
 TabelaPagina *criaVetorTabelaPaginas(int paginaTam) {
 	TabelaPagina *vetorTabelaPaginas;
 
-	vetorTabelaPaginas = (TabelaPagina *)malloc(sizeof(TabelaPagina) * ); //NAO SEI O TAMANHO DA TABELA DE PAGINAS
+	vetorTabelaPaginas = (TabelaPagina *)malloc(sizeof(TabelaPagina) *MAXTABELA ); //NAO SEI O TAMANHO DA TABELA DE PAGINAS
 	if(!vetorTabelaPaginas) {
 		printf("Faltou memoria\n");
 		exit(1);
