@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "gm.h"
 #define MAXTABELA 65536//NAO SEI O TAMANHO DA TABELA DE PAGINAS
 
 typedef struct tabelaPagina {
