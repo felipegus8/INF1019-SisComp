@@ -6,13 +6,14 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/stat.h>
+#include <signal.h>
+#include "semaphore.h"
 #include "gm.h"
 #include "vm.h"
 
 
 
 #define MAXTABELA 65536//NAO SEI O TAMANHO DA TABELA DE PAGINAS
-
 
 
 int busca_menos_acessado(TabelaPagina *t){
@@ -26,36 +27,37 @@ int busca_menos_acessado(TabelaPagina *t){
 	return menor;
 }
 
-TabelaPagina *criaVetorTabelaPaginas(int paginaTam, int id) {
+void initializePageFaultsArrays(int *pageFaults) {
+
+	for(int i=0;i<4;i++) {
+		pageFaults[i] = 0;
+	}
+
+}
+
+
+int criaVetorTabelaPaginas(int paginaTam, int id) {
 	TabelaPagina *vetorTabelaPaginas;
 	int segmento;
 
 	 /* creating and obtaining shared memory */
 
-	printf("fucking id %d\n", id);
-
 	segmento = shmget (id, paginaTam *  sizeof(TabelaPagina), IPC_CREAT | S_IRUSR | S_IWUSR);
-
-	printf("mitico segmento: %d\n",segmento);
-
-	printf("vetor table paginas %d\n",vetorTabelaPaginas);
 
 	vetorTabelaPaginas = shmat(segmento, NULL, 0);
 
-	
+
 	if(!vetorTabelaPaginas) {
 		printf("Faltou memoria\n");
 		exit(1);
 	}
 
 	/* initializing shared memomry segment*/
-	printf("olha eu aqui de novo %d\n", vetorTabelaPaginas[0]);
 	for(int i=0;i < paginaTam; i++){
 		vetorTabelaPaginas[i].acesso = 0;
 	}
-	printf("xaxando\n");
 
-	return vetorTabelaPaginas;
+	return segmento;
 }
 
 unsigned pegaIndicePagina(unsigned addr){
@@ -63,20 +65,49 @@ unsigned pegaIndicePagina(unsigned addr){
 	return page;
 }
 
+void sigHandler(int signal, siginfo_t *siginfo, void *context) {
+
+	//to know if it is SIGUSR1
+	if(signal == 30 || signal == 10 || signal ==16 ) {
+		printf ("Sending PID: %ld, UID: %ld\n",
+			(long)siginfo->si_pid, (long)siginfo->si_uid);
+	}
+
+
+}
+
+
 int main(void){
   int P1,P2,P3,P4;
 	int segmento;
 	int memoria_fisica[256];
-	/* precisa criar e inicializar antes dos forks se n dá blade*/
-	TabelaPagina *vetorTabelaPaginas1 = criaVetorTabelaPaginas(MAXTABELA,55555);
-	TabelaPagina *vetorTabelaPaginas2 = criaVetorTabelaPaginas(MAXTABELA,66666);
-	TabelaPagina *vetorTabelaPaginas3 = criaVetorTabelaPaginas(MAXTABELA,77777);
-	TabelaPagina *vetorTabelaPaginas4 = criaVetorTabelaPaginas(MAXTABELA,88888);
 
-	shms[0] = vetorTabelaPaginas1;
-	shms[1] = vetorTabelaPaginas2;
-	shms[2] = vetorTabelaPaginas3;
-	shms[3] = vetorTabelaPaginas4;
+	struct sigaction act;
+
+	/* precisa criar e inicializar antes dos forks se n dá blade*/
+	int segmentoTabelaPaginas1 = criaVetorTabelaPaginas(MAXTABELA,55555);
+	int segmentoTabelaPaginas2 = criaVetorTabelaPaginas(MAXTABELA,66666);
+	int segmentoTabelaPaginas3 = criaVetorTabelaPaginas(MAXTABELA,77777);
+	int segmentoTabelaPaginas4 = criaVetorTabelaPaginas(MAXTABELA,88888);
+
+	printf("olha eu aqui de novo\n");
+	initializePageFaultsArrays(pageFaults);
+	printf("xaxando\n");
+
+	shms[0] = segmentoTabelaPaginas1;
+	shms[1] = segmentoTabelaPaginas2;
+	shms[2] = segmentoTabelaPaginas3;
+	shms[3] = segmentoTabelaPaginas4;
+
+	semId = semget(10888, 1, 0666 | IPC_CREAT);
+
+	setSemValue(semId);
+
+	memset(&act, '\0', sizeof(act));
+
+	act.sa_sigaction = &sigHandler;
+
+	act.sa_flags = SA_SIGINFO;
 
 
 	for(int i = 0; i < 256; i++) {
@@ -132,16 +163,18 @@ int main(void){
 
       }
     }
-    /* N ESQUECE DE APAGAR ESSA PORRA!!! */    
-    shmdt(shms[0]);
-    shmdt(shms[1]);
-    shmdt(shms[2]);
-    shmdt(shms[3]);
-   
+    /* N ESQUECE DE APAGAR ESSA PORRA!!! */
+    //shmdt(shms[0]);
+    //shmdt(shms[1]);
+    //shmdt(shms[2]);
+    //shmdt(shms[3]);
+
    }else{
     //Processo Filho 1 (compilador.log)
     unsigned addr1;
-		char rw1;
+    char rw1;
+
+
     FILE *arq1 = fopen("compilador.log", "r");
 
 
