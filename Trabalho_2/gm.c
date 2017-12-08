@@ -1,11 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/shm.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/stat.h>
 #include "gm.h"
+#include "vm.h"
+
+
+
 #define MAXTABELA 65536//NAO SEI O TAMANHO DA TABELA DE PAGINAS
 
-typedef struct tabelaPagina {
-	char r_ou_w;
-	int id_processo;
-	int acesso; //contador de acessos
-} TabelaPagina;
+
 
 int busca_menos_acessado(TabelaPagina *t){
 	int i, menor;
@@ -20,17 +28,32 @@ int busca_menos_acessado(TabelaPagina *t){
 
 TabelaPagina *criaVetorTabelaPaginas(int paginaTam, int id) {
 	TabelaPagina *vetorTabelaPaginas;
+	int segmento;
 
-	segmento = shmget (id, paginaTam*sizeof(int), IPC_CREAT | S_IRUSR | S_IWUSR);
-	vetorTabelaPaginas = (TabelaPagina *) shmat (segmento, 0, 0);
+	 /* creating and obtaining shared memory */
+
+	printf("fucking id %d\n", id);
+
+	segmento = shmget (id, paginaTam *  sizeof(TabelaPagina), IPC_CREAT | S_IRUSR | S_IWUSR);
+
+	printf("mitico segmento: %d\n",segmento);
+
+	printf("vetor table paginas %d\n",vetorTabelaPaginas);
+
+	vetorTabelaPaginas = shmat(segmento, NULL, 0);
+
+	
 	if(!vetorTabelaPaginas) {
 		printf("Faltou memoria\n");
 		exit(1);
 	}
 
-	for(i=0;i < MAXTABELA; i++){
-		t[i].acesso = 0;
+	/* initializing shared memomry segment*/
+	printf("olha eu aqui de novo %d\n", vetorTabelaPaginas[0]);
+	for(int i=0;i < paginaTam; i++){
+		vetorTabelaPaginas[i].acesso = 0;
 	}
+	printf("xaxando\n");
 
 	return vetorTabelaPaginas;
 }
@@ -44,8 +67,19 @@ int main(void){
   int P1,P2,P3,P4;
 	int segmento;
 	int memoria_fisica[256];
+	/* precisa criar e inicializar antes dos forks se n dá blade*/
+	TabelaPagina *vetorTabelaPaginas1 = criaVetorTabelaPaginas(MAXTABELA,55555);
+	TabelaPagina *vetorTabelaPaginas2 = criaVetorTabelaPaginas(MAXTABELA,66666);
+	TabelaPagina *vetorTabelaPaginas3 = criaVetorTabelaPaginas(MAXTABELA,77777);
+	TabelaPagina *vetorTabelaPaginas4 = criaVetorTabelaPaginas(MAXTABELA,88888);
 
-	for(i = 0; i < 256; i++) {
+	shms[0] = vetorTabelaPaginas1;
+	shms[1] = vetorTabelaPaginas2;
+	shms[2] = vetorTabelaPaginas3;
+	shms[3] = vetorTabelaPaginas4;
+
+
+	for(int i = 0; i < 256; i++) {
 		memoria_fisica[i] = -1;
 	}
 
@@ -66,8 +100,8 @@ int main(void){
           //Processo Filho 4 (simulador.log)
           unsigned addr4;
 					char rw4;
-          File *arq4 = fopen("simulador.log", "r");
-					TabelaPagina *vetorTabelaPaginas4 = criaVetorTabelaPaginas(MAXTABELA,8081);
+          FILE *arq4 = fopen("simulador.log", "r");
+
 
           while( fscanf(arq4, "%x %c", &addr4, &rw4) == 2 ) {
 						int indicePagina = pegaIndicePagina(addr4);
@@ -78,8 +112,8 @@ int main(void){
         //Processo Filho 3 (compressor.log)
         unsigned addr3;
 				char rw3;
-        File *arq3 = fopen("compressor.log", "r");
-				TabelaPagina *vetorTabelaPaginas3 = criaVetorTabelaPaginas(MAXTABELA,5081);
+        FILE *arq3 = fopen("compressor.log", "r");
+
 
         while( fscanf(arq3, "%x %c", &addr3, &rw3) == 2 ) {
 					int indicePagina = pegaIndicePagina(addr3);
@@ -90,26 +124,33 @@ int main(void){
       //Processo Filho 2 (matriz.log)
       unsigned addr2;
 			char rw2;
-      File *arq2 = fopen("matriz.log", "r");
-			TabelaPagina *vetorTabelaPaginas2 = criaVetorTabelaPaginas(MAXTABELA,7861);
+      FILE *arq2 = fopen("matriz.log", "r");
+
 
 	    while( fscanf(arq2, "%x %c", &addr2, &rw2) == 2 ) {
 				int indicePagina = pegaIndicePagina(addr2);
 
       }
     }
-  }else{
+    /* N ESQUECE DE APAGAR ESSA PORRA!!! */    
+    shmdt(shms[0]);
+    shmdt(shms[1]);
+    shmdt(shms[2]);
+    shmdt(shms[3]);
+   
+   }else{
     //Processo Filho 1 (compilador.log)
     unsigned addr1;
 		char rw1;
-    File *arq1 = fopen("compilador.log", "r");
-		TabelaPagina *vetorTabelaPaginas1 = criaVetorTabelaPaginas(MAXTABELA,1234);
+    FILE *arq1 = fopen("compilador.log", "r");
+
 
     while( fscanf(arq1, "%x %c", &addr1, &rw1) == 2 ) {
 			int indicePagina = pegaIndicePagina(addr1);
 
     }
   }
+
 
   return 0;
 }
