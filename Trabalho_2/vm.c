@@ -5,7 +5,8 @@
 #include <signal.h>
 #include "vm.h"
 #include "gm.h"
-#include "semhaphore.h"
+#include "semaphore.h"
+#include <sys/sem.h>
 
 
 void trans(int numero_processo,int pagina,int offset,char modo_abertura) {
