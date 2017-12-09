@@ -17,6 +17,9 @@
 
 
 int P1,P2,P3,P4;
+int memoria_fisica[256];
+int currentPid = -1;
+
 
 int busca_menos_acessado(TabelaPagina *t){
 	int i, menor;
@@ -67,15 +70,72 @@ unsigned pegaIndicePagina(unsigned addr){
 	return page;
 }
 
+unsigned pegaOffset(unsigned addr) {
+	unsigned offset = addr << 16;
+	return offset;
+}
+
+
+void wakeUpProcess() {
+	kill(currentPid, SIGCONT);	
+}
+
+
+int checkIfRamIsFull(int *availablePosition) {
+	for(int i=0;i<256;i++) {
+		if(memoria_fisica[i] != -1) {
+			*availablePosition = i;
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+void allocatePage(int processNumber, int index) {
+	TabelaPagina *tp;
+	int ramIsFull;
+	int availablePosition;
+	
+
+	tp = shmat(shms[processNumber], NULL, 0);
+
+	down(semId);
+
+	ramIsFull = checkIfRamIsFull(&availablePosition);
+
+	if(ramIsFull) {
+		//do page sub algorithm
+	} else {
+		memoria_fisica[availablePosition] = processNumber;
+
+		tp[index].physicalAddress = availablePosition;
+	}
+
+
+	up(semId);
+
+
+}
+
 void sigHandler(int signal, siginfo_t *siginfo, void *context) {
 
 	//to know if it is SIGUSR1
 	if(signal == 10) {
+
+
+		if(P1 == siginfo->si_pid) {
+					
+		} else if(P2 == siginfo->si_pid) {
+		} else if(P3 == siginfo->si_pid) {
+		} else if(P4 == siginfo->si_pid) {
+		}
+			
+
 		if(P3 == siginfo->si_pid) {
 			printf("ai caralha\n");
 		}
 		printf ("Sending PID: %d, UID: %d p1 pid: %d\n",
-			siginfo->si_pid, siginfo->si_uid),P3;
+			siginfo->si_pid, siginfo->si_uid, P3);
 	}
 
 
@@ -84,7 +144,6 @@ void sigHandler(int signal, siginfo_t *siginfo, void *context) {
 
 int main(void){
 	int segmento;
-	int memoria_fisica[256];
 
 	struct sigaction act;
 
@@ -115,6 +174,8 @@ int main(void){
 	if (sigaction(SIGUSR1, &act, NULL) == -1) {
         	perror("Error: cannot handle SIGUSR1"); // Should not happen
         }
+
+	signal(SIGALRM,wakeUpProcess);
 	
 	for(int i = 0; i < 256; i++) {
 		memoria_fisica[i] = -1;
@@ -132,10 +193,6 @@ int main(void){
 
         if(P4 != 0){
           //Processo Pai
-	while(1) {
-		//printf("automaticamente\n");
-		//sleep(1);
-	  }
 
         }else{
           //Processo Filho 4 (simulador.log)
@@ -145,8 +202,8 @@ int main(void){
 
 
           while( fscanf(arq4, "%x %c", &addr4, &rw4) == 2 ) {
-						int indicePagina = pegaIndicePagina(addr4);
-
+		int indicePagina = pegaIndicePagina(addr4);
+		int offsetePagina = pegaIndicePagina(addr4);
           }
         }
       }else{
@@ -156,12 +213,11 @@ int main(void){
         FILE *arq3 = fopen("compressor.log", "r");
 
 
-	printf("to mandando a caceta\n");
-	kill(getppid(), 10);
-
 
         while( fscanf(arq3, "%x %c", &addr3, &rw3) == 2 ) {
-					int indicePagina = pegaIndicePagina(addr3);
+		int indicePagina = pegaIndicePagina(addr3);
+	        int offsetePagina = pegaIndicePagina(addr3);	
+
 
         }
       }
@@ -171,11 +227,10 @@ int main(void){
 			char rw2;
       FILE *arq2 = fopen("matriz.log", "r");
 
-
 	    while( fscanf(arq2, "%x %c", &addr2, &rw2) == 2 ) {
-				int indicePagina = pegaIndicePagina(addr2);
-
-      }
+		int indicePagina = pegaIndicePagina(addr2);
+	        int offsetePagina = pegaIndicePagina(addr2);	
+            }
     }
     /* N ESQUECE DE APAGAR ESSA PORRA!!! */
     //shmdt(shms[0]);
@@ -193,8 +248,8 @@ int main(void){
     
 
     while( fscanf(arq1, "%x %c", &addr1, &rw1) == 2 ) {
-			int indicePagina = pegaIndicePagina(addr1);
-
+	int indicePagina = pegaIndicePagina(addr1);
+	int offsetePagina = pegaIndicePagina(addr1);
     }
   }
 

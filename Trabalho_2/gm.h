@@ -9,13 +9,15 @@ int pageFaults[4];
 
 #ifndef TP
 
-  typedef struct tabelaPagina {
-	   char r_ou_w;
-	   int id_processo;
-	   int acesso; //contador de acessos
-     char r; //reference byte
-     char m; //modified byte
-     char p; //see if page is present
+  typedef struct tabelaPagina { 
+	char r_ou_w;
+	int id_processo;
+	int acesso; //contador de acesso
+        char r; //reference byte
+        char m; //modified byte
+        char p; //see if page is present
+	int physicalAddress;
+
   }TabelaPagina;
 
   #define TP
