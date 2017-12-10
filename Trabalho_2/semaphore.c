@@ -4,6 +4,9 @@
 	#include <stdlib.h>
 	#include <ctype.h>
 	#include "semaphore.h"
+	#include <semaphore.h>
+
+	int counter = 0;
 
 	union semum
 	{
@@ -28,10 +31,15 @@
 
 	int down(int semId)
 	{
+
 		struct sembuf semB;
 		semB.sem_num = 0;
 		semB.sem_op = -1;
 		semB.sem_flg = SEM_UNDO;
+		if(semId == 589842) {
+         		printf("dei down no sem %d and value %d\n", semId,counter);
+			counter--;
+		}
 		semop(semId, &semB, 1);
 		return 0;
 	}
@@ -42,6 +50,10 @@
 		semB.sem_num = 0;
 		semB.sem_op = 1;
 		semB.sem_flg = SEM_UNDO;
+                if(semId == 589842) {
+			printf("dei up now sem %d and value %d\n",semId,counter);
+                        counter++;
+                }
 		semop(semId, &semB, 1);
 		return 0;
 	}

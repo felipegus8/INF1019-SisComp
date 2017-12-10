@@ -1,0 +1,2202 @@
+primeiro filho indice: 41 e offset: f7a0
+numero do processo antes do down 1
+numero_processo: 1
+page: 41 offset: f7a0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 13f5 e offset: e2c0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 13f5 offset: e2c0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 5e7 e offset: 8900
+numero do processo antes do down 1
+numero_processo: 1
+page: 5e7 offset: 8900 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 47 e offset: 58a0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 47 offset: 58a0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 3134 e offset: 8900
+numero do processo antes do down 1
+numero_processo: 1
+page: 3134 offset: 8900 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4a e offset: 30e0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 4a offset: 30e0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 700 e offset: ff05
+numero do processo antes do down 1
+numero_processo: 1
+page: 700 offset: ff05 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: e120
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 49 offset: e120 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4c e offset: 25f8
+numero do processo antes do down 1
+numero_processo: 1
+page: 4c offset: 25f8 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4c e offset: 2600
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 5 and offset 2600 
+primeiro filho indice: 3305 e offset: a5e0
+numero do processo antes do down 1
+numero_processo: 1
+page: 3305 offset: a5e0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 5e0 e offset: 6600
+numero do processo antes do down 1
+numero_processo: 1
+page: 5e0 offset: 6600 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 44 e offset: e4f8
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 44 offset: e4f8 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 44 e offset: e500
+numero do processo antes do down 1
+numero_processo: 1
+page: 44 offset: e500 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 44 e offset: e520
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 7 and offset e520 
+primeiro filho indice: 700 e offset: ff10
+numero do processo antes do down 1
+physical address 4 and offset ff10 
+primeiro filho indice: 2f69 e offset: 65a0
+numero do processo antes do down 1
+numero_processo: 1
+page: 2f69 offset: 65a0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 44 e offset: e5c0
+numero do processo antes do down 1
+physical address 7 and offset e5c0 
+primeiro filho indice: 44 e offset: e5e0
+numero do processo antes do down 1
+physical address 7 and offset e5e0 
+primeiro filho indice: 44 e offset: e621
+numero do processo antes do down 1
+physical address 7 and offset e621 
+primeiro filho indice: 31da e offset: e640
+numero do processo antes do down 1
+numero_processo: 1
+page: 31da offset: e640 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 41 e offset: 4f20
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 1 and offset 4f20 
+primeiro filho indice: 5f7 e offset: cf20
+numero do processo antes do down 1
+numero_processo: 1
+page: 5f7 offset: cf20 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4b e offset: cfc0
+numero do processo antes do down 1
+numero_processo: 1
+page: 4b offset: cfc0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 2774 e offset: cfc0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_pid antes do filtro do sinal 46815
+to no sighandler
+indice no sigHandler: 1f16 e processNumber: 4
+available position 0
+index: 1f16 and id_process 4
+pid quando manda sigcont: 46815
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 41 e processNumber: 1
+available position 1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 5e7 e processNumber: 1
+available position 2
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 3134 e processNumber: 1
+available position 3
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 700 e processNumber: 1
+available position 4
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 4c e processNumber: 1
+available position 5
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 5e0 e processNumber: 1
+available position 6
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 44 e processNumber: 1
+available position 7
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 31da e processNumber: 1
+available position 8
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 4b e processNumber: 1
+available position 9
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46711
+to no sighandler
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 46 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 46
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 49 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 49
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 4f e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 4f
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 21dd e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 21dd
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 4a e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 4a
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 449 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 449
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 5e9 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 5e9
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1processo: 1
+page: 2774 offset: cfc0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 46 e offset: 96a0
+numero do processo antes do down 1
+numero_processo: 1
+page: 46 offset: 96a0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 44 e offset: 6460
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 7 and offset 6460 
+primeiro filho indice: 31f9 e offset: 2120
+numero do processo antes do down 1
+numero_processo: 1
+page: 31f9 offset: 2120 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 6ec0
+numero do processo antes do down 1
+numero_processo: 1
+page: 49 offset: 6ec0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4a e offset: c00
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 4a offset: c00 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: d640
+numero do processo antes do down 1
+physical address ffffffff and offset d640 
+primeiro filho indice: 4f e offset: 3df0
+numero do processo antes do down 1
+numero_processo: 1
+page: 4f offset: 3df0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 700 e offset: ff10
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 4 and offset ff10 
+primeiro filho indice: 3d72 e offset: 9820
+numero do processo antes do down 1
+numero_processo: 1
+page: 3d72 offset: 9820 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 6fb0
+numero do processo antes do down 1
+physical address ffffffff and offset 6fb0 
+primeiro filho indice: 49 e offset: 6fc0
+numero do processo antes do down 1
+physical address ffffffff and offset 6fc0 
+primeiro filho indice: 21dd e offset: 6fc0
+numero do processo antes do down 1
+numero_processo: 1
+page: 21dd offset: 6fc0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4a e offset: 9860
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 4a offset: 9860 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4a e offset: a4d8
+numero do processo antes do down 1
+numero_processo: 1
+page: 4a offset: a4d8 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4a e offset: a4e0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset a4e0 
+primeiro filho indice: 4b e offset: d000
+numero do processo antes do down 1
+physical address 9 and offset d000 
+primeiro filho indice: 44b e offset: 71e0
+numero do processo antes do down 1
+numero_processo: 1
+page: 44b offset: 71e0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 700 e offset: ff10
+numero do processo antes do down 1
+physical address 4 and offset ff10 
+primeiro filho indice: 449 e offset: 7780
+numero do processo antes do down 1
+numero_processo: 1
+page: 449 offset: 7780 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 77a0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 77a0 
+primeiro filho indice: 1215 e offset: 1660
+numero do processo antes do down 1
+numero_processo: 1
+page: 1215 offset: 1660 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4b e offset: 3a80
+numero do processo antes do down 1
+physical address 9 and offset 3a80 
+primeiro filho indice: 5e9 e offset: ba80
+numero do processo antes do down 1
+numero_processo: 1
+page: 5e9 offset: ba80 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 3160 e offset: 2880
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 3160 offset: 2880 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4b e offset: 39c0
+numero do processo antes do down 1
+physical address 9 and offset 39c0 
+primeiro filho indice: 33b1 e offset: b9c0
+numero do processo antes do down 1
+numero_processo: 1
+p
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 33b1 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 33b1
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 5ae e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 5ae
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 31a2 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 31a2
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 796 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 796
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 884 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 884
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtage: 33b1 offset: b9c0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4b e offset: ba0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 9 and offset ba0 
+primeiro filho indice: 49 e offset: 53b0
+numero do processo antes do down 1
+physical address ffffffff and offset 53b0 
+primeiro filho indice: 4b e offset: d080
+numero do processo antes do down 1
+physical address 9 and offset d080 
+primeiro filho indice: 785 e offset: d080
+numero do processo antes do down 1
+numero_processo: 1
+page: 785 offset: d080 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 5ae e offset: 74a2
+numero do processo antes do down 1
+numero_processo: 1
+page: 5ae offset: 74a2 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4b e offset: 3900
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 9 and offset 3900 
+primeiro filho indice: 32f5 e offset: 3900
+numero do processo antes do down 1
+numero_processo: 1
+page: 32f5 offset: 3900 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 7738
+numero do processo antes do down 1
+physical address ffffffff and offset 7738 
+primeiro filho indice: 31a2 e offset: f720
+numero do processo antes do down 1
+numero_processo: 1
+page: 31a2 offset: f720 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 7740
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 7740 
+primeiro filho indice: 3a34 e offset: f740
+numero do processo antes do down 1
+numero_processo: 1
+page: 3a34 offset: f740 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 796 e offset: 7018
+numero do processo antes do down 1
+numero_processo: 1
+page: 796 offset: 7018 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 796 e offset: 7d00
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 7d00 
+primeiro filho indice: 303f e offset: 18c3
+numero do processo antes do down 1
+numero_processo: 1
+page: 303f offset: 18c3 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 884 e offset: 8548
+numero do processo antes do down 1
+numero_processo: 1
+page: 884 offset: 8548 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 884 e offset: 8560
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 8560 
+primeiro filho indice: 702 e offset: ff10
+numero do processo antes do down 1
+numero_processo: 1
+page: 702 offset: ff10 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 884 e offset: 87e0
+numero do processo antes do down 1
+physical address ffffffff and offset 87e0 
+primeiro filho indice: 88c e offset: 1a20
+numero do processo antes do down 1
+numero_processo: 1
+page: 88c offset: 1a20 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 88c e offset: 1a60
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 1a60 
+primeiro filho indice: 637 e offset: 9a60
+numero do processo antes do down 1
+numero_processo: 1
+page: 637 offset: 9a60 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 88c e offset: 1aa0
+numero do processo antes do down 1
+physical address ffffffff and offset 1aa0 
+primeiro filho indice: 88c e offset: 1ac0
+numero do processo antes do down 1
+physical address ffffffff and offset 1ac0 
+primeiro filho indice: f8c e offset: fef0
+numero do processo antes do down 1
+numero_processo: 1
+page: f8c offset: fef0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 303f e offset: 1ae0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 303f offset: 1ae0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 799 e offset: 11b0
+numero do processo antes do down 1
+numero_processo: 1
+page: 799 offset: 11b0 procesro do sinal 46812
+to no sighandler
+indice no sigHandler: 88c e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 88c
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: f8c e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: f8c
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 799 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 799
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 47 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 47
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 3118 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 3118
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 3272 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acso: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 30b1 e offset: 11a0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 30b1 offset: 11a0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 799 e offset: 11c0
+numero do processo antes do down 1
+physical address ffffffff and offset 11c0 
+primeiro filho indice: 47 e offset: 888
+numero do processo antes do down 1
+numero_processo: 1
+page: 47 offset: 888 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 31b1 e offset: 880
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 31b1 offset: 880 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 7920
+numero do processo antes do down 1
+physical address ffffffff and offset 7920 
+primeiro filho indice: 49 e offset: 7940
+numero do processo antes do down 1
+physical address ffffffff and offset 7940 
+primeiro filho indice: 31a2 e offset: f940
+numero do processo antes do down 1
+physical address ffffffff and offset f940 
+primeiro filho indice: 49 e offset: 7960
+numero do processo antes do down 1
+physical address ffffffff and offset 7960 
+primeiro filho indice: 49 e offset: 7980
+numero do processo antes do down 1
+physical address ffffffff and offset 7980 
+primeiro filho indice: 3118 e offset: 7980
+numero do processo antes do down 1
+numero_processo: 1
+page: 3118 offset: 7980 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 79a0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 79a0 
+primeiro filho indice: 26c1 e offset: f9a0
+numero do processo antes do down 1
+numero_processo: 1
+page: 26c1 offset: f9a0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 3272 e offset: c040
+numero do processo antes do down 1
+numero_processo: 1
+page: 3272 offset: c040 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 33b1 e offset: b960
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset b960 
+primeiro filho indice: 4b e offset: 3980
+numero do processo antes do down 1
+physical address 9 and offset 3980 
+primeiro filho indice: 49 e offset: 79c0
+numero do processo antes do down 1
+physical address ffffffff and offset 79c0 
+primeiro filho indice: 49 e offset: 79e0
+numero do processo antes do down 1
+physical address ffffffff and offset 79e0 
+primeiro filho indice: 49 e offset: 7a00
+numero do processo antes do down 1
+physical address ffffffff and offset 7a00 
+primeiro filho indice: 49 e offset: 7a40
+numero do processo antes do down 1
+physical address ffffffff and offset 7a40 
+primeiro filho indice: 700 e offset: ff40
+numero do processo antes do down 1
+physical address 4 and offset ff40 
+primeiro filho indice: 1988 e offset: 57a5
+numero do processo antes do down 1
+numero_processo: 1
+page: 1988 offset: 57a5 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 48 e offset: d7a0
+numero do processo antes do down 1
+numero_processo: 1
+page: 48 offset: d7a0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 48 e offset: d7c0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset d7c0 
+primeiro filho indice: 703 e offset: ff1d
+numero do processo antes do down 1
+numero_processo: 1
+page: 703 offset: ff1d processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 3259 e offset: 4380
+numero do processo antes do down 1
+numero_processo: 1
+page: 3259 offset: 4380 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 7a80
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 7a80 
+primeiro filho indice: 700 e offset: ff10
+numero do processo antes do down 1
+physical address 4 and offset ff10 
+primeiro filho indice: 749 e offset: ffd0
+numero do processo antes do down 1
+numero_processo: 1
+page: 749 ofesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 3272
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 48 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 48
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 3259 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 3259
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 32dc e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 32dc
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 74a e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 74a
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 741 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesfset: ffd0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 7ae0
+numero do processo antes do down 1
+physical address ffffffff and offset 7ae0 
+primeiro filho indice: 32dc e offset: fae0
+numero do processo antes do down 1
+numero_processo: 1
+page: 32dc offset: fae0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4a e offset: f5f0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset f5f0 
+primeiro filho indice: 4a e offset: f600
+numero do processo antes do down 1
+physical address ffffffff and offset f600 
+primeiro filho indice: cac e offset: 7600
+numero do processo antes do down 1
+numero_processo: 1
+page: cac offset: 7600 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 4a e offset: f620
+numero do processo antes do down 1
+physical address ffffffff and offset f620 
+primeiro filho indice: 32dc e offset: f620
+numero do processo antes do down 1
+physical address ffffffff and offset f620 
+primeiro filho indice: 4a e offset: f640
+numero do processo antes do down 1
+physical address ffffffff and offset f640 
+primeiro filho indice: 4a e offset: f660
+numero do processo antes do down 1
+physical address ffffffff and offset f660 
+primeiro filho indice: 4a e offset: f680
+numero do processo antes do down 1
+physical address ffffffff and offset f680 
+primeiro filho indice: 74a e offset: feb0
+numero do processo antes do down 1
+numero_processo: 1
+page: 74a offset: feb0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 5558
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 5558 
+primeiro filho indice: 49 e offset: 5560
+numero do processo antes do down 1
+physical address ffffffff and offset 5560 
+primeiro filho indice: 1988 e offset: 5560
+numero do processo antes do down 1
+numero_processo: 1
+page: 1988 offset: 5560 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 5580
+numero do processo antes do down 1
+physical address ffffffff and offset 5580 
+primeiro filho indice: 49 e offset: 55a0
+numero do processo antes do down 1
+physical address ffffffff and offset 55a0 
+primeiro filho indice: 41 e offset: 81d8
+numero do processo antes do down 1
+physical address 1 and offset 81d8 
+primeiro filho indice: 41 e offset: 8200
+numero do processo antes do down 1
+physical address 1 and offset 8200 
+primeiro filho indice: 741 e offset: ce20
+numero do processo antes do down 1
+numero_processo: 1
+page: 741 offset: ce20 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 41 e offset: 8240
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 1 and offset 8240 
+primeiro filho indice: 314b e offset: 2a0
+numero do processo antes do down 1
+numero_processo: 1
+page: 314b offset: 2a0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 41 e offset: 82e0
+numero do processo antes do down 1
+physical address 1 and offset 82e0 
+primeiro filho indice: 41 e offset: 8260
+numero do processo antes do down 1
+physical address 1 and offset 8260 
+primeiro filho indice: 31a5 e offset: 260
+numero do processo antes do down 1
+numero_processo: 1
+page: 31a5 offset: 260 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 5e7 e offset: e2d0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 2 and offset e2d0 
+primeiro filho indice: 47 e offset: 2a08
+numero do processo antes do down 1
+physical address ffffffff and offset 2a08 
+primeiro filho indice: 2ff7 e offset: 2a00
+numero do processo antes do down 1
+numero_processo: 1
+page: 2ff7 offset: 2a00 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 46 e offset: 6fa8
+numero do processo antes do down 1
+physical address ffffffff and offset 6fa8 
+primeiro filho indice: 46 e offset: 7000
+numero do processo antes do down 1
+physical address ffffffff and offset 7000 
+primeiro filho indice: 46 e offset: 7020
+numero do proceso: 0
+lost page index: 0
+page owner -1 and index: 741
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 31a5 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 31a5
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 5af e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 5af
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 45 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 45
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 3305 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 3305
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 701 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 701
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+isso antes do down 1
+physical address ffffffff and offset 7020 
+primeiro filho indice: 5ae e offset: 76c8
+numero do processo antes do down 1
+physical address ffffffff and offset 76c8 
+primeiro filho indice: 46 e offset: 7180
+numero do processo antes do down 1
+physical address ffffffff and offset 7180 
+primeiro filho indice: 46 e offset: 71a0
+numero do processo antes do down 1
+physical address ffffffff and offset 71a0 
+primeiro filho indice: 5af e offset: c668
+numero do processo antes do down 1
+numero_processo: 1
+page: 5af offset: c668 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 2574 e offset: c660
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 2574 offset: c660 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 5ae e offset: 76e1
+numero do processo antes do down 1
+physical address ffffffff and offset 76e1 
+primeiro filho indice: 5ae e offset: 7700
+numero do processo antes do down 1
+physical address ffffffff and offset 7700 
+primeiro filho indice: 41 e offset: 8280
+numero do processo antes do down 1
+physical address 1 and offset 8280 
+primeiro filho indice: 45 e offset: 2150
+numero do processo antes do down 1
+numero_processo: 1
+page: 45 offset: 2150 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 45 e offset: 2160
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 2160 
+primeiro filho indice: 634 e offset: 2140
+numero do processo antes do down 1
+numero_processo: 1
+page: 634 offset: 2140 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 3305 e offset: a160
+numero do processo antes do down 1
+numero_processo: 1
+page: 3305 offset: a160 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 45 e offset: 2180
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 2180 
+primeiro filho indice: 45 e offset: 21a0
+numero do processo antes do down 1
+physical address ffffffff and offset 21a0 
+primeiro filho indice: 45 e offset: 21c0
+numero do processo antes do down 1
+physical address ffffffff and offset 21c0 
+primeiro filho indice: 3160 e offset: 21e0
+numero do processo antes do down 1
+numero_processo: 1
+page: 3160 offset: 21e0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 701 e offset: ff10
+numero do processo antes do down 1
+numero_processo: 1
+page: 701 offset: ff10 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 45 e offset: 2220
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 2220 
+primeiro filho indice: 31f9 e offset: 2220
+numero do processo antes do down 1
+numero_processo: 1
+page: 31f9 offset: 2220 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 45 e offset: 2260
+numero do processo antes do down 1
+physical address ffffffff and offset 2260 
+primeiro filho indice: 45 e offset: 2280
+numero do processo antes do down 1
+physical address ffffffff and offset 2280 
+primeiro filho indice: 703 e offset: ff18
+numero do processo antes do down 1
+numero_processo: 1
+page: 703 offset: ff18 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 2574 e offset: cc80
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 2574 offset: cc80 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: 55e0
+numero do processo antes do down 1
+physical address ffffffff and offset 55e0 
+primeiro filho indice: 4a e offset: f6c0
+numero do processo antes do down 1
+physical address ffffffff and offset f6c0 
+primeiro filho indice: 49 e offset: ca20
+numero do processo antes do down 1
+physical address ffffffff and offset ca20 
+primeiro filho indice: 745 e offset: fe20
+numero do processo antes do down 1
+numero_processo: 1
+page: 745 offset: fe20 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 49 e offset: ca40
+numero do processo antesndex: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 703 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 703
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 745 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 745
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 11d5 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 11d5
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 121d e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 121d
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 30af e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 30af
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sin do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset ca40 
+primeiro filho indice: 703 e offset: ff10
+numero do processo antes do down 1
+physical address ffffffff and offset ff10 
+primeiro filho indice: 303f e offset: 1620
+numero do processo antes do down 1
+numero_processo: 1
+page: 303f offset: 1620 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 31a2 e offset: f1e0
+numero do processo antes do down 1
+physical address ffffffff and offset f1e0 
+primeiro filho indice: 11d5 e offset: f200
+numero do processo antes do down 1
+numero_processo: 1
+page: 11d5 offset: f200 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 121d e offset: d6c0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 121d offset: d6c0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 121d e offset: dfa0
+numero do processo antes do down 1
+numero_processo: 1
+page: 121d offset: dfa0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 608 e offset: dfa0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 608 offset: dfa0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 121d e offset: dfe0
+numero do processo antes do down 1
+physical address ffffffff and offset dfe0 
+primeiro filho indice: 30af e offset: dfe0
+numero do processo antes do down 1
+numero_processo: 1
+page: 30af offset: dfe0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 11f5 e offset: e000
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 11f5 offset: e000 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 11f5 e offset: e020
+numero do processo antes do down 1
+numero_processo: 1
+page: 11f5 offset: e020 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 13f5 e offset: e040
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 13f5 offset: e040 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 121d e offset: df00
+numero do processo antes do down 1
+physical address ffffffff and offset df00 
+primeiro filho indice: 121d e offset: df20
+numero do processo antes do down 1
+physical address ffffffff and offset df20 
+primeiro filho indice: 121d e offset: df40
+numero do processo antes do down 1
+physical address ffffffff and offset df40 
+primeiro filho indice: 121d e offset: df60
+numero do processo antes do down 1
+physical address ffffffff and offset df60 
+primeiro filho indice: 121d e offset: df80
+numero do processo antes do down 1
+physical address ffffffff and offset df80 
+primeiro filho indice: 171d e offset: df08
+numero do processo antes do down 1
+numero_processo: 1
+page: 171d offset: df08 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 42 e offset: ce8
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 42 offset: ce8 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 62f e offset: ce0
+numero do processo antes do down 1
+numero_processo: 1
+page: 62f offset: ce0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 314b e offset: d20
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 314b offset: d20 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 42 e offset: d40
+numero do processo antes do down 1
+numero_processo: 1
+page: 42 offset: d40 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 27a5 e offset: fd40
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+numero_processo: 1
+page: 27a5 offset: fd40 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 41 e offset: e9c8
+numero do processo antes do down 1
+physical address 1 and offset e9c8 
+primeiro filho indice: 41 e offset: e9e0
+numero do processo antes do down 1
+physical address 1 and al 46812
+to no sighandler
+indice no sigHandler: 11f5 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 11f5
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 171d e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 171d
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 62f e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 62f
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 42 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 42
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 27fb e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 27fb
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 5b9 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: offset e9e0 
+primeiro filho indice: 27fb e offset: 69e0
+numero do processo antes do down 1
+numero_processo: 1
+page: 27fb offset: 69e0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 41 e offset: ea00
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address 1 and offset ea00 
+primeiro filho indice: 27fb e offset: 6a00
+numero do processo antes do down 1
+physical address ffffffff and offset 6a00 
+primeiro filho indice: 42 e offset: d60
+numero do processo antes do down 1
+physical address ffffffff and offset d60 
+primeiro filho indice: 42 e offset: d80
+numero do processo antes do down 1
+physical address ffffffff and offset d80 
+primeiro filho indice: 3134 e offset: 8d60
+numero do processo antes do down 1
+physical address 3 and offset 8d60 
+primeiro filho indice: 700 e offset: ff10
+numero do processo antes do down 1
+physical address 4 and offset ff10 
+primeiro filho indice: 258c e offset: 62e0
+numero do processo antes do down 1
+numero_processo: 1
+page: 258c offset: 62e0 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 42 e offset: e300
+numero do processo antes do down 1
+physical address ffffffff and offset e300 
+primeiro filho indice: 5b9 e offset: 9b60
+numero do processo antes do down 1
+numero_processo: 1
+page: 5b9 offset: 9b60 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 5b9 e offset: 9b50
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset 9b50 
+primeiro filho indice: 42 e offset: e320
+numero do processo antes do down 1
+physical address ffffffff and offset e320 
+primeiro filho indice: 40 e offset: 2500
+numero do processo antes do down 1
+numero_processo: 1
+page: 40 offset: 2500 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 42 e offset: e340
+numero do processo antes do down 1
+physical address ffffffff and offset e340 
+primeiro filho indice: 2f69 e offset: 6340
+numero do processo antes do down 1
+numero_processo: 1
+page: 2f69 offset: 6340 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 42 e offset: bc0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset bc0 
+primeiro filho indice: 42 e offset: be0
+numero do processo antes do down 1
+physical address ffffffff and offset be0 
+primeiro filho indice: 42 e offset: c00
+numero do processo antes do down 1
+physical address ffffffff and offset c00 
+primeiro filho indice: 121d e offset: d630
+numero do processo antes do down 1
+physical address ffffffff and offset d630 
+primeiro filho indice: 11f5 e offset: e060
+numero do processo antes do down 1
+physical address ffffffff and offset e060 
+primeiro filho indice: 11f5 e offset: e160
+numero do processo antes do down 1
+physical address ffffffff and offset e160 
+primeiro filho indice: 31f7 e offset: e140
+numero do processo antes do down 1
+numero_processo: 1
+page: 31f7 offset: e140 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 17f5 e offset: e580
+numero do processo antes do down 1
+numero_processo: 1
+page: 17f5 offset: e580 processo: 1
+parent pid: 46811 and process number 1
+primeiro filho indice: 11f5 e offset: e1a0
+numero do processo antes do down 1
+recebi o sigcont
+n sei quem é o puto
+physical address ffffffff and offset e1a0 
+primeiro filho indice: 11d5 e offset: f0d8
+numero do processo antes do down 1
+physical address ffffffff and offset f0d8 
+primeiro filho indice: 11f5 e offset: e080
+numero do processo antes do down 1
+physical address ffffffff and offset e080 
+primeiro filho indice: 11f5 e offset: e0a0
+numero do processo antes do down 1
+physical address ffffffff and offset e0a0 
+primeiro filho indice: 2f69 e offset: 62e1
+numero do processo antes do down 1
+physical address ffffffff and offset 62e1 
+primeiro filho indice: 11f5 e offset: e300
+numero do processo antes do down 1
+physical address ffffffff and offset e300 
+primeiro filho indice: 40 e offset: 740
+numero do processo antes do down 1
+numero_processo: 1
+page: 40 offset: 740 process0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 5b9
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 2f69 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 2f69
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 17f5 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 17f5
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 40 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 40
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 3f e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lost page index: 0
+page owner -1 and index: 3f
+physical address novo: -1
+index: 1f16 and id_process -1
+index: 41 and id_process 1
+index: 5e7 and id_process 1
+index: 3134 and id_process 1
+index: 700 and id_process 1
+index: 4c and id_process 1
+index: 5e0 and id_process 1
+index: 44 and id_process 1
+index: 31da and id_process 1
+index: 4b and id_process 1
+pid quando manda sigcont: 46812
+pid antes do filtro do sinal 46812
+to no sighandler
+indice no sigHandler: 26c1 e processNumber: 1
+encheu!!###################
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+acesso i: 1 and menor acesso: 0
+lo

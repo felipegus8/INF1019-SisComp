@@ -2,6 +2,10 @@
 
 int shms[4];
 int semId;
+int semId2;
+int semId3;
+int semId4;
+int semSignalId;
 int pageFaults[4];
 
 #define TRUE 1

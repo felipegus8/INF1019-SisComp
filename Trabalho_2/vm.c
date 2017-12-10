@@ -11,29 +11,60 @@
 
 void trans(int numero_processo,int pagina,int offset,char modo_abertura) {
 	TabelaPagina *tp;
-	int processSegment = shms[numero_processo];
-	TabelaPagina accessedPage;
 
+	int processSegment = shms[numero_processo - 1];
 	tp = shmat(processSegment, NULL, 0);
 
-	down(semId);
+	int semAtual;
 
-	accessedPage = tp[pagina];
+	switch(numero_processo) {
+        case 1:
+                semAtual = semId;
+                break;
+        case 2:
+                semAtual = semId2;
+                break;
+        case 3:
+                semAtual = semId3;
+                break;
+        case 4:
+                semAtual = semId4;
+                break;
+        default:
+                break;
 
-	accessedPage.r_ou_w = modo_abertura;
+        }
 
-	if(accessedPage.p == 0) {
-		pageFaults[numero_processo]++;
-		kill(getppid(), SIGUSR1);
+	printf("antes do semAtual %d e sem atual %d\n",numero_processo, semAtual);
+
+	down(semAtual);
+	
+
+	if(tp[pagina].p == 0) {
+		int rw;	
+		
+		if(modo_abertura == 'R') {
+                	rw = 0;
+        	} else if(modo_abertura == 'W') {
+                	rw = 1;
+        	}
+
+                printf("entre o atual e o do signal %d\n",numero_processo);
+	
+		TabelaPagina accessedPage = { .r_ou_w = rw, .id_processo = numero_processo, .acesso = 0, .r = 1, .m = rw, .p = 0, .physicalAddress = -1 };
+		pageFaults[numero_processo - 1]++;
+		TabelaPagina tpFinal = { .r_ou_w = rw, .id_processo = numero_processo, .acesso = pagina, .r = 1, .m = rw, .p = 0, .physicalAddress = -1 };
+		tp[pagina] = accessedPage;
+		tp[65536] = tpFinal;
+	        down(semSignalId);	
+		printf("kill number: %d e process number: %d\n", kill(getppid(), SIGUSR1), numero_processo);
  	} else {
-		printf("physical address %d and offset %d \n",accesedPage.physicalAddress, offset);
+		up(semAtual);
+		printf("physical address %x and offset %x \n",tp[pagina].physicalAddress, offset);
 	
 	}
 
-	accesedPage.
-
-	up(semdId);
-
+	
 
 
 }
