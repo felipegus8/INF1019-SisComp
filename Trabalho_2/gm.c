@@ -14,27 +14,57 @@
 #include <errno.h>
 #include <time.h>
 
-#define MAXTABELA 65536//NAO SEI O TAMANHO DA TABELA DE PAGINAS
+#define MAXTABELA 65536
 
 
 int P1,P2,P3,P4;
 int memoria_fisica[10];
+int memoria_fisica_processo[10];
+
 int currentPid = -1;
 
 
-int busca_menos_acessado(TabelaPagina *t){
+int busca_menos_acessado(){
 	int i, menor;
 	menor = 0;
-	for(i=1;i < 10; /* troca para MAXTABELA dps */ i++){
-		printf("acesso i: %d and menor acesso: %d\n", t[memoria_fisica[i]].acesso,t[memoria_fisica[menor]].acesso);
-		if((t[memoria_fisica[menor]].acesso > t[memoria_fisica[i]].acesso) && t[memoria_fisica[i]].acesso > 0){
+	TabelaPagina *t;
+
+	for(i=0;i < 10; /* troca para MAXTABELA dps */ i++){
+		switch (memoria_fisica_processo[i]) {
+			case 1:
+			t = (TabelaPagina *)shmat(shms[0], NULL, 0);
+			break;
+			case 2:
+			t = (TabelaPagina *)shmat(shms[1], NULL, 0);
+			break;
+			case 3:
+			t = (TabelaPagina *)shmat(shms[2], NULL, 0);
+			break;
+			case 4:
+			t = (TabelaPagina *)shmat(shms[3], NULL, 0);
+			break;
+			default:
+			printf("deu ruim\n");
+
+			break;
+		}
+	//	printf("acesso i: %d and menor acesso: %d and pNumber %d\n", t[memoria_fisica[i]].acesso,t[memoria_fisica[0]].acesso,memoria_fisica_processo[i]);
+		if((t[memoria_fisica[menor]].acesso > t[memoria_fisica[i]].acesso)){
 			menor = i;
-		}else if((t[memoria_fisica[menor]].acesso == t[memoria_fisica[i]].acesso) && t[memoria_fisica[i]].acesso > 0){
-			if(t[memoria_fisica[menor]].m != -1 && t[memoria_fisica[i]].m == -1){
+		}
+		else if((t[memoria_fisica[menor]].acesso == t[memoria_fisica[i]].acesso)){
+			if(t[memoria_fisica[menor]].m == 0 && t[memoria_fisica[i]].m == 1)
 				menor = i;
 			}
-		}
+
+//		printf("acesso no zero dps do loop: %d\n", t[memoria_fisica[0]].acesso);
+
+		shmdt(t);
+
 	}
+
+
+
 	return menor;
 }
 
@@ -97,7 +127,7 @@ int checkIfRamIsFull(int *availablePosition) {
 }
 
 void allocatePage(int pid,int processNumber, int index) {
-	TabelaPagina *tp;
+	TabelaPagina *tp,*tp2;
 	int ramIsFull;
 	int availablePosition;
 
@@ -106,20 +136,29 @@ void allocatePage(int pid,int processNumber, int index) {
 
 
 	ramIsFull = checkIfRamIsFull(&availablePosition);
-
 	tp[index].p = 1;
-        tp[index].r = 1;
-        tp[index].acesso++;
+  tp[index].r = 1;
+  tp[index].acesso++;
 
 
 	if(ramIsFull) {
-		
+
 		printf("encheu!!###################\n");
-		int lostPageIndex = busca_menos_acessado(tp);
-	
-		printf("lost page index: %d\n", lostPageIndex);	
-	
-		int processPageOwner = tp[memoria_fisica[lostPageIndex]].id_processo;
+		int lostPageIndex = busca_menos_acessado();
+
+		printf("lost page index: %d\n", lostPageIndex);
+
+		if(memoria_fisica_processo[lostPageIndex] != processNumber) {
+			tp2 = (TabelaPagina *) shmat(shms[memoria_fisica_processo[lostPageIndex] - 1],NULL,0);
+			} else {
+				printf("foi no mesmo\n");
+				tp2 = tp;
+			}
+
+		int processPageOwner = memoria_fisica_processo[lostPageIndex];
+
+		printf("process page owner %d\n", processPageOwner);
+
 
 		int processPid;
                 if(processPageOwner == 1) {
@@ -132,28 +171,34 @@ void allocatePage(int pid,int processNumber, int index) {
                         processPid = P4;
                 }
 
-		printf("page owner %d and index: %x\n",processPageOwner,index);
-		
-		tp[index].physicalAddress = tp[lostPageIndex].physicalAddress;
-	
-		tp[lostPageIndex].p = 0;
-                tp[lostPageIndex].physicalAddress = -1;
-
-		printf("physical address novo: %d\n", tp[index].physicalAddress);
+		tp[index].physicalAddress = lostPageIndex;
+		tp2[memoria_fisica[lostPageIndex]].p = 0;
+    tp2[memoria_fisica[lostPageIndex]].physicalAddress = -1;
 
 		memoria_fisica[tp[index].physicalAddress] = index;
 
+		memoria_fisica_processo[tp[index].physicalAddress] = tp[index].id_processo;
+
+		//Não tem que atualizar a shared Memory?
+	//	shmctl(shms[processNumber - 1],IPC_SET,NULL);
+	shmdt(tp2);
 		kill(processPid, SIGUSR2);
-		
+
 	} else {
 
 		/* putting page on physical memory  */
+
 		memoria_fisica[availablePosition] = index;
+		memoria_fisica_processo[availablePosition] = processNumber;
+
 		/* finding process which has lost a page in physical memory */
-		
 		/* putting page on the virtual memory */
+
 		tp[index].physicalAddress = availablePosition;
-		
+
+		tp2 = (TabelaPagina *) shmat(shms[processNumber - 1], NULL, 0);
+		printf("PHYSICAL ADDRESS NA SHARED MEMORY INDEX:%d,%d\n",index,tp2[index].physicalAddress);
+		//shmctl(shms[processNumber - 1],IPC_SET,NULL);
 
 	}
 
@@ -198,7 +243,8 @@ void allocatePage(int pid,int processNumber, int index) {
 
 	}
 
-	printf("dei um aqui no sem atual e sem atual %d!!!\n", semAtual);
+
+	//printf("dei um aqui no sem atual e sem atual %d!!!\n", semAtual);
 	up(semAtual);
 
 }
@@ -219,14 +265,14 @@ void teste(int signal) {
 	} else if(getpid() == P4) {
 		printf("no P4\n");
 	} else {
-	} 
+	}
 }
 
 void sigHandler(int signal, siginfo_t *siginfo, void *context) {
 
 	TabelaPagina *tp;
 
-	printf("pid antes do filtro do sinal %d\n", siginfo->si_pid);
+//	printf("pid antes do filtro do sinal %d\n", siginfo->si_pid);
 
 	//to know if it is SIGUSR1
 	if(signal == 10) {
@@ -238,25 +284,28 @@ void sigHandler(int signal, siginfo_t *siginfo, void *context) {
 			tp = shmat(shms[0], NULL, 0);
 			allocatePage(siginfo->si_pid,1, tp[MAXTABELA].acesso);
 			shmdt(tp);
+			up(semSignalId);
 		} else if(P2 == siginfo->si_pid) {
-                        tp = shmat(shms[1], NULL, 0);
+      tp = shmat(shms[1], NULL, 0);
 			allocatePage(siginfo->si_pid,2,tp[MAXTABELA].acesso);
-                        shmdt(tp);
+      shmdt(tp);
+			up(semSignalId);
 		} else if(P3 == siginfo->si_pid) {
 			tp = shmat(shms[2], NULL, 0);
 			allocatePage(siginfo->si_pid,3, tp[MAXTABELA].acesso);
-                        shmdt(tp);
+      shmdt(tp);
+			up(semSignalId);
 		} else if(P4 == siginfo->si_pid) {
-                        tp = shmat(shms[3], NULL, 0);
+      tp = shmat(shms[3], NULL, 0);
 			allocatePage(siginfo->si_pid,4, tp[MAXTABELA].acesso);
-                        shmdt(tp);
+      shmdt(tp);
+			up(semSignalId);
 		}
-			
-	printf("to dando up aqui no do signal!!!\n");	
-	up(semSignalId);
+
+//	printf("to dando up aqui no do signal!!!\n");
 
 	}
-	
+
 
 }
 
@@ -283,13 +332,13 @@ int main(void){
 	setSemValue(semId);
 
 	semId2 = semget(10889, 1, 0666 | IPC_CREAT);
-        setSemValue(semId2);
+  setSemValue(semId2);
 
 	semId3 = semget(10890, 1, 0666 | IPC_CREAT);
-        setSemValue(semId3);
+  setSemValue(semId3);
 
 	semId4 = semget(10891, 1, 0666 | IPC_CREAT);
-        setSemValue(semId4);
+  setSemValue(semId4);
 
 	semSignalId = semget(10892, 1, 0666 | IPC_CREAT);
 	setSemValue(semSignalId);
@@ -297,20 +346,21 @@ int main(void){
 	memset(&act, '\0', sizeof(act));
 
 	act.sa_sigaction = &sigHandler;
-	
+
 	/* this line needs to be before the if, otherwise the code won't work */
 	act.sa_flags = SA_SIGINFO;
-	
+
 	if (sigaction(SIGUSR1, &act, NULL) == -1) {
-        	perror("sigaction"); // Should not happen
-        }
+      perror("sigaction"); // Should not happen
+    }
 
 	signal(SIGCONT, teste);
 
 	signal(SIGUSR2, notifyLoss);
-	
+
 	for(int i = 0; i < 10; i++) {
 		memoria_fisica[i] = -1;
+		memoria_fisica_processo[i] = -1;
 	}
 
   P1 = fork();
@@ -325,21 +375,20 @@ int main(void){
 
         if(P4 != 0){
           //Processo Pai
-
-	  while(1);
-
-        }else{
+	  		while(1);
+        }
+				else{
           //Processo Filho 4 (simulador.log)
           unsigned addr4;
        	  char rw4;
           FILE *arq4 = fopen("simulador.log", "r");
 
-          while( fscanf(arq4, "%x %c", &addr4, &rw4) == 2 ) {
+      while( fscanf(arq4, "%x %c", &addr4, &rw4) == 2 ) {
 		int indicePagina = pegaIndicePagina(addr4);
 		int offsetePagina = addr4 & 0x0000FFFF;
-		printf("indice no 4: %x\n", indicePagina);
-		trans(4, indicePagina, offsetePagina, rw4);	  
-	  } 
+	//printf("indice no 4: %x\n", indicePagina);
+		trans(4, indicePagina, offsetePagina, rw4);
+	  }
 	  TabelaPagina *tp = shmat(shms[3], NULL, 0);
           shmdt(tp);
         }
@@ -348,14 +397,15 @@ int main(void){
         unsigned addr3;
 				char rw3;
         FILE *arq3 = fopen("compressor.log", "r");
-	
-        while( fscanf(arq3, "%x %c", &addr3, &rw3) == 2 ) {
+
+    while( fscanf(arq3, "%x %c", &addr3, &rw3) == 2 ) {
 		int indicePagina = pegaIndicePagina(addr3);
-		int offsetePagina = addr3 & 0x0000FFFF;	
+		int offsetePagina = addr3 & 0x0000FFFF;
+		//printf("indice no 3: %x\n", indicePagina);
 		trans(3, indicePagina, offsetePagina, rw3);
 
         }
-	
+
       	 TabelaPagina *tp = shmat(shms[2], NULL, 0);
     	shmdt(tp);
 	}
@@ -364,13 +414,14 @@ int main(void){
       unsigned addr2;
 			char rw2;
       FILE *arq2 = fopen("matriz.log", "r");
-		
+
 	    while( fscanf(arq2, "%x %c", &addr2, &rw2) == 2 ) {
 		int indicePagina = pegaIndicePagina(addr2);
-	        int offsetePagina = addr2 & 0x0000FFFF;
-		trans(2, indicePagina, offsetePagina, rw2);	
-            }
-		
+	  int offsetePagina = addr2 & 0x0000FFFF;
+	//	printf("indice no 2: %x\n", indicePagina);
+		trans(2, indicePagina, offsetePagina, rw2);
+    }
+
     }
     TabelaPagina *tp = shmat(shms[1], NULL, 0);
     shmdt(tp);
@@ -382,17 +433,16 @@ int main(void){
 
 
     FILE *arq1 = fopen("compilador.log", "r");
-    
 
-    while( fscanf(arq1, "%x %c", &addr1, &rw1) == 2 ) {
+
+  while( fscanf(arq1, "%x %c", &addr1, &rw1) == 2 ) {
 	int indicePagina = pegaIndicePagina(addr1);
 	int offsetePagina = addr1 & 0x0000FFFF;
+	//printf("indice no 1: %x\n", indicePagina);
 	trans(1, indicePagina, offsetePagina, rw1);
     }
     TabelaPagina *tp = shmat(shms[0], NULL, 0);
     shmdt(tp);
   }
-
-
   return 0;
 }

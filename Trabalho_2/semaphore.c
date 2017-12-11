@@ -36,10 +36,6 @@
 		semB.sem_num = 0;
 		semB.sem_op = -1;
 		semB.sem_flg = SEM_UNDO;
-		if(semId == 589842) {
-         		printf("dei down no sem %d and value %d\n", semId,counter);
-			counter--;
-		}
 		semop(semId, &semB, 1);
 		return 0;
 	}
@@ -50,10 +46,6 @@
 		semB.sem_num = 0;
 		semB.sem_op = 1;
 		semB.sem_flg = SEM_UNDO;
-                if(semId == 589842) {
-			printf("dei up now sem %d and value %d\n",semId,counter);
-                        counter++;
-                }
 		semop(semId, &semB, 1);
 		return 0;
 	}

@@ -35,36 +35,35 @@ void trans(int numero_processo,int pagina,int offset,char modo_abertura) {
 
         }
 
-	printf("antes do semAtual %d e sem atual %d\n",numero_processo, semAtual);
+	//printf("antes do semAtual %d e sem atual %d\n",numero_processo, semAtual);
 
 	down(semAtual);
-	
+
 
 	if(tp[pagina].p == 0) {
-		int rw;	
-		
+		int rw;
+
 		if(modo_abertura == 'R') {
                 	rw = 0;
         	} else if(modo_abertura == 'W') {
                 	rw = 1;
         	}
 
-                printf("entre o atual e o do signal %d\n",numero_processo);
-	
+//    printf("entre o atual e o do signal %d\n",numero_processo);
+
+//		printf("to mexendo numa shm\n");
 		TabelaPagina accessedPage = { .r_ou_w = rw, .id_processo = numero_processo, .acesso = 0, .r = 1, .m = rw, .p = 0, .physicalAddress = -1 };
 		pageFaults[numero_processo - 1]++;
 		TabelaPagina tpFinal = { .r_ou_w = rw, .id_processo = numero_processo, .acesso = pagina, .r = 1, .m = rw, .p = 0, .physicalAddress = -1 };
 		tp[pagina] = accessedPage;
-		tp[65536] = tpFinal;
-	        down(semSignalId);	
+	 	tp[65536] = tpFinal;
+	//	printf("PROCESS %d WILL SEND SIGNAL SIGUSR1.\n",numero_processo);
+	  down(semSignalId);
 		printf("kill number: %d e process number: %d\n", kill(getppid(), SIGUSR1), numero_processo);
+		usleep(10000);
  	} else {
 		up(semAtual);
-		printf("physical address %x and offset %x \n",tp[pagina].physicalAddress, offset);
-	
+		printf("Process %d, physical address %x ,%c , and offset %x \n",numero_processo,tp[pagina].physicalAddress,modo_abertura,offset);
+
 	}
-
-	
-
-
 }
