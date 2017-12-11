@@ -29,6 +29,10 @@ int busca_menos_acessado(TabelaPagina *t){
 		printf("acesso i: %d and menor acesso: %d\n", t[memoria_fisica[i]].acesso,t[memoria_fisica[menor]].acesso);
 		if((t[memoria_fisica[menor]].acesso > t[memoria_fisica[i]].acesso) && t[memoria_fisica[i]].acesso > 0){
 			menor = i;
+		}else if((t[memoria_fisica[menor]].acesso == t[memoria_fisica[i]].acesso) && t[memoria_fisica[i]].acesso > 0){
+			if(t[memoria_fisica[menor]].m != -1 && t[memoria_fisica[i]].m == -1){
+				menor = i;
+			}
 		}
 	}
 	return menor;
