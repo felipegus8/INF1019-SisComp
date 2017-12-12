@@ -18,8 +18,8 @@
 
 
 int P1,P2,P3,P4;
-int memoria_fisica[256];
-int memoria_fisica_processo[256];
+int memoria_fisica[10];
+int memoria_fisica_processo[10];
 
 int currentPid = -1;
 
@@ -115,7 +115,7 @@ unsigned pegaOffset(unsigned addr) {
 
 
 int checkIfRamIsFull(int *availablePosition) {
-	for(int i=0;i<256;i++) {
+	for(int i=0;i<10;i++) {
 		if(memoria_fisica[i] == -1) {
 			*availablePosition = i;
 			return FALSE;
@@ -151,7 +151,7 @@ void allocatePage(int pid,int processNumber, int index) {
 
 		int processPageOwner = memoria_fisica_processo[lostPageIndex];
 
-		printf("Processo que perdeu página:%d"\n, processPageOwner);
+		printf("Processo que perdeu página:%d\n", processPageOwner);
 
 
 		int processPid;
@@ -291,7 +291,7 @@ void sigHandler(int signal, siginfo_t *siginfo, void *context) {
 
 int main(void){
 	int segmento;
-	int tamanhoMemoria = 256;
+	int tamanhoMemoria = 10;
 	struct sigaction act;
 
 	/* precisa criar e inicializar antes dos forks se n dá blade*/
