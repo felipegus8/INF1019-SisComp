@@ -48,7 +48,6 @@ int busca_menos_acessado(){
 
 			break;
 		}
-	//	printf("acesso i: %d and menor acesso: %d and pNumber %d\n", t[memoria_fisica[i]].acesso,t[memoria_fisica[0]].acesso,memoria_fisica_processo[i]);
 		if((t[memoria_fisica[menor]].acesso > t[memoria_fisica[i]].acesso)){
 			menor = i;
 		}
@@ -57,7 +56,6 @@ int busca_menos_acessado(){
 				menor = i;
 			}
 
-//		printf("acesso no zero dps do loop: %d\n", t[memoria_fisica[0]].acesso);
 
 		shmdt(t);
 
@@ -152,7 +150,7 @@ void allocatePage(int pid,int processNumber, int index) {
 			tp2 = (TabelaPagina *) shmat(shms[memoria_fisica_processo[lostPageIndex] - 1],NULL,0);
 			} else {
 				printf("foi no mesmo\n");
-				tp2 = tp;
+				tp2 = (TabelaPagina *) shmat(shms[memoria_fisica_processo[lostPageIndex] - 1],NULL,0);
 			}
 
 		int processPageOwner = memoria_fisica_processo[lostPageIndex];
@@ -179,8 +177,6 @@ void allocatePage(int pid,int processNumber, int index) {
 
 		memoria_fisica_processo[tp[index].physicalAddress] = tp[index].id_processo;
 
-		//Não tem que atualizar a shared Memory?
-	//	shmctl(shms[processNumber - 1],IPC_SET,NULL);
 	shmdt(tp2);
 		kill(processPid, SIGUSR2);
 
@@ -198,7 +194,6 @@ void allocatePage(int pid,int processNumber, int index) {
 
 		tp2 = (TabelaPagina *) shmat(shms[processNumber - 1], NULL, 0);
 		printf("PHYSICAL ADDRESS NA SHARED MEMORY INDEX:%d,%d\n",index,tp2[index].physicalAddress);
-		//shmctl(shms[processNumber - 1],IPC_SET,NULL);
 
 	}
 
@@ -243,8 +238,6 @@ void allocatePage(int pid,int processNumber, int index) {
 
 	}
 
-
-	//printf("dei um aqui no sem atual e sem atual %d!!!\n", semAtual);
 	up(semAtual);
 
 }
@@ -254,28 +247,13 @@ void notifyLoss(int signal) {
 
 }
 
-void teste(int signal) {
-	printf("recebi o sigcont\n");
-	if(getpid() == P1) {
-		printf("no p1\n");
-	} else if(getpid() == P2) {
-		printf("no p2\n");
-	} else if(getpid() == P3) {
-		printf("no p3\n");
-	} else if(getpid() == P4) {
-		printf("no P4\n");
-	} else {
-	}
-}
-
 void sigHandler(int signal, siginfo_t *siginfo, void *context) {
 
 	TabelaPagina *tp;
 
-//	printf("pid antes do filtro do sinal %d\n", siginfo->si_pid);
 
 	//to know if it is SIGUSR1
-	if(signal == 10) {
+	if(signal == SIGUSR1) {
 
 		kill(siginfo->si_pid, SIGSTOP);
 
@@ -301,8 +279,6 @@ void sigHandler(int signal, siginfo_t *siginfo, void *context) {
       shmdt(tp);
 			up(semSignalId);
 		}
-
-//	printf("to dando up aqui no do signal!!!\n");
 
 	}
 
@@ -354,7 +330,6 @@ int main(void){
       perror("sigaction"); // Should not happen
     }
 
-	signal(SIGCONT, teste);
 
 	signal(SIGUSR2, notifyLoss);
 
@@ -386,7 +361,6 @@ int main(void){
       while( fscanf(arq4, "%x %c", &addr4, &rw4) == 2 ) {
 		int indicePagina = pegaIndicePagina(addr4);
 		int offsetePagina = addr4 & 0x0000FFFF;
-	//printf("indice no 4: %x\n", indicePagina);
 		trans(4, indicePagina, offsetePagina, rw4);
 	  }
 	  TabelaPagina *tp = shmat(shms[3], NULL, 0);
@@ -401,7 +375,6 @@ int main(void){
     while( fscanf(arq3, "%x %c", &addr3, &rw3) == 2 ) {
 		int indicePagina = pegaIndicePagina(addr3);
 		int offsetePagina = addr3 & 0x0000FFFF;
-		//printf("indice no 3: %x\n", indicePagina);
 		trans(3, indicePagina, offsetePagina, rw3);
 
         }
@@ -418,7 +391,6 @@ int main(void){
 	    while( fscanf(arq2, "%x %c", &addr2, &rw2) == 2 ) {
 		int indicePagina = pegaIndicePagina(addr2);
 	  int offsetePagina = addr2 & 0x0000FFFF;
-	//	printf("indice no 2: %x\n", indicePagina);
 		trans(2, indicePagina, offsetePagina, rw2);
     }
 
@@ -438,7 +410,6 @@ int main(void){
   while( fscanf(arq1, "%x %c", &addr1, &rw1) == 2 ) {
 	int indicePagina = pegaIndicePagina(addr1);
 	int offsetePagina = addr1 & 0x0000FFFF;
-	//printf("indice no 1: %x\n", indicePagina);
 	trans(1, indicePagina, offsetePagina, rw1);
     }
     TabelaPagina *tp = shmat(shms[0], NULL, 0);
