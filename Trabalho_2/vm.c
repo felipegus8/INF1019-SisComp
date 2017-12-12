@@ -42,7 +42,7 @@ void trans(int numero_processo,int pagina,int offset,char modo_abertura) {
 		}
 		printf("Atualizou todos os acessos como sendo 0\n");
 		qtdPageFaults = (int *) shmat(segmentoQtdPageFaults,NULL,0);
-		printf("QTD DE PAGE FAULTS:%d\n";qtdPageFaults);
+		printf("QTD DE PAGE FAULTS:%d\n",qtdPageFaults);
 		qtdEscrita = (int *) shmat(segmentoQTDEscrita,NULL,0);
 		printf("QTD DE SWAPS:%d\n",qtdEscrita);
 		shmdt(vetAux);
