@@ -40,14 +40,16 @@ void trans(int numero_processo,int pagina,int offset,char modo_abertura) {
 			t[vetAux[i]].acesso = 0;
 			shmdt(t);
 		}
+		printf("Atualizou todos os acessos como sendo 0\n");
 		shmdt(vetAux);
 		shmdt(vetposaux);
 	}
+	printf("Vai atualizar processSegment\n");
 	int processSegment = shms[numero_processo - 1];
 	tp = shmat(processSegment, NULL, 0);
 
 	int semAtual;
-
+	printf("Passou\n");
 	switch(numero_processo) {
         case 1:
                 semAtual = semId;
