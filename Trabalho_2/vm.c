@@ -13,13 +13,13 @@ void trans(int numero_processo,int pagina,int offset,char modo_abertura) {
 	TabelaPagina *tp;
   contador = (int*) shmat(segmentoContador,NULL,0);
 	(*contador) ++;
-	printf("Contador:%d\n",(*contador));
-	if((*contador) > 0 && (*contador) % 32 == 0) {
+	//printf("Contador:%d\n",(*contador));
+	if((*contador) > 0 && (*contador) % 256 == 0) {
 		TabelaPagina *t;
 		int i;
 		vetAux = (int *) shmat (segmentoAux,NULL,0);
 		vetposaux = (int *) shmat(segmento2Aux,NULL,0);
-		for(i=0;i<10/*Pode trocar o valor aqui*/;i++) {
+		for(i=0;i<256/*Pode trocar o valor aqui*/;i++) {
 			switch(vetposaux[i]) {
 				case 1:
 				t = (TabelaPagina *)shmat(shms[0], NULL, 0);
@@ -42,9 +42,9 @@ void trans(int numero_processo,int pagina,int offset,char modo_abertura) {
 		}
 		printf("Atualizou todos os acessos como sendo 0\n");
 		qtdPageFaults = (int *) shmat(segmentoQtdPageFaults,NULL,0);
-		printf("QTD DE PAGE FAULTS:%d\n",qtdPageFaults);
+		printf("QTD DE PAGE FAULTS:%d\n",(*qtdPageFaults));
 		qtdEscrita = (int *) shmat(segmentoQTDEscrita,NULL,0);
-		printf("QTD DE SWAPS:%d\n",qtdEscrita);
+		printf("QTD DE SWAPS:%d\n",(*qtdEscrita);
 		shmdt(vetAux);
 		shmdt(vetposaux);
 	}

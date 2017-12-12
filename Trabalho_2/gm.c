@@ -18,8 +18,8 @@
 
 
 int P1,P2,P3,P4;
-int memoria_fisica[10];
-int memoria_fisica_processo[10];
+int memoria_fisica[256];
+int memoria_fisica_processo[256];
 
 int currentPid = -1;
 
@@ -146,19 +146,12 @@ void allocatePage(int pid,int processNumber, int index) {
 		qtdEscrita = (int *) shmat(segmentoQTDEscrita,NULL,0);
 		(*qtdEscrita)++;
 
-		printf("lost page index: %d\n", lostPageIndex);
-
-		if(memoria_fisica_processo[lostPageIndex] != processNumber) {
-			tp2 = (TabelaPagina *) shmat(shms[memoria_fisica_processo[lostPageIndex] - 1],NULL,0);
-			} else {
-				printf("foi no mesmo\n");
-				tp2 = (TabelaPagina *) shmat(shms[memoria_fisica_processo[lostPageIndex] - 1],NULL,0);
-
-			}
+		//printf("lost page index: %d\n", lostPageIndex);
+		tp2 = (TabelaPagina *) shmat(shms[memoria_fisica_processo[lostPageIndex] - 1],NULL,0);
 
 		int processPageOwner = memoria_fisica_processo[lostPageIndex];
 
-		printf("process page owner %d\n", processPageOwner);
+		printf("Processo que perdeu página:%d"\n, processPageOwner);
 
 
 		int processPid;
@@ -205,7 +198,7 @@ void allocatePage(int pid,int processNumber, int index) {
 		tp[index].physicalAddress = availablePosition;
 
 		tp2 = (TabelaPagina *) shmat(shms[processNumber - 1], NULL, 0);
-		printf("PHYSICAL ADDRESS NA SHARED MEMORY INDEX:%d,%d\n",index,tp2[index].physicalAddress);
+		//printf("PHYSICAL ADDRESS NA SHARED MEMORY INDEX:%d,%d\n",index,tp2[index].physicalAddress);
 
 	}
 
@@ -298,7 +291,7 @@ void sigHandler(int signal, siginfo_t *siginfo, void *context) {
 
 int main(void){
 	int segmento;
-	int tamanhoMemoria = 10;
+	int tamanhoMemoria = 256;
 	struct sigaction act;
 
 	/* precisa criar e inicializar antes dos forks se n dá blade*/
