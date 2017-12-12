@@ -151,6 +151,7 @@ void allocatePage(int pid,int processNumber, int index) {
 			} else {
 				printf("foi no mesmo\n");
 				tp2 = (TabelaPagina *) shmat(shms[memoria_fisica_processo[lostPageIndex] - 1],NULL,0);
+
 			}
 
 		int processPageOwner = memoria_fisica_processo[lostPageIndex];
@@ -177,7 +178,13 @@ void allocatePage(int pid,int processNumber, int index) {
 
 		memoria_fisica_processo[tp[index].physicalAddress] = tp[index].id_processo;
 
-	shmdt(tp2);
+		vetAux = (int *) shmat (segmentoAux,NULL,0);
+		vetposaux = (int *) shmat(segmento2Aux,NULL,0);
+		vetAux[tp[index].physicalAddress] = index;
+		vetposaux[tp[index].physicalAddress] = tp[index].id_processo;
+		shmdt(vetAux);
+		shmdt(vetposaux);
+		shmdt(tp2);
 		kill(processPid, SIGUSR2);
 
 	} else {
@@ -186,7 +193,10 @@ void allocatePage(int pid,int processNumber, int index) {
 
 		memoria_fisica[availablePosition] = index;
 		memoria_fisica_processo[availablePosition] = processNumber;
-
+		vetAux = (int *) shmat (segmentoAux,NULL,0);
+		vetposaux = (int *) shmat(segmento2Aux,NULL,0);
+		vetAux[availablePosition] = index;
+		vetposaux[availablePosition] = processNumber;
 		/* finding process which has lost a page in physical memory */
 		/* putting page on the virtual memory */
 
@@ -281,14 +291,12 @@ void sigHandler(int signal, siginfo_t *siginfo, void *context) {
 		}
 
 	}
-
-
 }
 
 
 int main(void){
 	int segmento;
-
+	int tamanhoMemoria = 10;
 	struct sigaction act;
 
 	/* precisa criar e inicializar antes dos forks se n dá blade*/
@@ -298,7 +306,17 @@ int main(void){
 	int segmentoTabelaPaginas4 = criaVetorTabelaPaginas(MAXTABELA,88888);
 
 	initializePageFaultsArrays(pageFaults);
-
+	segmentoContador = shmget(33333,tamanhoMemoria * sizeof(int),IPC_CREAT | S_IRUSR | S_IWUSR);
+	contador = (int *) shmat(segmentoContador,NULL,0);
+	(*contador) = 0;
+	segmentoAux = shmget(11111,tamanhoMemoria * sizeof(int),IPC_CREAT | S_IRUSR | S_IWUSR);
+	vetAux = (int *) shmat(segmentoAux,NULL,0);
+	segmento2Aux = shmget(22222,tamanhoMemoria * sizeof(int),IPC_CREAT | S_IRUSR | S_IWUSR);
+	vetposaux = (int *) shmat(segmento2Aux,NULL,0);
+	for(int i = 0; i < tamanhoMemoria; i++) {
+		vetAux[i] = -1;
+		vetposaux[i] = -1;
+	}
 	shms[0] = segmentoTabelaPaginas1;
 	shms[1] = segmentoTabelaPaginas2;
 	shms[2] = segmentoTabelaPaginas3;
@@ -333,7 +351,7 @@ int main(void){
 
 	signal(SIGUSR2, notifyLoss);
 
-	for(int i = 0; i < 10; i++) {
+	for(int i = 0; i < tamanhoMemoria; i++) {
 		memoria_fisica[i] = -1;
 		memoria_fisica_processo[i] = -1;
 	}
@@ -358,7 +376,7 @@ int main(void){
        	  char rw4;
           FILE *arq4 = fopen("simulador.log", "r");
 
-      while( fscanf(arq4, "%x %c", &addr4, &rw4) == 2 ) {
+    while( fscanf(arq4, "%x %c", &addr4, &rw4) == 2 ) {
 		int indicePagina = pegaIndicePagina(addr4);
 		int offsetePagina = addr4 & 0x0000FFFF;
 		trans(4, indicePagina, offsetePagina, rw4);

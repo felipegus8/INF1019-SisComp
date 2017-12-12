@@ -7,13 +7,18 @@ int semId3;
 int semId4;
 int semSignalId;
 int pageFaults[4];
-
+int *vetAux;
+int segmentoAux;
+int *vetposaux;
+int segmento2Aux;
+int *contador;
+int segmentoContador;
 #define TRUE 1
 #define FALSE 0
 
 #ifndef TP
 
-  typedef struct tabelaPagina { 
+  typedef struct tabelaPagina {
 	char r_ou_w;
 	int id_processo;
 	int acesso; //contador de acesso

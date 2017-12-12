@@ -11,7 +11,38 @@
 
 void trans(int numero_processo,int pagina,int offset,char modo_abertura) {
 	TabelaPagina *tp;
-
+  contador = (int*) shmat(segmentoContador,NULL,0);
+	(*contador) ++;
+	printf("Contador:%d\n",(*contador));
+	if((*contador) > 0 && (*contador) % 32 == 0) {
+		TabelaPagina *t;
+		int i;
+		vetAux = (int *) shmat (segmentoAux,NULL,0);
+		vetposaux = (int *) shmat(segmento2Aux,NULL,0);
+		for(i=0;i<10/*Pode trocar o valor aqui*/;i++) {
+			switch(vetposaux[i]) {
+				case 1:
+				t = (TabelaPagina *)shmat(shms[0], NULL, 0);
+				break;
+				case 2:
+				t = (TabelaPagina *)shmat(shms[1], NULL, 0);
+				break;
+				case 3:
+				t = (TabelaPagina *)shmat(shms[2], NULL, 0);
+				break;
+				case 4:
+				t = (TabelaPagina *)shmat(shms[3], NULL, 0);
+				break;
+				default:
+				printf("deu ruim\n");
+				break;
+			}
+			t[vetAux[i]].acesso = 0;
+			shmdt(t);
+		}
+		shmdt(vetAux);
+		shmdt(vetposaux);
+	}
 	int processSegment = shms[numero_processo - 1];
 	tp = shmat(processSegment, NULL, 0);
 
