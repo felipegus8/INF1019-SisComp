@@ -143,6 +143,8 @@ void allocatePage(int pid,int processNumber, int index) {
 
 		printf("encheu!!###################\n");
 		int lostPageIndex = busca_menos_acessado();
+		qtdEscrita = (int *) shmat(segmentoQTDEscrita,NULL,0);
+		(*qtdEscrita)++;
 
 		printf("lost page index: %d\n", lostPageIndex);
 
@@ -313,6 +315,12 @@ int main(void){
 	vetAux = (int *) shmat(segmentoAux,NULL,0);
 	segmento2Aux = shmget(22222,tamanhoMemoria * sizeof(int),IPC_CREAT | S_IRUSR | S_IWUSR);
 	vetposaux = (int *) shmat(segmento2Aux,NULL,0);
+	segmentoQtdPageFaults = shmget(44444,sizeof(int),IPC_CREAT | S_IRUSR | S_IWUSR);
+	qtdPageFaults = (int *) shmat(segmentoQtdPageFaults,NULL,0);
+	(*qtdPageFaults) = 0;
+	segmentoQTDEscrita = shmget(24784,sizeof(int),IPC_CREAT | S_IRUSR | S_IWUSR);
+	qtdEscrita = (int *) shmat(segmentoQTDEscrita,NULL,0);
+	(*qtdEscrita) = 0;
 	for(int i = 0; i < tamanhoMemoria; i++) {
 		vetAux[i] = -1;
 		vetposaux[i] = -1;

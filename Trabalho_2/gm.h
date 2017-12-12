@@ -11,6 +11,10 @@ int *vetAux;
 int segmentoAux;
 int *vetposaux;
 int segmento2Aux;
+int segmentoQtdPageFaults;
+int *qtdPageFaults;
+int segmentoQTDEscrita;
+int *qtdEscrita;
 int *contador;
 int segmentoContador;
 #define TRUE 1
