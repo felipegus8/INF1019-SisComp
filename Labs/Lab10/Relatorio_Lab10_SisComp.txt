@@ -1,0 +1,476 @@
+Felipe Viberti - 1510384
+
+Questão 1)Execute o programa Corrida de Sapo algumas vezes e analise os resultados sobre a ordem de chegada dos sapos. Obs: compile com a opção –lpthread
+-----------------------------------------------------
+
+Arquivo .c:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
+
+#define NUM_THREADS 5
+#define PULO_MAXIMO 100
+#define DESCANSO_MAXIMO 1
+#define DISTANCIA_PARA_CORRER 100
+
+static int classificacao = 1;
+
+static void* Correr(void* sapo);
+
+int main()
+{
+	classificacao = 1;
+	pthread_t threads[NUM_THREADS];
+	int t;
+
+	printf("Corrida iniciada...\n");
+
+	for(t = 0; t < NUM_THREADS; t++)
+	{
+		pthread_create(&threads[t], NULL, Correr, (void *)t);
+	}
+
+	for(t = 0; t < NUM_THREADS; t++)
+	{
+		pthread_join(threads[t], NULL);
+	}
+
+	printf("\nAcabou!!\n");
+
+	pthread_exit(NULL);
+
+	return 0;
+}
+
+void* Correr(void* sapo)
+{
+	int pulos = 0;
+	int distanciaJaCorrida = 0;
+
+	while(distanciaJaCorrida <= DISTANCIA_PARA_CORRER)
+	{
+		int pulo = rand() % PULO_MAXIMO;
+		distanciaJaCorrida += pulo;
+		pulos++;
+		printf("Sapo %d pulou\n", (int)sapo);
+		int descanso = rand() % DESCANSO_MAXIMO;
+		sleep(descanso);
+	}
+
+	printf("Sapo %d chegou na posicao %d com %d pulos!\n", (int)sapo, classificacao, pulos);
+	classificacao++;
+
+	pthread_exit(NULL);
+}
+
+
+-----------------------------------------------------
+
+Auxiliar.Txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex1 ex1.c -lpthread
+$./ex1
+
+-----------------------------------------------------
+
+Resultado: 
+Sapo 0 pulou
+Sapo 1 pulou
+Sapo 2 pulou
+Sapo 3 pulou
+Sapo 4 pulou
+Sapo 3 pulou
+Sapo 2 pulou
+Sapo 0 pulou
+Sapo 1 pulou
+Sapo 4 pulou
+Sapo 3 pulou
+Sapo 2 chegou na posição 1 com 2 pulos!
+Sapo 1 chegou na posição 2 com 2 pulos!
+Sapo 3 pulou
+Sapo 3 chegou na posição 3 com 4 pulos!
+Sapo 0 chegou na posição 3 com 2 pulos!
+Sapo 4 chegou na posição 3 com 2 pulos!
+-----------------------------------------------------
+
+Conclusão:
+Como não foi implementada a exclusão mútua na variável de classificação 3 dos 5 sapos chegaram na mesma posição(3).Isso acontece porque 3 threads acessaram a variável de classificação ao mesmo tempo e leram o mesmo valor de variável.Por esse motivo, cada vez que esse programa é executado ele pode e provavelmente vai produzir resultados diferentes.O que deveria acontecer para evitar isso é que a variável de classificação só pudesse ser acessada por 1 thread por vez.
+
+
+-----------------------------------------------------
+
+Questão 2)Usando mutex, modifique o programa Corrida de Sapo para que o problema identificado anteriormente não ocorra. 
+
+-----------------------------------------------------
+
+Arquivo .c:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
+
+#define NUM_THREADS 5
+#define PULO_MAXIMO 100
+#define DESCANSO_MAXIMO 1
+#define DISTANCIA_PARA_CORRER 100
+
+static int classificacao = 1;
+static pthread_mutex_t lock;
+
+static void* Correr(void* sapo);
+
+int main()
+{
+	classificacao = 1;
+	pthread_t threads[NUM_THREADS];
+	int t;
+
+	printf("Corrida iniciada...\n");
+
+	for(t = 0; t < NUM_THREADS; t++)
+	{
+		pthread_create(&threads[t], NULL, Correr, (void *)t);
+	}
+
+	for(t = 0; t < NUM_THREADS; t++)
+	{
+		pthread_join(threads[t], NULL);
+	}
+
+	printf("\nAcabou!!\n");
+
+	pthread_exit(NULL);
+
+	return 0;
+}
+
+void* Correr(void* sapo)
+{
+	int pulos = 0;
+	int distanciaJaCorrida = 0;
+
+	while(distanciaJaCorrida <= DISTANCIA_PARA_CORRER)
+	{
+		int pulo = rand() % PULO_MAXIMO;
+		distanciaJaCorrida += pulo;
+		pulos++;
+		printf("Sapo %d pulou\n", (int)sapo);
+		int descanso = rand() % DESCANSO_MAXIMO;
+		sleep(descanso);
+	}
+	pthread_mutex_lock(&lock);
+	printf("Sapo %d chegou na posicao %d com %d pulos!\n", (int)sapo, classificacao, pulos);
+	classificacao++;
+	pthread_mutex_unlock(&lock);
+
+	pthread_exit(NULL);
+}
+
+
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex2 ex2.c -lpthread
+$./ex2
+
+-----------------------------------------------------
+
+Resultado:
+Corrida iniciada...
+Sapo 0 pulou
+Sapo 1 pulou
+Sapo 2 pulou
+Sapo 3 pulou
+Sapo 4 pulou
+Sapo 3 pulou
+Sapo 2 pulou
+Sapo 0 pulou
+Sapo 1 pulou
+Sapo 4 pulou
+Sapo 3 pulou
+Sapo 2 chegou na posição 1 com 2 pulos!
+Sapo 4 chegou na posição 2 com 2 pulos!
+Sapo 3 pulou
+Sapo 0 chegou na posição 3 com 2 pulos!
+Sapo 1 chegou na posição 4 com 2 pulos!
+Sapo 3 chegou na posição 5 com 4 pulos!
+-----------------------------------------------------
+
+Conclusão:
+Dessa vez, sempre que o programa for executado os sapos vão chegar em posições diferentes na ordem certa.Isso acontece porque agora só uma thread acessa a variável de classificação por vez.
+
+-----------------------------------------------------
+
+Questão 3)Usando threads, escreva um programa C que implemente o problema do produtor/consumidor. O produtor deve produzir dados (números inteiros pseudo-aleatórios) a cada 1 segundo colocando-os em uma fila (buffer, implementação circular). O consumidor deve retirar dados da fila a cada 2 segundos. O tamanho máximo da fila deve ser de 8 elementos (MAXFILA) e tanto o produtor como o consumidor devem produzir/consumir 64 elementos (números inteiros de 1 a 64, por exemplo) evitando condições de corrida. Variáveis compartilhadas entre threads são simplesmente variáveis globais.
+                        
+-----------------------------------------------------
+
+Arquivo .c:
+#include <pthread.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+
+int buffer[8];
+int head = 0;
+int tail = 0;
+int num_elem = 0;
+static pthread_mutex_t lock;
+
+void * produtor(){
+	int i = 0;
+	while(i < 64){
+		sleep(1);
+		if(num_elem < 8){
+			pthread_mutex_lock(&lock);
+			buffer[tail] = i;
+			printf("Produtor: Produzi o numero %d\n", buffer[tail]);
+			tail = (tail+1) % 8;
+			num_elem++;
+			i++;
+			pthread_mutex_unlock(&lock);
+		}
+		else{
+			printf("Produtor: O buffer está cheio\n");
+		}
+	}
+}
+
+void * consumidor(){
+	int i;
+	while(i < 64){
+		sleep(2);
+		if(num_elem > 0){
+			pthread_mutex_lock(&lock);
+			printf("Consumidor: Consumi o numero %d\n", buffer[head]);
+			head = (head+1) % 8;
+			num_elem--;
+			i++;
+			pthread_mutex_unlock(&lock);
+		}
+		else{
+			printf("Consumidor: O buffer está vazio\n");
+		}
+
+	}
+}
+
+int main(int argc, char const *argv[])
+{
+	pthread_t threads[2];
+  	//Criação das 2 Threads. Uma para executar o produtor e outra para o consumidor.
+	pthread_create(&threads[0], NULL, produtor, NULL);
+	pthread_create(&threads[1], NULL, consumidor, NULL);
+	pthread_join(threads[0], NULL);
+	pthread_join(threads[1], NULL);
+
+	return 0;
+}
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex3 ex3.c -lpthread
+$./ex3
+-----------------------------------------------------
+
+Resultado:
+Produtor: Produzi o numero 0
+Consumidor: Consumi o numero 0
+Produtor: Produzi o numero 1
+Produtor: Produzi o numero 2
+Consumidor: Consumi o numero 1
+Produtor: Produzi o numero 3
+Produtor: Produzi o numero 4
+Consumidor: Consumi o numero 2
+Produtor: Produzi o numero 5
+Produtor: Produzi o numero 6
+Consumidor: Consumi o numero 3
+Produtor: Produzi o numero 7
+Produtor: Produzi o numero 8
+Consumidor: Consumi o numero 4
+Produtor: Produzi o numero 9
+Produtor: Produzi o numero 10
+Consumidor: Consumi o numero 5
+Produtor: Produzi o numero 11
+Produtor: Produzi o numero 12
+Consumidor: Consumi o numero 6
+Produtor: Produzi o numero 13
+Produtor: Produzi o numero 14
+Consumidor: Consumi o numero 7
+Produtor: Produzi o numero 15
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 8
+Produtor: Produzi o numero 16
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 9
+Produtor: Produzi o numero 17
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 10
+Produtor: Produzi o numero 18
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 11
+Produtor: Produzi o numero 19
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 12
+Produtor: Produzi o numero 20
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 13
+Produtor: Produzi o numero 21
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 14
+Produtor: Produzi o numero 22
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 15
+Produtor: Produzi o numero 23
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 16
+Produtor: Produzi o numero 24
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 17
+Produtor: Produzi o numero 25
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 18
+Produtor: Produzi o numero 26
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 19
+Produtor: Produzi o numero 27
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 20
+Produtor: Produzi o numero 28
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 21
+Produtor: Produzi o numero 29
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 22
+Produtor: Produzi o numero 30
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 23
+Produtor: Produzi o numero 31
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 24
+Produtor: Produzi o numero 32
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 25
+Produtor: Produzi o numero 33
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 26
+Produtor: Produzi o numero 34
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 27
+Produtor: Produzi o numero 35
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 28
+Produtor: Produzi o numero 36
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 29
+Produtor: Produzi o numero 37
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 30
+Produtor: Produzi o numero 38
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 31
+Produtor: Produzi o numero 39
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 32
+Produtor: Produzi o numero 40
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 33
+Produtor: Produzi o numero 41
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 34
+Produtor: Produzi o numero 42
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 35
+Produtor: Produzi o numero 43
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 36
+Produtor: Produzi o numero 44
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 37
+Produtor: Produzi o numero 45
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 38
+Produtor: Produzi o numero 46
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 39
+Produtor: Produzi o numero 47
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 40
+Produtor: Produzi o numero 48
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 41
+Produtor: Produzi o numero 49
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 42
+Produtor: Produzi o numero 50
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 43
+Produtor: Produzi o numero 51
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 44
+Produtor: Produzi o numero 52
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 45
+Produtor: Produzi o numero 53
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 46
+Produtor: Produzi o numero 54
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 47
+Produtor: Produzi o numero 55
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 48
+Produtor: Produzi o numero 56
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 49
+Produtor: Produzi o numero 57
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 50
+Produtor: Produzi o numero 58
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 51
+Produtor: Produzi o numero 59
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 52
+Produtor: Produzi o numero 60
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 53
+Produtor: Produzi o numero 61
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 54
+Produtor: Produzi o numero 62
+Produtor: O buffer está cheio
+Consumidor: Consumi o numero 55
+Produtor: Produzi o numero 63
+Consumidor: Consumi o numero 56
+Consumidor: Consumi o numero 57
+Consumidor: Consumi o numero 58
+Consumidor: Consumi o numero 59
+Consumidor: Consumi o numero 60
+Consumidor: Consumi o numero 61
+Consumidor: Consumi o numero 62
+Consumidor: Consumi o numero 63
+-----------------------------------------------------
+
+Conclusão:
+Tanto o produtor quanto o consumidor executam até que produzam ou consumam 64 elementos.Tentativas que dão erro(buffer cheio) não contam.Eu usei mutex para garantir exclusão mutua entre as 2 Threads. Isso garante que a mesma área não está sendo acessada por produtor e consumidor ao mesmo tempo.O produtor é mais rápido que o consumidor já que executa a cada 1 segundo enquanto que o consumidor a cada 2.Por isso em vários momentos o produtor encontra o buffer cheio e além disso ele termina de executar bem antes do consumidor.Isso é facilmente percebido porque no final do programa apenas o consumidor está sendo executado.

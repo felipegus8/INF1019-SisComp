@@ -1,0 +1,447 @@
+Felipe Viberti - 1510384
+
+Questão 1)Usando processos, escreva um programa C que implemente o problema do produtor/consumidor.Existem 2 consumidores. O produtor e os consumidores devem compartilhar os recursos do processo (filas e demais dados). O produtor deve produzir dados (números inteiros) a cada 1 segundo colocando-os em uma fila (buffer). Os consumidores devem retirar dados da fila a cada 2 segundos. O tamanho máximo da fila deve ser de 8 elementos (MAXFILA) e tanto o produtor como os dois consumidores devem produzir/consumir 64 elementos. 
+-----------------------------------------------------
+
+Arquivo .c:
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/msg.h>
+#include <string.h>
+
+#define MAXFILA 8
+#define MSGMAX 50
+#define ITEMS 64 
+
+typedef struct msgbuf {
+  long    mtype;
+  char    mtext[MSGMAX];
+} message_buf;
+
+int msqid;
+
+void produtor(){
+	int i ;
+	message_buf sbuf;
+	size_t buf_size;
+	for(i = 0; i < ITEMS; i++){
+			sprintf(sbuf.mtext, "Mensagem %d", i);
+			buf_size = strlen(sbuf.mtext) + 1 ;
+			if (msgsnd(msqid, &sbuf, buf_size, IPC_NOWAIT) < 0) {
+				perror("msgsnd");
+			}
+			printf("O produtor produziu: %s\n", sbuf.mtext);
+      sleep(1);
+		}
+}
+
+void  consumidor(int id){
+	int i = 0;
+	message_buf rbuf;
+	while(i < ITEMS/2){
+      sleep(2);
+			if (msgrcv(msqid, &rbuf, MSGMAX, 0,MSG_NOERROR) < 0) {
+        perror("msgrcv");
+				printf("Erro no consumidor %d\n", id);
+			}
+			printf("O consumidor %d consumiu: %s\n",id, rbuf.mtext);
+			i++;
+	}
+}
+
+int main()
+{
+  int pid,pid2;
+  key_t key = 2025;
+	if ((msqid = msgget(key, IPC_CREAT | 0666 )) < 0) {
+		perror("msgget");
+		exit(1);
+	}
+
+  if ((pid = fork() == 0))  {
+    //Filho
+    consumidor(1);
+  }
+  else if ((pid2 = fork() == 0)) {
+    consumidor(2);
+  }
+  else {
+    produtor();
+  }
+  return 0;
+}
+
+
+-----------------------------------------------------
+
+Auxiliar.Txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex1 ex1.c
+$ ./ex1
+
+-----------------------------------------------------
+
+Resultado: 
+O produtor produziu: Mensagem 0
+O produtor produziu: Mensagem 1
+O consumidor 1 consumiu: Mensagem 0
+O consumidor 2 consumiu: Mensagem 1
+O produtor produziu: Mensagem 2
+O produtor produziu: Mensagem 3
+O consumidor 2 consumiu: Mensagem 2
+O consumidor 1 consumiu: Mensagem 3
+O produtor produziu: Mensagem 4
+O produtor produziu: Mensagem 5
+O consumidor 2 consumiu: Mensagem 4
+O consumidor 1 consumiu: Mensagem 5
+O produtor produziu: Mensagem 6
+O produtor produziu: Mensagem 7
+O consumidor 2 consumiu: Mensagem 6
+O consumidor 1 consumiu: Mensagem 7
+O produtor produziu: Mensagem 8
+O produtor produziu: Mensagem 9
+O consumidor 2 consumiu: Mensagem 8
+O consumidor 1 consumiu: Mensagem 9
+O produtor produziu: Mensagem 10
+O produtor produziu: Mensagem 11
+O consumidor 1 consumiu: Mensagem 10
+O consumidor 2 consumiu: Mensagem 11
+O produtor produziu: Mensagem 12
+O produtor produziu: Mensagem 13
+O consumidor 1 consumiu: Mensagem 12
+O consumidor 2 consumiu: Mensagem 13
+O produtor produziu: Mensagem 14
+O produtor produziu: Mensagem 15
+O consumidor 2 consumiu: Mensagem 15
+O consumidor 1 consumiu: Mensagem 14
+O produtor produziu: Mensagem 16
+O produtor produziu: Mensagem 17
+O consumidor 2 consumiu: Mensagem 16
+O consumidor 1 consumiu: Mensagem 17
+O produtor produziu: Mensagem 18
+O produtor produziu: Mensagem 19
+O consumidor 1 consumiu: Mensagem 18
+O consumidor 2 consumiu: Mensagem 19
+O produtor produziu: Mensagem 20
+O produtor produziu: Mensagem 21
+O consumidor 1 consumiu: Mensagem 20
+O consumidor 2 consumiu: Mensagem 21
+O produtor produziu: Mensagem 22
+O produtor produziu: Mensagem 23
+O consumidor 2 consumiu: Mensagem 22
+O consumidor 1 consumiu: Mensagem 23
+O produtor produziu: Mensagem 24
+O produtor produziu: Mensagem 25
+O consumidor 2 consumiu: Mensagem 24
+O consumidor 1 consumiu: Mensagem 25
+O produtor produziu: Mensagem 26
+O produtor produziu: Mensagem 27
+O consumidor 2 consumiu: Mensagem 26
+O consumidor 1 consumiu: Mensagem 27
+O produtor produziu: Mensagem 28
+O produtor produziu: Mensagem 29
+O consumidor 2 consumiu: Mensagem 28
+O consumidor 1 consumiu: Mensagem 29
+O produtor produziu: Mensagem 30
+O produtor produziu: Mensagem 31
+O consumidor 2 consumiu: Mensagem 30
+O consumidor 1 consumiu: Mensagem 31
+O produtor produziu: Mensagem 32
+O produtor produziu: Mensagem 33
+O consumidor 2 consumiu: Mensagem 32
+O consumidor 1 consumiu: Mensagem 33
+O produtor produziu: Mensagem 34
+O produtor produziu: Mensagem 35
+O consumidor 1 consumiu: Mensagem 34
+O consumidor 2 consumiu: Mensagem 35
+O produtor produziu: Mensagem 36
+O produtor produziu: Mensagem 37
+O consumidor 2 consumiu: Mensagem 37
+O consumidor 1 consumiu: Mensagem 36
+O produtor produziu: Mensagem 38
+O produtor produziu: Mensagem 39
+O consumidor 2 consumiu: Mensagem 38
+O consumidor 1 consumiu: Mensagem 39
+O produtor produziu: Mensagem 40
+O produtor produziu: Mensagem 41
+O consumidor 1 consumiu: Mensagem 40
+O consumidor 2 consumiu: Mensagem 41
+O produtor produziu: Mensagem 42
+O produtor produziu: Mensagem 43
+O consumidor 1 consumiu: Mensagem 42
+O consumidor 2 consumiu: Mensagem 43
+O produtor produziu: Mensagem 44
+O produtor produziu: Mensagem 45
+O consumidor 1 consumiu: Mensagem 44
+O consumidor 2 consumiu: Mensagem 45
+O produtor produziu: Mensagem 46
+O produtor produziu: Mensagem 47
+O consumidor 1 consumiu: Mensagem 46
+O consumidor 2 consumiu: Mensagem 47
+O produtor produziu: Mensagem 48
+O produtor produziu: Mensagem 49
+O consumidor 1 consumiu: Mensagem 48
+O consumidor 2 consumiu: Mensagem 49
+O produtor produziu: Mensagem 50
+O produtor produziu: Mensagem 51
+O consumidor 2 consumiu: Mensagem 50
+O consumidor 1 consumiu: Mensagem 51
+O produtor produziu: Mensagem 52
+O produtor produziu: Mensagem 53
+O consumidor 1 consumiu: Mensagem 52
+O consumidor 2 consumiu: Mensagem 53
+O produtor produziu: Mensagem 54
+O produtor produziu: Mensagem 55
+O consumidor 2 consumiu: Mensagem 54
+O consumidor 1 consumiu: Mensagem 55
+O produtor produziu: Mensagem 56
+O produtor produziu: Mensagem 57
+O consumidor 1 consumiu: Mensagem 56
+O consumidor 2 consumiu: Mensagem 57
+O produtor produziu: Mensagem 58
+O produtor produziu: Mensagem 59
+O consumidor 1 consumiu: Mensagem 58
+O consumidor 2 consumiu: Mensagem 59
+O produtor produziu: Mensagem 60
+O produtor produziu: Mensagem 61
+O consumidor 1 consumiu: Mensagem 60
+O consumidor 2 consumiu: Mensagem 61
+O produtor produziu: Mensagem 62
+O produtor produziu: Mensagem 63
+O consumidor 1 consumiu: Mensagem 62
+O consumidor 2 consumiu: Mensagem 63
+-----------------------------------------------------
+
+Conclusão:
+Na main eu crio a fila de mensagens e faço dois forks para ter dois filhos que são dois consumidores e o pai que é o produtor.No produtor eu faço um for para preencher um buffer que é usado para mandar mensagens para os consumidores.Para mandar as mensagens eu uso a função msgsnd, onde eu passo como argumentos o ID da fila de mensagens, o buffer com a mensagem, o tamanho do buffer e a flag IPC_NOWAIT.Essa flag serve para o caso da fila de mensagens estar cheia.Se isso ocorrer ele ignora a inserção e continua executando a próxima iteração.Cada iteração do for do produtor é separada por 1 segundo.No caso do consumidor, cada um deles é executado a cada 2 segundos.O que ele faz é ler a fila de mensagens com a função msgrcv, onde eu passo como argumentos o ID da fila, um buffer vazio onde a mensagem será colocadas tamanho máximo que a mensagem pode ter , o tipo da mensagem que eu quero receber(nesse caso 0, que indica que é a primeira mensagem da fila) e a flag MSG_NOERROR que vai truncar a mensagem caso passe do tamanho máximo especificado.O resultado de tudo isso é a execução do produtor sempre 2 vezes e depois a execução de cada um dos consumidores 1 vez consumindo uma das mensagens que acabou de ser produzida.Aqui não é especificado qual consumidor vai consumir qual mensagem.
+-----------------------------------------------------
+
+Questão 2) Tal como no exercício anterior, implemente a troca de mensagens sé que neste exercício as mensagens devem ser direcionadas para um dos consumidores. Assim, serão geradas 64 mensagens, sendo 32 para um dos consumidores e 32 para o outro.
+
+-----------------------------------------------------
+
+Arquivo .c:
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/msg.h>
+#include <string.h>
+
+#define MAXFILA 8
+#define MSGMAX 50
+#define ITEMS 64 
+
+typedef struct msgbuf {
+  long    mtype;
+  char    mtext[MSGMAX];
+} message_buf;
+
+int msqid;
+
+void produtor() {
+	int i ;
+	message_buf sbuf;
+	size_t buf_size;
+	for(i = 0; i < ITEMS; i++){
+			sbuf.mtype = (i % 2) + 1;
+			sprintf(sbuf.mtext, "Mensagem %d", i);
+			buf_size = strlen(sbuf.mtext) + 1 ;
+			if (msgsnd(msqid, &sbuf, buf_size, IPC_NOWAIT) < 0) {
+				perror("msgsnd");
+			}
+			printf("O produtor produziu: %s\n", sbuf.mtext);
+      sleep(1);
+		}
+}
+
+void consumidor(int id){
+	int i = 0;
+	message_buf rbuf;
+	while(i < ITEMS/2){
+      sleep(2);
+			if (msgrcv(msqid, &rbuf, MSGMAX, id,MSG_NOERROR) < 0) {
+        perror("msgrcv");
+				printf("Erro no consumidor %d\n", id);
+			}
+			printf("O consumidor %d consumiu: %s\n",id, rbuf.mtext);
+			i++;
+	}
+}
+
+int main()
+{
+  int pid,pid2;
+  key_t key = 2026;
+	if ((msqid = msgget(key, IPC_CREAT | 0666 )) < 0) {
+		perror("msgget");
+		exit(1);
+	}
+
+  if ((pid = fork() == 0))  {
+    //Filho
+    consumidor(1);
+  }
+  else if ((pid2 = fork() == 0)) {
+    consumidor(2);
+  }
+  else {
+    produtor();
+  }
+	return 0;
+}
+
+
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex2 ex2.c
+$ ./ex2
+
+-----------------------------------------------------
+
+Resultado:
+O produtor produziu: Mensagem 0
+O produtor produziu: Mensagem 1
+O consumidor 1 consumiu: Mensagem 0
+O consumidor 2 consumiu: Mensagem 1
+O produtor produziu: Mensagem 2
+O produtor produziu: Mensagem 3
+O consumidor 1 consumiu: Mensagem 2
+O consumidor 2 consumiu: Mensagem 3
+O produtor produziu: Mensagem 4
+O produtor produziu: Mensagem 5
+O consumidor 1 consumiu: Mensagem 4
+O consumidor 2 consumiu: Mensagem 5
+O produtor produziu: Mensagem 6
+O produtor produziu: Mensagem 7
+O consumidor 1 consumiu: Mensagem 6
+O consumidor 2 consumiu: Mensagem 7
+O produtor produziu: Mensagem 8
+O produtor produziu: Mensagem 9
+O consumidor 1 consumiu: Mensagem 8
+O consumidor 2 consumiu: Mensagem 9
+O produtor produziu: Mensagem 10
+O produtor produziu: Mensagem 11
+O consumidor 1 consumiu: Mensagem 10
+O consumidor 2 consumiu: Mensagem 11
+O produtor produziu: Mensagem 12
+O produtor produziu: Mensagem 13
+O consumidor 1 consumiu: Mensagem 12
+O consumidor 2 consumiu: Mensagem 13
+O produtor produziu: Mensagem 14
+O produtor produziu: Mensagem 15
+O consumidor 1 consumiu: Mensagem 14
+O consumidor 2 consumiu: Mensagem 15
+O produtor produziu: Mensagem 16
+O produtor produziu: Mensagem 17
+O consumidor 1 consumiu: Mensagem 16
+O consumidor 2 consumiu: Mensagem 17
+O produtor produziu: Mensagem 18
+O produtor produziu: Mensagem 19
+O consumidor 1 consumiu: Mensagem 18
+O consumidor 2 consumiu: Mensagem 19
+O produtor produziu: Mensagem 20
+O produtor produziu: Mensagem 21
+O consumidor 1 consumiu: Mensagem 20
+O consumidor 2 consumiu: Mensagem 21
+O produtor produziu: Mensagem 22
+O produtor produziu: Mensagem 23
+O consumidor 1 consumiu: Mensagem 22
+O consumidor 2 consumiu: Mensagem 23
+O produtor produziu: Mensagem 24
+O produtor produziu: Mensagem 25
+O consumidor 2 consumiu: Mensagem 25
+O consumidor 1 consumiu: Mensagem 24
+O produtor produziu: Mensagem 26
+O produtor produziu: Mensagem 27
+O consumidor 1 consumiu: Mensagem 26
+O consumidor 2 consumiu: Mensagem 27
+O produtor produziu: Mensagem 28
+O produtor produziu: Mensagem 29
+O consumidor 1 consumiu: Mensagem 28
+O consumidor 2 consumiu: Mensagem 29
+O produtor produziu: Mensagem 30
+O produtor produziu: Mensagem 31
+O consumidor 1 consumiu: Mensagem 30
+O consumidor 2 consumiu: Mensagem 31
+O produtor produziu: Mensagem 32
+O produtor produziu: Mensagem 33
+O consumidor 1 consumiu: Mensagem 32
+O consumidor 2 consumiu: Mensagem 33
+O produtor produziu: Mensagem 34
+O produtor produziu: Mensagem 35
+O consumidor 1 consumiu: Mensagem 34
+O consumidor 2 consumiu: Mensagem 35
+O produtor produziu: Mensagem 36
+O produtor produziu: Mensagem 37
+O consumidor 1 consumiu: Mensagem 36
+O consumidor 2 consumiu: Mensagem 37
+O produtor produziu: Mensagem 38
+O produtor produziu: Mensagem 39
+O consumidor 1 consumiu: Mensagem 38
+O consumidor 2 consumiu: Mensagem 39
+O produtor produziu: Mensagem 40
+O produtor produziu: Mensagem 41
+O consumidor 1 consumiu: Mensagem 40
+O consumidor 2 consumiu: Mensagem 41
+O produtor produziu: Mensagem 42
+O produtor produziu: Mensagem 43
+O consumidor 2 consumiu: Mensagem 43
+O consumidor 1 consumiu: Mensagem 42
+O produtor produziu: Mensagem 44
+O produtor produziu: Mensagem 45
+O consumidor 1 consumiu: Mensagem 44
+O consumidor 2 consumiu: Mensagem 45
+O produtor produziu: Mensagem 46
+O produtor produziu: Mensagem 47
+O consumidor 1 consumiu: Mensagem 46
+O consumidor 2 consumiu: Mensagem 47
+O produtor produziu: Mensagem 48
+O produtor produziu: Mensagem 49
+O consumidor 1 consumiu: Mensagem 48
+O consumidor 2 consumiu: Mensagem 49
+O produtor produziu: Mensagem 50
+O produtor produziu: Mensagem 51
+O consumidor 1 consumiu: Mensagem 50
+O consumidor 2 consumiu: Mensagem 51
+O produtor produziu: Mensagem 52
+O produtor produziu: Mensagem 53
+O consumidor 2 consumiu: Mensagem 53
+O consumidor 1 consumiu: Mensagem 52
+O produtor produziu: Mensagem 54
+O produtor produziu: Mensagem 55
+O consumidor 2 consumiu: Mensagem 55
+O consumidor 1 consumiu: Mensagem 54
+O produtor produziu: Mensagem 56
+O produtor produziu: Mensagem 57
+O consumidor 2 consumiu: Mensagem 57
+O consumidor 1 consumiu: Mensagem 56
+O produtor produziu: Mensagem 58
+O produtor produziu: Mensagem 59
+O consumidor 2 consumiu: Mensagem 59
+O consumidor 1 consumiu: Mensagem 58
+O produtor produziu: Mensagem 60
+O produtor produziu: Mensagem 61
+O consumidor 2 consumiu: Mensagem 61
+O consumidor 1 consumiu: Mensagem 60
+O produtor produziu: Mensagem 62
+O produtor produziu: Mensagem 63
+O consumidor 2 consumiu: Mensagem 63
+O consumidor 1 consumiu: Mensagem 62
+-----------------------------------------------------
+
+Conclusão:
+Aqui a implementação é quase igual ao do exercício anterior.As únicas diferenças são que aqui eu atribuo um tipo a mensagem no produtor(que pode ser 1 ou 2).Esse tipo é o mesmo do id que os meus consumidores tem.Por isso, na chamada da função msgrcv em vez de passar 0 no 4 parâmetro eu passo 1 ou 2.Dessa forma , o consumidor 1 só vai consumir as mensagens pares e o consumidor 2 as mensagens ímpares(32 para cada um).
+
+

@@ -1,0 +1,508 @@
+Felipe Viberti - 1510384
+
+Questão 1)Execute o programa dado (exemplo de uso de semáforos) e verifique / explique sua execução.
+-----------------------------------------------------
+
+Arquivo .c:
+#include <sys/sem.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h> 
+
+union semun 
+{ 
+	int	val; 
+	struct	semid_ds *buf; 
+	ushort *array; 
+};
+
+// inicializa o valor do semáforo
+int setSemValue(int	semId);
+// remove o semáforo
+void delSemValue(int semId);
+// operação P
+int semaforoP(int semId);
+//operação V
+int semaforoV(int semId);
+
+int main (int argc, char * argv[]) { 
+	int	i; 
+	char letra = 'o'; 
+	int	semId; 
+	if(argc > 1) { 
+		semId = semget (8752, 1, 0666 | IPC_CREAT); 
+		setSemValue(semId); 
+		letra = 'x'; 
+		sleep (2); 
+	} 
+	else { 
+		while((semId = semget (8752, 1, 0666)) < 0) { 
+			putchar ('.'); 
+			fflush(stdout); 
+			sleep (1); 
+		} 
+	} 
+	for(i=0; i<10; i++) { 
+		semaforoP(semId); 
+		putchar (toupper(letra)); 
+		fflush(stdout); 
+		sleep (rand() %3); 
+		putchar (letra); fflush(stdout); 
+		semaforoV(semId); 
+		sleep (rand() %2); 
+	} 
+	printf ("\nProcesso %d terminou\n", getpid()); 
+	if(argc > 1) { 
+		sleep(10); 
+		delSemValue(semId); 
+	} 
+	return 0; 
+}
+int setSemValue( int semId) {
+	union semun semUnion; 
+	semUnion.val = 1; 
+	return semctl(semId, 0, SETVAL, semUnion); 
+}
+
+void delSemValue(int semId) { 
+	union semun semUnion; 
+	semctl(semId, 0, IPC_RMID, semUnion); 
+}
+int semaforoP(int semId) { 
+	struct sembuf semB; 
+	semB.sem_num = 0; 
+	semB.sem_op = -1; 
+	semB.sem_flg = SEM_UNDO; 
+	semop(semId, &semB, 1); 
+	return 0; 
+}
+int semaforoV(int semId) { 
+	struct sembuf semB; 
+	semB.sem_num = 0; 
+	semB.sem_op = 1; 
+	semB.sem_flg = SEM_UNDO; 
+	semop(semId, &semB, 1); 
+	return 0; 
+} 
+
+
+-----------------------------------------------------
+
+Auxiliar.Txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex1 ex1.c
+$ ./ex1 &
+$ ./ex1 1
+
+-----------------------------------------------------
+
+Resultado: 
+(Após a execução dos dois)
+OoOoXxOoXxOoXxOoXxOoXxOoXxOoXxOoOoX
+Processo 15742 terminou
+xXxXx
+Processo 15766 terminou
+-----------------------------------------------------
+
+Conclusão:
+Quando programa é executado sem argumentos em background ele fica esperando (imprimindo '.')o semáforo ser criado por outro processo.Quando ele recebe argumentos ele cria o semáforo. Quando um processo entra na região critica ele imprime a letra maiúscula e antes de sair imprime a letra minúscula .Pode-se perceber que não ocorre intercalação de letras por exemplo 'OXox'.É exatamente para garantir isso que o semáforo é utilizado nesse exemplo.
+
+-----------------------------------------------------
+
+Questão 2) Produtor-Consumidor
+ Escreva um programa formado por dois processos concorrentes, leitor e impressor, que compartilham uma área de trabalho (memória) executando um loop infinito. Para sincronizar as suas ações, eles fazem uso de semáforos.
+ O processo leitor fica lendo caracteres da entrada padrão e colocando em um buffer de 16 posições. Quando o buffer está cheio o processo impressor deve imprimi-lo na saída padrão.
+
+-----------------------------------------------------
+
+Arquivo .c:
+#include <sys/sem.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <sys/shm.h>
+#include <sys/stat.h>
+#define BUFFER_SIZE 16
+
+union  semun {
+	int val;
+	struct semid_ds *buf;
+	ushort *array;
+};
+
+// inicializa o valor do semáforo
+int setSemValue(int semId);
+// remove o semáforo
+void delSemValue(int semId);
+// operação P
+int semaforoP(int semId);
+//operação V
+int semaforoV(int semId);
+
+
+
+int main (int argc, char * argv[]) {
+
+	int segment,pid;
+	char *buffer;
+	int idSemaforo;
+
+	segment = shmget (IPC_PRIVATE, sizeof(char)*BUFFER_SIZE, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+	buffer = (char*) shmat (segment, 0, 0);
+
+	if ((pid = fork()) != 0) {
+		//Produtor
+		idSemaforo = semget (8760, 1, 0666 | IPC_CREAT);
+		setSemValue(idSemaforo);
+		while (1) {
+			int i = 0;
+			char c;
+			semaforoP(idSemaforo);
+			printf("Produtor Executando area Critica\n");
+
+			while ( i < BUFFER_SIZE) {
+       			        printf("Digite um caracter: ");
+				buffer[i] = getchar();
+				while ( (c =  getchar()) != '\n' && c != EOF);
+				i++;
+			}
+			printf("Buffer foi lido\n");
+			semaforoV(idSemaforo);
+			sleep(2);
+		}
+
+	}
+	else {
+		//Consumidor
+		while ((idSemaforo = semget (8760, 1, 0666)) < 0) sleep (1);
+		while(1) {
+			int i=0;
+			semaforoP(idSemaforo);
+			printf("Consumidor Executando\n");
+			while ( i < BUFFER_SIZE) {
+				printf("%c", buffer[i]);
+				i++;
+			}
+			printf("\n");
+			printf("Buffer foi escrito\n");
+			semaforoV(idSemaforo);
+			sleep(2);
+		}
+	}
+	shmdt (buffer);
+	shmctl (segment, IPC_RMID, 0);
+
+
+
+	return 0;
+}
+
+int setSemValue(int semId) {
+	union semun semUnion;
+	semUnion.val = 1;
+	return semctl(semId, 0, SETVAL, semUnion);
+}
+
+void delSemValue(int semId) {
+	union semun semUnion;
+	semctl(semId, 0, IPC_RMID, semUnion);
+}
+
+int semaforoP(int semId) {
+	struct sembuf semB;
+	semB.sem_num = 0;
+	semB.sem_op = -1;
+	semB.sem_flg = SEM_UNDO;
+	semop(semId, &semB, 1);
+	return 0;
+}
+
+int semaforoV(int semId) {
+	struct sembuf semB;
+
+	semB.sem_num = 0;
+	semB.sem_op = 1;
+	semB.sem_flg = SEM_UNDO;
+	semop(semId, &semB, 1);
+
+	return 0;
+}
+
+
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex2 ex2.c
+$ ./ex2
+
+-----------------------------------------------------
+
+Resultado:
+Produtor Executando area Critica
+Digite um caracter: a
+Digite um caracter: b
+Digite um caracter: c
+Digite um caracter: d
+Digite um caracter: e
+Digite um caracter: f
+Digite um caracter: g
+Digite um caracter: h
+Digite um caracter: i
+Digite um caracter: f
+Digite um caracter: e
+Digite um caracter: q
+Digite um caracter: s
+Digite um caracter: f
+Digite um caracter: c
+Digite um caracter: t
+Produtor saindo area critica Buffer Lido
+Consumidor Executando area Critica
+abcdefghifeqsfct
+Produtor Executando area Critica
+Digite um caracter: ... 
+-----------------------------------------------------
+
+Conclusão:
+Primeiro eu crio a área de memória compartilhada do buffer que será usado pelo Produtor e pelo Consumidor.No produtor eu crio o semáforo e começo a ler os caracteres do teclado.Quando 16 forem lidos e o buffer estiver cheio eu libero o semáforo.Depois no consumidor eu fico esperando que o produtor crie o semáforo.Quando ele foi criado ele fica em loop até o sinal ser liberado pelo consumidor.Quando ele for liberado o consumidor dá um print em todos os caracteres que estão no buffer e libera o semáforo para que o produtor possa continuar executando.
+
+
+-----------------------------------------------------
+
+Questão 3)Faça programas para alterar um valor de uma variável na memória compartilhada.
+Um programa soma 1 à variável e o outro soma 5 à variável. Utilize semáforos para alterar a variável (região crítica).
+                        
+-----------------------------------------------------
+
+Arquivos .c:
+Soma1.c:
+#include <sys/sem.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <sys/shm.h>
+#include <sys/stat.h>
+#define BUFFER_SIZE 16
+
+union  semun {
+	int val;
+	struct semid_ds *buf;
+	ushort *array;
+};
+
+// inicializa o valor do semáforo
+int setSemValue(int semId);
+// remove o semáforo
+void delSemValue(int semId);
+// operação P
+int semaforoP(int semId);
+//operação V
+int semaforoV(int semId);
+
+int main (int argc, char * argv[]) {
+
+	int segment,semId;
+	int *sharedValue;
+
+	segment = shmget (IPC_PRIVATE, sizeof(int), IPC_CREAT | S_IRUSR | S_IWUSR);
+	sharedValue = (int*) shmat (segment, 0, 0);
+	*sharedValue = 0;
+
+	semId = semget (8765	, 1, 0666 | IPC_CREAT);
+	setSemValue(semId);
+	while (1) {
+		semaforoP(semId);
+		*sharedValue = (*sharedValue) + 1;
+		printf("Após soma: %d\n",*sharedValue);
+		sleep(rand()%3);
+		semaforoV(semId);
+		sleep(rand()%2);
+	}
+	shmdt (sharedValue);
+	shmctl (segment, IPC_RMID, 0);
+	return 0;
+}
+
+int setSemValue(int semId) {
+	union semun semUnion;
+	semUnion.val = 1;
+	return semctl(semId, 0, SETVAL, semUnion);
+}
+
+void delSemValue(int semId) {
+	union semun semUnion;
+	semctl(semId, 0, IPC_RMID, semUnion);
+}
+
+int semaforoP(int semId) {
+	struct sembuf semB;
+	semB.sem_num = 0;
+	semB.sem_op = -1;
+	semB.sem_flg = SEM_UNDO;
+	semop(semId, &semB, 1);
+	return 0;
+}
+
+int semaforoV(int semId) {
+	struct sembuf semB;
+
+	semB.sem_num = 0;
+	semB.sem_op = 1;
+	semB.sem_flg = SEM_UNDO;
+	semop(semId, &semB, 1);
+
+	return 0;
+}
+
+
+
+Soma5.c:
+
+
+#include <sys/sem.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <sys/shm.h>
+#include <sys/stat.h>
+#define BUFFER_SIZE 16
+
+
+union  semun {
+	int val;
+	struct semid_ds *buf;
+	ushort *array;
+};
+
+// inicializa o valor do semáforo
+int setSemValue(int semId);
+// remove o semáforo
+void delSemValue(int semId);
+// operação P
+int semaforoP(int semId);
+//operação V
+int semaforoV(int semId);
+
+
+
+int main (int argc, char * argv[]) {
+
+	int segment,semId;
+	int *sharedValue;
+
+	segment = shmget (IPC_PRIVATE, sizeof(int), IPC_CREAT | S_IRUSR | S_IWUSR);
+	sharedValue = (int*) shmat (segment, 0, 0);
+	*sharedValue = 0;
+	semId = semget (8765	, 1, 0666 | IPC_CREAT);
+	setSemValue(semId);
+	while (1) {
+		semaforoP(semId);
+		*sharedValue = (*sharedValue) + 5;
+		printf("Após soma: %d\n",*sharedValue);
+		sleep(rand()%3);
+		semaforoV(semId);
+		sleep(rand()%2);
+	}
+
+	shmdt (sharedValue);
+	shmctl (segment, IPC_RMID, 0);
+
+	return 0;
+}
+
+int setSemValue(int semId) {
+	union semun semUnion;
+	semUnion.val = 1;
+	return semctl(semId, 0, SETVAL, semUnion);
+}
+
+void delSemValue(int semId) {
+	union semun semUnion;
+	semctl(semId, 0, IPC_RMID, semUnion);
+}
+
+int semaforoP(int semId) {
+	struct sembuf semB;
+	semB.sem_num = 0;
+	semB.sem_op = -1;
+	semB.sem_flg = SEM_UNDO;
+	semop(semId, &semB, 1);
+	return 0;
+}
+
+int semaforoV(int semId) {
+	struct sembuf semB;
+
+	semB.sem_num = 0;
+	semB.sem_op = 1;
+	semB.sem_flg = SEM_UNDO;
+	semop(semId, &semB, 1);
+
+	return 0;
+}
+
+
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o soma1 soma1.c
+$ gcc -Wall -o soma5 soma5.c
+$ ./soma1 &
+$ ./soma5
+-----------------------------------------------------
+
+Resultado:
+(No inicio o processo soma1 está executando em background sozinho)
+Após soma: 1
+Após soma: 2
+Após soma: 3
+Após soma: 4
+Após soma: 5
+(Nesse momento o processo soma5 foi disparado)
+Após soma: 10
+Após soma: 11
+Após soma: 16
+Após soma: 17
+Após soma: 18
+Após soma: 23
+Após soma: 28
+Após soma: 29
+Após soma: 34
+Após soma: 35
+Após soma: 40
+Após soma: 41
+Após soma: 42
+Após soma: 43
+Após soma: 48
+Após soma: 49
+Após soma: 54
+Após soma: 59
+Após soma: 60
+Após soma: 65
+Após soma: 66
+Após soma: 71
+Após soma: 76
+Os processos seguem ocorrendo infinitamente.
+-----------------------------------------------------
+
+Conclusão:
+Ambos os programas usam memória compartilhada e são compostos por um loop infinito.Sempre que um deles entra de novo nesse loop ele bloqueia o semáforo e quando ele termina cada iteração do loop ele libera o semáforo. Em um caso esse loop é usado para somar 1 à variável que é compartilhada e no outro para somar 5 à mesma.Eu uso sleeps apenas para diminuir a quantidade de prints.O programa está apresentando um comportamento estranho algumas das vezes que é executado.As vezes ele simplesmente não compartilha a variável e trata as duas como sendo diferentes.Outras vezes ele compartilha e apresenta o resultado que eu coloquei acima.

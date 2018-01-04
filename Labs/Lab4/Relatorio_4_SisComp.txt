@@ -1,0 +1,296 @@
+Felipe Viberti - 1510384
+
+Questão 1)Usando processos, escreva um programa C que implemente o problema do produtor/consumidor.
+O produtor e o consumidor devem ser filhos de um processo pai.
+O produtor deve produzir dados (números inteiros pseudo-aleatórios) a cada 1 segundo colocando-os em uma fila (buffer, implementação circular).
+O consumidor deve retirar dados da fila a cada 2 segundos.
+O tamanho máximo da fila deve ser de 8 elementos (MAXFILA) e tanto o produtor como o consumidor devem produzir/consumir 64 elementos (números inteiros de 1 a 64, por exemplo).
+Usar as funções pause() para o processo dormir e kill (pid, SIGCONT) para acordar o outro processo.
+-----------------------------------------------------
+
+Arquivo .c:
+
+#include <stdio.h>
+#include <sys/shm.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+#define MAXFILA 8
+
+
+//TAD - Fila Circular
+typedef struct fila {
+    int f[8];
+    int ini;
+    int fim;
+    int count;
+} Fila;
+
+static void initFila(Fila *f) {
+    f->ini = 0;
+    f->fim = 0;
+    f->count = 0;
+}
+
+static void insereItem(Fila *fila, int valor) {
+    (fila->count)++;
+    fila->f[fila->fim] = valor;
+    fila->fim = (fila->fim+1)%MAXFILA;
+}
+
+static int removeItem(Fila *fila) {
+    int valor;
+    valor = fila->f[fila->ini];
+    fila->f[fila->ini] = 0;
+    fila->ini = (fila->ini+1)%MAXFILA;
+    (fila->count)--;
+    
+    return valor;
+}
+
+static int filaCheia(Fila *fila) {
+    return (fila->count == 8);
+}
+
+static int filaVazia(Fila *fila) {
+    return (fila->count == 0);
+}
+
+//FIM TAD - Fila Circular
+
+
+void consumidor(Fila *fila,int idCons,int idProd);
+void produtor(Fila *fila,int idCons,int idProd);
+int cont;
+
+int main (void) {
+    int idProd, idCons, idfila, idpidC, *pidC;
+    Fila *fila;
+    
+    idfila = shmget (IPC_PRIVATE, sizeof(Fila),  IPC_CREAT | S_IRWXU );
+    idpidC = shmget (IPC_PRIVATE, sizeof(int),    IPC_CREAT | S_IRWXU );
+    
+    fila = (Fila*) shmat (idfila, 0, 0);
+    pidC = (int *) shmat (idpidC, 0, 0);
+    
+    initFila(fila);
+    
+    *pidC = 0;
+    
+    if ((idProd = fork()) == 0) {
+        //Processo produtor
+        while (*pidC == 0);
+        idCons = *pidC;
+        shmctl(idpidC, IPC_RMID, 0);
+        idProd = getpid();
+        produtor(fila, idCons, idProd);
+    }
+    else {
+        if((idCons = fork()) == 0) {
+            //Processo consumidor
+            shmdt(pidC);
+            idCons = getpid();
+            consumidor(fila,idCons,idProd);
+        }
+        else {
+            //Processo Pai
+            *pidC = idCons;
+            shmdt(pidC);
+            wait(NULL);
+            shmdt(fila);
+            shmctl(idfila, IPC_RMID, 0);
+        }
+        
+    }
+    return 0;
+}
+
+void consumidor(Fila *fila,int idCons,int idProd) {
+    int i = 0,result;
+    for (i=0; i<64; i++){
+        if (filaVazia(fila)) 
+	kill (idCons, SIGSTOP);
+        result = removeItem(fila);
+        cont--;
+        if (fila->cont == 7) 
+	kill(idProd, SIGCONT);
+        printf("Valor consumido: %d\n", result);
+        sleep(2);
+    }
+    shmdt(fila);
+    exit(1);
+}
+
+void produtor(Fila *fila,int idCons,int idProd) {
+    int i = 0;
+    for (i=0; i<64; i++){
+        if (filaCheia(fila)) 
+	kill(idProd, SIGSTOP);
+        insereItem(fila, i + 1);
+        cont++;
+        printf("Valor produzido: %d\n", i+1);
+        if (fila->cont == 1) 
+	kill(idCons, SIGCONT);
+        sleep(1);
+    }
+    shmdt(fila);
+    exit(1);
+}
+
+
+
+
+-----------------------------------------------------
+
+Auxiliar.Txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execucação:
+$ gcc -Wall -o ex1 lab4_1.c
+$./ex1
+
+-----------------------------------------------------
+
+Resultado:
+Valor produzido: 1
+Valor consumido: 1
+Valor produzido: 2
+Valor consumido: 2
+Valor produzido: 3
+Valor produzido: 4
+Valor produzido: 5
+Valor consumido: 3
+Valor produzido: 6
+Valor consumido: 4
+Valor produzido: 7
+Valor produzido: 8
+Valor consumido: 5
+Valor produzido: 9
+Valor produzido: 10
+Valor consumido: 6
+Valor produzido: 11
+Valor produzido: 12
+Valor consumido: 7
+Valor produzido: 13
+Valor produzido: 14
+Valor consumido: 8
+Valor produzido: 15
+Valor produzido: 16
+Valor consumido: 9
+Valor produzido: 17
+Valor consumido: 10
+Valor produzido: 18
+Valor consumido: 11
+Valor produzido: 19
+Valor produzido: 20
+Valor consumido: 12
+Valor produzido: 21
+Valor consumido: 13
+Valor consumido: 14
+Valor produzido: 22
+Valor consumido: 15
+Valor produzido: 23
+Valor consumido: 16
+Valor produzido: 24
+Valor consumido: 17
+Valor produzido: 25
+Valor consumido: 18
+Valor produzido: 26
+Valor consumido: 19
+Valor produzido: 27
+Valor consumido: 20
+Valor produzido: 28
+Valor consumido: 21
+Valor produzido: 29
+Valor consumido: 22
+Valor produzido: 30
+Valor consumido: 23
+Valor produzido: 31
+Valor consumido: 24
+Valor produzido: 32
+Valor produzido: 33
+Valor consumido: 25
+Valor consumido: 26
+Valor produzido: 34
+Valor consumido: 27
+Valor produzido: 35
+Valor consumido: 28
+Valor produzido: 36
+Valor produzido: 37
+Valor consumido: 29
+Valor consumido: 30
+Valor produzido: 38
+Valor consumido: 31
+Valor produzido: 39
+Valor consumido: 32
+Valor produzido: 40
+Valor consumido: 33
+Valor produzido: 41
+Valor consumido: 34
+Valor produzido: 42
+Valor consumido: 35
+Valor produzido: 43
+Valor consumido: 36
+Valor produzido: 44
+Valor consumido: 37
+Valor produzido: 45
+Valor consumido: 38
+Valor produzido: 46
+Valor consumido: 39
+Valor produzido: 47
+Valor consumido: 40
+Valor produzido: 48
+Valor produzido: 49
+Valor consumido: 41
+Valor produzido: 50
+Valor consumido: 42
+Valor produzido: 51
+Valor consumido: 43
+Valor consumido: 44
+Valor produzido: 52
+Valor produzido: 53
+Valor consumido: 45
+Valor consumido: 46
+Valor produzido: 54
+Valor produzido: 55
+Valor consumido: 47
+Valor consumido: 48
+Valor produzido: 56
+Valor consumido: 49
+Valor produzido: 57
+Valor consumido: 50
+Valor produzido: 58
+Valor consumido: 51
+Valor produzido: 59
+Valor consumido: 52
+Valor produzido: 60
+Valor consumido: 53
+Valor produzido: 61
+Valor consumido: 54
+Valor produzido: 62
+Valor consumido: 55
+Valor produzido: 63
+Valor consumido: 56
+Valor produzido: 64
+Valor consumido: 57
+Valor consumido: 58
+Valor consumido: 59
+Valor consumido: 60
+Valor consumido: 61
+Valor consumido: 62
+Valor consumido: 63
+Valor consumido: 64
+
+
+-----------------------------------------------------
+
+Conclusão:
+Para fazer o exercício eu usei um TAD de Fila Circular.No início eu dou um attach na memória compartilhada para que os dois processos compartilhem a fila sobre a qual estão operando.Depois eu inicializo a fila com 0 elementos e faço o fork.Se for o processo produtor eu faço um for de 0 a 64 que primeiro checa se a fila já está cheia.Se estiver ele manda um SIGSTOP, se não ele insere o elemento na lista.O elemento inserido é sempre igual ao valor do iterador do for.No final de cada iteração do for esse processo para por 1 segundo.Se não for o processo produtor eu faço outro fork para gerar mais um filho.Aí eu checo se o processo é o consumidor.Se for eu novamente faço um for de 0 a 64 mas dessa vez checando se a fila está vazia e se não estiver eu retiro o elemento da fila.A cada iteração ele para por 2 segundos.Por fim se for o processo pai eu espero os filhos terminarem.O processo produtor sempre acaba antes do consumidor mas com os sinais de SIGSTOP e SIGCONT é possível controlar quando ele vai parar e quando ele vai continuar e portanto é possível manter o produtor rodando enquanto tiver espaço na fila e esperar o consumidor liberar espaço quando este não estiver mais disponível.
+
+
+-----------------------------------------------------

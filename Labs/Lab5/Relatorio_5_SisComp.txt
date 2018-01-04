@@ -1,0 +1,339 @@
+Felipe Viberti - 1510384
+
+Questão 1)Faça um programa que crie 2 processos filho e alterne a execução dos filhos. Após 10 trocas de contexto, o processo pai mata os processos filho.
+OBS: Os processos filho são formados por loops eternos.
+-----------------------------------------------------
+
+Arquivo .c:
+#include <stdio.h>
+#include <sys/shm.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+
+int main() {
+    int pid1,pid2,i = 0,pidAux;
+    if (( pid1 = fork()) == 0) {
+        //Processo filho 1
+        while(1) {
+            printf("Filho 1\n");
+        }
+    }
+    else {
+        if((pid2 = fork()) == 0) {
+            //Processo filho 2
+            while(1) {
+                printf("Filho 2\n");
+            }
+        }
+        else {
+            //Processo Pai
+            for(i=0;i<10;i++) {
+                kill(pid1,SIGSTOP);
+                kill(pid2, SIGCONT);
+                sleep(1);
+                pidAux = pid1;
+                pid1 = pid2;
+                pid2 = pidAux;
+            }
+            kill(pid1, SIGKILL);
+            kill(pid2, SIGKILL);
+            exit(1);
+        }
+    }
+    return 0;
+}
+-----------------------------------------------------
+
+Auxiliar.Txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execucação:
+$ gcc -Wall -o ex1 ex1.c
+$./ex1
+
+-----------------------------------------------------
+
+Resultado:
+A saída foi a alternância de "Filho 1" e "Filho 2" a cada iteração do loop.Foram muitas impressões.
+
+
+-----------------------------------------------------
+
+Conclusão:
+Primeiro eu faço dois forks para criar dois processos filhos.Ambos são compostos apenas de um loop infinito que imprime se ele é o primeiro ou o segundo filho.No pai eu faço um loop de 10 iterações em que eu paro o processo com pid1 e continuo o processo com pid2. Depois eu dou um sleep só para que dê tempo de ele executar os prints de um dos processos filhos.A troca está no final da iteração quando eu sempre troco o valor de pid1 com pid2 para que a cada iteração um processo seja parado e outro seja executado.
+
+
+-----------------------------------------------------
+
+Questão 2) Faça um programa que leia 2 números inteiros e imprima o resultado das 4 operações básicas sobre estes 2 números.
+Verifique o que acontece se o 2o. número da entrada for 0 (zero).
+Capture o sinal de erro de floating point (SIGFPE) e repita a experiência anterior.
+Altere seu programa para ler e realizar as operações aritméticas com números reais.
+
+-----------------------------------------------------
+
+Arquivo .c:
+#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+void handler(int signal);
+
+int main() {
+    
+    int num1,num2;
+    int soma, subtracao, multiplicacao, divisao;
+    
+    signal(SIGFPE, handler);
+    
+    printf("Digite dois numeros \n");
+    scanf("%d %d", &num1, &num2);
+    
+    soma = num1 + num2;
+    subtracao = num1 - num2;
+    multiplicacao = num1 * num2;
+    divisao = num1 / num2;
+    
+    printf("Soma:%d \n", soma);
+    printf("Subtracao:%d \n", subtracao);
+    printf("Multiplicacao:%d \n", multiplicacao);
+    printf("Divisao:%d \n", divisao);
+    
+    return 0;
+}
+
+void handler(int signal) {
+    printf("Erro:Divisão por 0!\n");
+    exit(-1);
+}
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex2 ex2.c
+$ ./ex2
+-----------------------------------------------------
+
+Resultado:
+Quando é divisão por 0:
+
+Digite dois números 
+60 0
+Erro:Divisão por 0!
+
+Quando não é divisão por 0:
+
+Digite dois números 
+100 20
+Soma:120 
+Subtração:80 
+Multiplicação:2000 
+Divisão:5 
+-----------------------------------------------------
+
+Conclusão:
+Primeiro eu chamo a função signal para que ele fique esperando o sinal SIGFPE e que se/quando ele chegue chame a função de handler. Esse sinal só é emitido quando ocorre uma divisão de um número inteiro por 0.Depois eu simplesmente peço os números ao usuário e faço as operações aritméticas básicas.Quando troquei tudo para float a divisão por 0 não emitiu mais o sinal SIGFPE, ela só deu indefinido.Procurei um pouco o porque disso e descobri que isso é configurável em cada máquina. 
+
+
+-----------------------------------------------------
+
+Questão 3) Faça um programa para monitorar e informar o preço de chamadas telefônicas. O programa deverá ser executado em background.
+O início e o término de uma chamada são informados através dos sinais SIGUSR1 e SIGUSR2, respectivamente.
+O custo da ligação é de 2 centavos por segundo, para ligações de até 1 minuto ou de 1 centavo por segundo a partir do 2o. minuto, ou seja, uma ligação de 1m30s custa R$1,50.
+-----------------------------------------------------
+
+Arquivo .c:
+#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <time.h>
+
+void inicioHandler(int signal);
+void terminoHandler(int signal);
+
+time_t inicio = 0, final = 0;
+
+int main(int argc, char *argv[]) {
+
+    signal(SIGUSR1, inicioHandler);
+    signal(SIGUSR2, terminoHandler);
+    while(1) {
+        //Loop infinito para esperar pelos sinais
+    }
+    return 0;
+}
+
+void inicioHandler(int signal) {
+    inicio = time(NULL);
+}
+
+void terminoHandler(int signal) {
+    long int custoLig;
+    final = time(NULL);
+    long int tempoChamada = final - inicio;
+    printf("Tempo da ligação: %ld \n", tempoChamada);
+    
+    if(tempoChamada <= 60) {
+        custoLig = tempoChamada*2;
+    }
+    else {
+        custoLig = 60*2 + (tempoChamada - 60);
+    }
+    
+    printf("Custo R$: %ld,%.2ld\n", custoLig/100, custoLig%100);
+    
+    exit(1);
+}
+
+
+
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex3 ex3.c
+$ ./ex3 &
+[9] 3606
+$ kill -s usr1 3606
+$ kill -s usr2 3606
+-----------------------------------------------------
+
+Resultado:
+Tempo da ligação: 9 segundos 
+Custo R$: 0,18
+-----------------------------------------------------
+
+Conclusão:
+Na main eu simplesmente fico esperando pelos sinais de SIGUSR1 e SIGUSR2(por isso faço um loop infinito).Quando ele recebe o sinal de usr1 através do kill ele começa a contar o tempo da ligação.Quando ele recebe o sinal de usr2 ele para a contagem e pega o tempo da ligação(a conversão para long é só para exibir o tempo em segundos).Depois eu calculo o custo da ligação baseado nas regras apresentadas pelo exercício.
+
+-----------------------------------------------------
+
+Questão 4) Elabore três programas I/O bound que não terminem (loop de mensagens no vídeo). Elabore um programa que seja capaz de executar os 3 programas indicados anteriormente e que simule o compartilhamento da CPU entre os 3 processos com escalonamento Round- Robin com uma fatia de tempo de 1 segundo para o primeiro processo e de 2 segundos para os demais processos. Execute os programas e relate o que aconteceu.
+
+-----------------------------------------------------
+
+Arquivo .c:
+//main.c
+#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+
+int main() {
+    
+    pid_t pid1, pid2, pid3;
+    
+    if((pid1 = fork()) == 0) {
+        //Filho 1
+       execv("processo1", NULL);
+    }
+    else {
+        if((pid2=fork()) == 0) {
+            //Filho 2
+           execv("processo2", NULL);
+        }
+        else {
+            if((pid3 = fork()) == 0) {
+                //Filho 3
+                 execv("processo3", NULL);
+            }
+            else {
+                kill(pid1, SIGSTOP);
+                kill(pid2, SIGSTOP);
+                kill(pid3, SIGSTOP);
+                
+                while(1) {
+                    kill(pid1, SIGCONT);
+                    sleep(1);
+                    kill(pid1, SIGSTOP);
+                    kill(pid2, SIGCONT);
+                    sleep(2);
+                    kill(pid2, SIGSTOP);
+                    kill(pid3, SIGCONT);
+                    sleep(2);
+                    kill(pid3, SIGSTOP);
+                }
+                
+            }
+        }
+    }
+    
+    return 0;
+}
+
+// processo1.c:
+
+#include <stdio.h>
+int main() {
+	while(1) {
+		printf("Processo 1\n");
+	}
+	return 0;
+}
+
+// processo2.c:
+#include <stdio.h>
+int main() {
+	while(1) {
+		printf("Processo 2\n");
+	}
+	return 0;
+}
+
+//processo3.c:
+
+#include <stdio.h>
+int main() {
+	while(1) {
+		printf("Processo 3\n");
+	}
+	return 0;
+}
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o processo1  processo1.c
+$ gcc -Wall -o processo2  processo2.c
+$ gcc -Wall -o processo3  processo3.c
+$ gcc -Wall -o ex4 ex4.c
+$ ./ex4
+-----------------------------------------------------
+
+Resultado:
+Sequência infinita de prints de Processo 1, Processo 2 e Processo 3, sendo os prints do Processo 1 exibidos ao longo de 1 segundo, e os outros ao longo de 2 segundos.
+
+-----------------------------------------------------
+
+Conclusão:
+No inicio eu crio 3 processos filhos.Cada processo executa seu respectivo programa(que é um programa que só da um print na tela indicando em qual processo ele está).No pai, primeiro eu paro a execução de todos os filhos(SIGSTOP) e depois eu faço um loop infinito.Dentro desse loop eu dou um SIGCONT no processo 1 e deixo ele executar por 1 segundo.Depois eu paro ele e dou um SIGCONT no processo 2 e deixo ele executar por 2 segundos, repetindo esse processo para o processo 3.O resultado final é uma execução infinita dos 3 processos, cada um na sua vez.
+

@@ -1,0 +1,718 @@
+Felipe Viberti - 1510384
+
+Questão 1)Utilizando os comandos fork(), waitpid() e exit() faça um programa composto por dois processos: processo pai e processo filho.Pai: Imprime “Processo pai iniciado”, o seu pid e o pid de seu filho, espera o filho terminar e imprime "Processo pai finalizado".Filho: Imprime “Processo filho iniciado”, o seu pid, o pid do seu pai, e ao terminar imprime "Processo filho finalizado".DICA: Busque na internet o comando utilizado para obter o PID (process id) de um processo.
+
+Arquivo .c:
+#include<stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include<stdlib.h>
+
+int main(void) {
+     int status;
+     int pid = fork();
+     if(pid!=0) {
+     printf("Processo Pai Inicializado\n");
+     printf("My process ID : %d\n", getpid());
+     printf("My child process ID is:%d\n",pid);
+     waitpid(-1,&status,0);
+     printf("Processo pai finalizado\n");
+     exit(1);
+}
+     else {
+      printf("Processo filho iniciado\n");
+      printf("My process ID : %d\n", getpid());
+      printf("My parent process ID is : %d\n", getppid());
+      printf("Processo filho finalizado\n");
+     }
+}
+
+Auxiliar.Txt:
+Não houve arquivo auxiliar nessa questão.
+
+Compilação e Execucação:
+$ gcc -Wall -o ex1 lab1.c
+$./ex1
+
+Resultado:
+Processo Pai Inicializado
+My process ID : 6704
+My child process ID is:6705
+Processo filho iniciado
+My process ID : 6705
+My parent process ID is : 6704
+Processo filho finalizado
+Processo pai finalizado
+
+Conclusão:
+O código divide o programa em 2 processos através do Fork.O processo pai executa até o Waitpid quando ele para e espera a conclusão do Processo Filho.O Processo Filho termina sua execução e depois disso o processo pai termina.
+
+
+Questão 2) Ainda com um programa composto por dois processos, crie uma variável visível ao pai e ao filho iniciada com o valor zero.O pai deve executar um loop de 100 vezes, somar 5 a esta variável a cada iteração do loop e imprimir o texto:*Pai <PID> - <valor da variável>*.O filho deve executar um loop de 100 vezes, somar 10 a esta variável a cada iteração do loop e imprimir o texto:*Filho <PID> - <valor da variável>*.a)O que você observou sobre o valor da variável no pai e no filho?
+b)O que você observou sobre a concorrência entre os processos? 
+c) Explique o por quê destes comportamentos.DICA: Para saber os protótipos das funções fork e waitpid execute o comando “man” no Terminal para acessar o manual: "man fork" e "man waitpid".
+
+Arquivo .c:
+#include<stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include<stdlib.h>
+
+int main(void) {
+     int status;
+     int teste = 0,i=0;
+     int pid = fork();
+     if(pid!=0) {
+     printf("Processo Pai Inicializado\n");
+     printf("My process ID : %d\n", getpid());
+     printf("My child process ID is:%d\n",pid);
+     for (i=0;i<100;i++) {
+     teste += 5;
+     printf("Pai:%d - %d\n",getpid(),teste);
+     }
+     waitpid(-1,&status,0);
+     printf("Processo pai finalizado\n");
+     exit(1);
+}
+     else {
+      printf("Processo filho iniciado\n");
+      printf("My process ID : %d\n", getpid());
+      printf("My parent process ID is : %d\n", getppid());
+       for (i=0;i<100;i++) {
+       teste += 10;
+       printf("Filho:%d - %d\n",getpid(),teste);
+     }
+      printf("Processo filho finalizado\n");
+     }
+}
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+Compilação e Execução:
+$gcc -Wall -o ex2 lab1_2.c
+$./ex2
+
+Resultado:
+Processo Pai Inicializado
+My process ID : 11159
+My child process ID is:11160
+Pai:11159 - 5
+Pai:11159 - 10
+Pai:11159 - 15
+Pai:11159 - 20
+Pai:11159 - 25
+Pai:11159 - 30
+Pai:11159 - 35
+Pai:11159 - 40
+Pai:11159 - 45
+Pai:11159 - 50
+Pai:11159 - 55
+Pai:11159 - 60
+Pai:11159 - 65
+Pai:11159 - 70
+Pai:11159 - 75
+Pai:11159 - 80
+Pai:11159 - 85
+Pai:11159 - 90
+Pai:11159 - 95
+Pai:11159 - 100
+Pai:11159 - 105
+Pai:11159 - 110
+Pai:11159 - 115
+Pai:11159 - 120
+Pai:11159 - 125
+Pai:11159 - 130
+Pai:11159 - 135
+Pai:11159 - 140
+Pai:11159 - 145
+Pai:11159 - 150
+Pai:11159 - 155
+Pai:11159 - 160
+Pai:11159 - 165
+Pai:11159 - 170
+Pai:11159 - 175
+Pai:11159 - 180
+Pai:11159 - 185
+Pai:11159 - 190
+Processo filho iniciado
+Pai:11159 - 195
+Pai:11159 - 200
+Pai:11159 - 205
+Pai:11159 - 210
+Pai:11159 - 215
+Pai:11159 - 220
+Pai:11159 - 225
+Pai:11159 - 230
+Pai:11159 - 235
+Pai:11159 - 240
+Pai:11159 - 245
+Pai:11159 - 250
+Pai:11159 - 255
+My process ID : 11160
+Pai:11159 - 260
+Pai:11159 - 265
+Pai:11159 - 270
+My parent process ID is : 11159
+Pai:11159 - 275
+Filho:11160 - 10
+Pai:11159 - 280
+Filho:11160 - 20
+Pai:11159 - 285
+Filho:11160 - 30
+Pai:11159 - 290
+Filho:11160 - 40
+Pai:11159 - 295
+Filho:11160 - 50
+Pai:11159 - 300
+Filho:11160 - 60
+Pai:11159 - 305
+Filho:11160 - 70
+Pai:11159 - 310
+Filho:11160 - 80
+Pai:11159 - 315
+Filho:11160 - 90
+Pai:11159 - 320
+Filho:11160 - 100
+Pai:11159 - 325
+Filho:11160 - 110
+Pai:11159 - 330
+Filho:11160 - 120
+Pai:11159 - 335
+Filho:11160 - 130
+Pai:11159 - 340
+Filho:11160 - 140
+Pai:11159 - 345
+Filho:11160 - 150
+Pai:11159 - 350
+Filho:11160 - 160
+Filho:11160 - 170
+Filho:11160 - 180
+Pai:11159 - 355
+Filho:11160 - 190
+Pai:11159 - 360
+Filho:11160 - 200
+Pai:11159 - 365
+Filho:11160 - 210
+Pai:11159 - 370
+Filho:11160 - 220
+Pai:11159 - 375
+Filho:11160 - 230
+Pai:11159 - 380
+Filho:11160 - 240
+Pai:11159 - 385
+Filho:11160 - 250
+Pai:11159 - 390
+Filho:11160 - 260
+Pai:11159 - 395
+Filho:11160 - 270
+Pai:11159 - 400
+Filho:11160 - 280
+Pai:11159 - 405
+Filho:11160 - 290
+Pai:11159 - 410
+Filho:11160 - 300
+Pai:11159 - 415
+Filho:11160 - 310
+Pai:11159 - 420
+Filho:11160 - 320
+Pai:11159 - 425
+Filho:11160 - 330
+Pai:11159 - 430
+Filho:11160 - 340
+Pai:11159 - 435
+Filho:11160 - 350
+Pai:11159 - 440
+Filho:11160 - 360
+Pai:11159 - 445
+Filho:11160 - 370
+Pai:11159 - 450
+Filho:11160 - 380
+Pai:11159 - 455
+Filho:11160 - 390
+Pai:11159 - 460
+Filho:11160 - 400
+Pai:11159 - 465
+Filho:11160 - 410
+Pai:11159 - 470
+Filho:11160 - 420
+Pai:11159 - 475
+Filho:11160 - 430
+Pai:11159 - 480
+Filho:11160 - 440
+Pai:11159 - 485
+Filho:11160 - 450
+Pai:11159 - 490
+Filho:11160 - 460
+Pai:11159 - 495
+Filho:11160 - 470
+Pai:11159 - 500
+Filho:11160 - 480
+Filho:11160 - 490
+Filho:11160 - 500
+Filho:11160 - 510
+Filho:11160 - 520
+Filho:11160 - 530
+Filho:11160 - 540
+Filho:11160 - 550
+Filho:11160 - 560
+Filho:11160 - 570
+Filho:11160 - 580
+Filho:11160 - 590
+Filho:11160 - 600
+Filho:11160 - 610
+Filho:11160 - 620
+Filho:11160 - 630
+Filho:11160 - 640
+Filho:11160 - 650
+Filho:11160 - 660
+Filho:11160 - 670
+Filho:11160 - 680
+Filho:11160 - 690
+Filho:11160 - 700
+Filho:11160 - 710
+Filho:11160 - 720
+Filho:11160 - 730
+Filho:11160 - 740
+Filho:11160 - 750
+Filho:11160 - 760
+Filho:11160 - 770
+Filho:11160 - 780
+Filho:11160 - 790
+Filho:11160 - 800
+Filho:11160 - 810
+Filho:11160 - 820
+Filho:11160 - 830
+Filho:11160 - 840
+Filho:11160 - 850
+Filho:11160 - 860
+Filho:11160 - 870
+Filho:11160 - 880
+Filho:11160 - 890
+Filho:11160 - 900
+Filho:11160 - 910
+Filho:11160 - 920
+Filho:11160 - 930
+Filho:11160 - 940
+Filho:11160 - 950
+Filho:11160 - 960
+Filho:11160 - 970
+Filho:11160 - 980
+Filho:11160 - 990
+Filho:11160 - 1000
+Processo filho finalizado
+Processo pai finalizado
+
+Conclusão:
+a)A variável começa cada processo com o mesmo valor(0) e é alterada separadamente em cada um.No processo pai ela termina em 500 e no processo filho termina em 1000.
+
+b)Os processos executam de forma concorrente.O processo pai parece começar antes mas pouco depois o processo filho passa a executar de forma concorrente ao pai.
+OBS:Isso ocorreu quando rodei o programa no Linux.Quando rodei no Mac o processo filho só executou após o processo pai e não de forma concorrente.
+
+c)Quando o fork é feito ele cria 2 processos.Os 2 passam a coexistir e a executar em momentos diferentes.O escalonador escolhe qual processo será feito a cada momento.Algumas vezes ele escolhe o processo pai e outras vezes o processo filho.Por isso existe essa concorrência entre os dois.
+
+Questão 3)Faça um programa em que três processos executam em paralelo as seguintes ações:Pai: Imprime os números de 0 a 99, com um intervalo de 1 segundo entre a impressão de cada número. Após imprimir todos os números, imprime a frase “Processo pai vai finalizar” e finaliza quando o filho terminar.Filho: Imprime os números de 100 a 199, com um intervalo de 2 segundo entre a impressão cada número. Antes de imprimir os números, imprime a frase “Filho foi criado”. Após imprimir todos os números, imprime a frase “processo filho vai finalizar” e finaliza quando o neto terminar.Neto: filho do processo Filho (ou seja, neto do processo Pai). Imprime os números de 200 a 299, com um intervalo de 3 segundos entre cada número. Antes de imprimir os números, imprime a frase “Neto foi criado”. Após imprimir todos os números, imprime a frase “processo neto vai finalizar” e finaliza o processo. Importante: Em cada printf os processos devem imprimir o seu pid e o pid do seu pai.DICA: A chamada ao sistema sleep(1) bloqueia o processo por 1 segundo. 
+a)É possível observar os processos executando em paralelo?b)Que alterações devem ser feitas em seu programa para que primeiro sejamexibidas as impressões do neto, depois do filho e depois do pai?
+
+Arquivo .c:
+#include<stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include<stdlib.h>
+
+int main(void) {
+     int status,status2;
+     int pid = fork(),i = 0; 
+
+     if(pid!=0) {
+      printf("Processo Pai Inicializado\n");
+      for(i=0;i<100;i++) {
+      printf("Pai - Numero:%d\n",i);
+      sleep(1);
+      }
+      printf("Processo pai vai finalizar\n");
+      waitpid(-1,&status,0);
+      printf("Processo pai finalizado\n");
+ }
+      else {
+      int pid2 = fork(); 
+      if (pid2 != 0) { //Filho
+      printf("Filho foi criado\n");
+      for(i=100;i<200;i++) {
+      printf("Filho - Numero:%d\n",i);
+      sleep(2);
+}
+      printf("Processo filho vai finalizar\n");
+      waitpid(-1,&status2,0);
+      printf("Processo filho finalizado\n");
+     }
+      else {  //Neto
+      printf("Neto foi criado\n");
+      for(i=200;i<300;i++) {
+      printf("Neto - Numero:%d\n",i);
+      sleep(3);
+     }
+     printf("Processo neto vai finalizar\n");
+    }
+}
+}
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+Compilação e Execução:
+$gcc -Wall -o ex3 lab1_3.c
+$./ex3
+
+Resultado:
+Processo Pai Inicializado
+Pai - Numero:0
+Filho foi criado
+Filho - Numero:100
+Neto foi criado
+Neto - Numero:200
+Pai - Numero:1
+Pai - Numero:2
+Filho - Numero:101
+Neto - Numero:201
+Pai - Numero:3
+Filho - Numero:102
+Pai - Numero:4
+Pai - Numero:5
+Neto - Numero:202
+Filho - Numero:103
+Pai - Numero:6
+Pai - Numero:7
+Filho - Numero:104
+Pai - Numero:8
+Neto - Numero:203
+Pai - Numero:9
+Filho - Numero:105
+Pai - Numero:10
+Pai - Numero:11
+Neto - Numero:204
+Filho - Numero:106
+Pai - Numero:12
+Pai - Numero:13
+Filho - Numero:107
+Pai - Numero:14
+Neto - Numero:205
+Pai - Numero:15
+Filho - Numero:108
+Pai - Numero:16
+Pai - Numero:17
+Filho - Numero:109
+Neto - Numero:206
+Pai - Numero:18
+Pai - Numero:19
+Filho - Numero:110
+Pai - Numero:20
+Neto - Numero:207
+Pai - Numero:21
+Filho - Numero:111
+Pai - Numero:22
+Pai - Numero:23
+Neto - Numero:208
+Filho - Numero:112
+Pai - Numero:24
+Pai - Numero:25
+Filho - Numero:113
+Pai - Numero:26
+Neto - Numero:209
+Pai - Numero:27
+Filho - Numero:114
+Pai - Numero:28
+Pai - Numero:29
+Neto - Numero:210
+Filho - Numero:115
+Pai - Numero:30
+Pai - Numero:31
+Filho - Numero:116
+Pai - Numero:32
+Neto - Numero:211
+Pai - Numero:33
+Filho - Numero:117
+Pai - Numero:34
+Pai - Numero:35
+Neto - Numero:212
+Filho - Numero:118
+Pai - Numero:36
+Pai - Numero:37
+Filho - Numero:119
+Pai - Numero:38
+Neto - Numero:213
+Pai - Numero:39
+Filho - Numero:120
+Pai - Numero:40
+Pai - Numero:41
+Neto - Numero:214
+Filho - Numero:121
+Pai - Numero:42
+Pai - Numero:43
+Filho - Numero:122
+Pai - Numero:44
+Neto - Numero:215
+Pai - Numero:45
+Filho - Numero:123
+Pai - Numero:46
+Pai - Numero:47
+Neto - Numero:216
+Filho - Numero:124
+Pai - Numero:48
+Pai - Numero:49
+Filho - Numero:125
+Pai - Numero:50
+Neto - Numero:217
+Pai - Numero:51
+Filho - Numero:126
+Pai - Numero:52
+Pai - Numero:53
+Neto - Numero:218
+Filho - Numero:127
+Pai - Numero:54
+Pai - Numero:55
+Filho - Numero:128
+Pai - Numero:56
+Neto - Numero:219
+Pai - Numero:57
+Filho - Numero:129
+Pai - Numero:58
+Pai - Numero:59
+Neto - Numero:220
+Filho - Numero:130
+Pai - Numero:60
+Pai - Numero:61
+Filho - Numero:131
+Pai - Numero:62
+Neto - Numero:221
+Pai - Numero:63
+Filho - Numero:132
+Pai - Numero:64
+Pai - Numero:65
+Neto - Numero:222
+Filho - Numero:133
+Pai - Numero:66
+Pai - Numero:67
+Filho - Numero:134
+Pai - Numero:68
+Neto - Numero:223
+Pai - Numero:69
+Filho - Numero:135
+Pai - Numero:70
+Pai - Numero:71
+Neto - Numero:224
+Filho - Numero:136
+Pai - Numero:72
+Pai - Numero:73
+Filho - Numero:137
+Pai - Numero:74
+Neto - Numero:225
+Pai - Numero:75
+Filho - Numero:138
+Pai - Numero:76
+Pai - Numero:77
+Neto - Numero:226
+Filho - Numero:139
+Pai - Numero:78
+Pai - Numero:79
+Filho - Numero:140
+Pai - Numero:80
+Neto - Numero:227
+Pai - Numero:81
+Filho - Numero:141
+Pai - Numero:82
+Pai - Numero:83
+Neto - Numero:228
+Filho - Numero:142
+Pai - Numero:84
+Pai - Numero:85
+Filho - Numero:143
+Pai - Numero:86
+Neto - Numero:229
+Pai - Numero:87
+Filho - Numero:144
+Pai - Numero:88
+Pai - Numero:89
+Neto - Numero:230
+Filho - Numero:145
+Pai - Numero:90
+Pai - Numero:91
+Filho - Numero:146
+Pai - Numero:92
+Neto - Numero:231
+Pai - Numero:93
+Filho - Numero:147
+Pai - Numero:94
+Pai - Numero:95
+Neto - Numero:232
+Filho - Numero:148
+Pai - Numero:96
+Pai - Numero:97
+Filho - Numero:149
+Pai - Numero:98
+Neto - Numero:233
+Pai - Numero:99
+Filho - Numero:150
+Processo pai vai finalizar
+Neto - Numero:234
+Filho - Numero:151
+Filho - Numero:152
+Neto - Numero:235
+Filho - Numero:153
+Neto - Numero:236
+Filho - Numero:154
+Filho - Numero:155
+Neto - Numero:237
+Filho - Numero:156
+Neto - Numero:238
+Filho - Numero:157
+Filho - Numero:158
+Neto - Numero:239
+Filho - Numero:159
+Neto - Numero:240
+Filho - Numero:160
+Filho - Numero:161
+Neto - Numero:241
+Filho - Numero:162
+Neto - Numero:242
+Filho - Numero:163
+Filho - Numero:164
+Neto - Numero:243
+Filho - Numero:165
+Neto - Numero:244
+Filho - Numero:166
+Filho - Numero:167
+Neto - Numero:245
+Filho - Numero:168
+Neto - Numero:246
+Filho - Numero:169
+Filho - Numero:170
+Neto - Numero:247
+Filho - Numero:171
+Neto - Numero:248
+Filho - Numero:172
+Filho - Numero:173
+Neto - Numero:249
+Filho - Numero:174
+Neto - Numero:250
+Filho - Numero:175
+Filho - Numero:176
+Neto - Numero:251
+Filho - Numero:177
+Neto - Numero:252
+Filho - Numero:178
+Filho - Numero:179
+Neto - Numero:253
+Filho - Numero:180
+Neto - Numero:254
+Filho - Numero:181
+Filho - Numero:182
+Neto - Numero:255
+Filho - Numero:183
+Neto - Numero:256
+Filho - Numero:184
+Filho - Numero:185
+Neto - Numero:257
+Filho - Numero:186
+Neto - Numero:258
+Filho - Numero:187
+Filho - Numero:188
+Neto - Numero:259
+Filho - Numero:189
+Neto - Numero:260
+Filho - Numero:190
+Filho - Numero:191
+Neto - Numero:261
+Filho - Numero:192
+Neto - Numero:262
+Filho - Numero:193
+Filho - Numero:194
+Neto - Numero:263
+Filho - Numero:195
+Neto - Numero:264
+Filho - Numero:196
+Filho - Numero:197
+Neto - Numero:265
+Filho - Numero:198
+Neto - Numero:266
+Filho - Numero:199
+Processo filho vai finalizar
+Neto - Numero:267
+Neto - Numero:268
+Neto - Numero:269
+Neto - Numero:270
+Neto - Numero:271
+Neto - Numero:272
+Neto - Numero:273
+Neto - Numero:274
+Neto - Numero:275
+Neto - Numero:276
+Neto - Numero:277
+Neto - Numero:278
+Neto - Numero:279
+Neto - Numero:280
+Neto - Numero:281
+Neto - Numero:282
+Neto - Numero:283
+Neto - Numero:284
+Neto - Numero:285
+Neto - Numero:286
+Neto - Numero:287
+Neto - Numero:288
+Neto - Numero:289
+Neto - Numero:290
+Neto - Numero:291
+Neto - Numero:292
+Neto - Numero:293
+Neto - Numero:294
+Neto - Numero:295
+Neto - Numero:296
+Neto - Numero:297
+Neto - Numero:298
+Neto - Numero:299
+Processo neto vai finalizar
+Processo filho finalizado
+Processo pai finalizado
+
+Conclusão:
+a)Sim.Os três processos executam paralelamente.O pai termina o seu for antes mas tem que esperar a conclusão do filho para finalizar.O filho termina o seu for depois mas tem que esperar a conclusão do neto para finalizar.O neto é o último a terminar e depois que ele terminado filho termina e finalmente o pai termina a execução.
+
+b)Para isso basta colocar o Waitpid antes do for do pai e antes do for do filho em vez de depois.Isso fará com que o pai espere o filho terminar para executar o seu for e o filho espere o neto terminar para executar o seu for.Com isso o programa fica muito mais lento já que a iteração sobre o filho, que é a mais demorada bloqueia as outras duas iterações.
+
+Questão 4)Crie um programa que realize a impressão da frase: "Alo mundo", no arquivo “alomundo.c”. Compile este programa. Em seguida, crie um programa que execute o programa alomundo criado por você. Utilize alguma função da família "execv" para realizar esta atividade.DICA: Para saber os protótipos das funções disponíveis execute o comando “man” no Terminal (para acessar o manual: "man execv").
+
+Arquivo .c:
+#include<stdio.h>
+#include <unistd.h>
+
+
+int main(void) {
+    execv("alomundo", NULL);
+    return 0;
+}
+
+AloMundo.c:
+
+#include<stdio.h>
+int main(void) {
+  printf(“Alo mundo”);
+}
+
+Auxiliar.txt:
+Não houve arquivo auxiliar nessa questão.
+
+Compilação e Execução:
+$gcc -Wall -o alomundo alomundo.c
+$gcc -Wall -o ex4 lab1_4.c
+$./ex4
+
+Resultado:
+Alo mundo
+
+Conclusão:
+O comando execv roda um executável que estiver no path especificado no primeiro argumento passado para ele.Nesse caso ele roda o programa Alo Mundo que simplesmente imprime essa fase.
+
+

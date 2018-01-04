@@ -1,0 +1,240 @@
+Felipe Viberti - 1510384
+
+Questão 1)Criar, via programa, o diretório sc em seu diretório corrente; criar os subdiretórios a, b e c;Criar arquivos txt nos subdiretórios e escrever textos nestes arquivos.
+-----------------------------------------------------
+
+Arquivo .c:
+#include<stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <fcntl.h>
+void main(void) {
+	char str[] = "Teste escrevendo"; 
+	mkdir("./sc",0700);
+	mkdir("./sc/a",0700);
+	mkdir("./sc/b",0700);
+	mkdir("./sc/c",0700);
+
+	int filedesc = open("./sc/a/teste1.txt", O_WRONLY | O_CREAT,0777);
+   	write(filedesc,str, sizeof(str));
+    	int filedesc2 = open("./sc/b/teste2.txt", O_WRONLY | O_CREAT,0777);
+   	write(filedesc2,str, sizeof(str));
+	int filedesc3 = open("./sc/c/teste3.txt", O_WRONLY | O_CREAT,0777);
+   	write(filedesc3,str, sizeof(str));
+}
+
+-----------------------------------------------------
+
+Auxiliar.Txt:
+Teste1.txt,Teste2.txt e Teste3.txt são criados pelo programa e possuem o seguinte conteúdo: Teste Escrevendo
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex1 ex1.c
+$./ex1
+
+-----------------------------------------------------
+
+Resultado: 
+Não ocorrem prints no console.
+
+-----------------------------------------------------
+
+Conclusão:
+Primeiro eu usei mkdir para criar os diretórios e subdiretórios pedidos. Depois,dentro de cada um dos subdiretórios eu dei open em um arquivo para criar esse arquivo, seguido de write para escrever a string str dentro de cada um dos arquivos criados.
+
+-----------------------------------------------------
+
+Questão 2) Exibir os atributos de um dos arquivos criados.
+
+-----------------------------------------------------
+
+Arquivo .c:
+#include<stdio.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <fcntl.h>
+void main(void) {
+	char *fd = "./sc/a/teste1.txt";
+	struct stat *buf;
+	buf = malloc(sizeof(struct stat));
+	stat(fd, buf);
+	int size = buf->st_size;
+	printf("%d\n",size);
+	int permissions = buf->st_mode;
+	printf("%d\n",permissions);
+	int accesstime = buf->st_atime;
+	printf("%d\n",accesstime);
+	int permissionschanged = buf->st_ctime;
+	printf("%d\n",permissionschanged);
+	int device = buf->st_uid;
+	printf("%d\n",device);
+	free(buf);
+}
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex2 ex2.c
+$./ex2
+
+-----------------------------------------------------
+
+Resultado:
+17
+33277
+1512164409
+1512164409
+1002
+-----------------------------------------------------
+
+Conclusão:
+Aqui eu usei a função stat que retorna uma struct com todos os atributos de um arquivo.Dentre esses os que eu escolhi para dar print foram o tamanho do arquivos permissões do arquivos última vez que o arquivo foi acessado, a ultima vez que as permissões foram alteradas e o device no qual o arquivo está.
+-----------------------------------------------------
+
+Questão 3)Buscar um dado arquivo a partir do diretório sc, ler e imprimir o conteúdo do arquivo encontrado.                        
+-----------------------------------------------------
+
+Arquivos .c:
+include <dirent.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main(void) {
+  struct dirent **namelist;
+  int n;
+
+  n = scandir("./sc", &namelist, NULL, alphasort);
+
+
+    while (n--) {
+      if(strcmp("teste5.txt", namelist[n]->d_name) == 0) {
+        char string[16] = "teste alteracao";
+        char read_file[16];
+        int fd2 = open(".//sc/teste5.txt", O_RDONLY, 0777);
+        int fd3 = open("./sc/teste5.txt", O_WRONLY, 0777);
+        write(fd3, string, 16 * sizeof(char));
+        read(fd2, read_file, 16);
+        printf("%s\n", read_file);
+        exit(1);
+      }
+      free(namelist[n]);
+}
+    free(namelist);
+}
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Teste5.txt(após a execução do programa):
+teste alteração.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex3 ex3.c
+$ ./ex3 
+-----------------------------------------------------
+
+Resultado:
+teste alteracao
+-----------------------------------------------------
+
+Conclusão:
+No inicio eu uso a função scandir que vai procurar por todos os arquivos que estão dentro do diretório sc e vai coloca-los em nameList.Depois eu itero sobre essa lista até achar o arquivo que estou procurando.Abro esse arquivo para leitura e escrita e escrevo seu novo conteúdo.Depois dou um read apenas para conferir se tudo ocorreu como esperado.
+
+-----------------------------------------------------
+
+Questão 4)Alterar o conteúdo do arquivo, exibindo o resultado obtido. Usar a primitiva seek para realizar esta alteração.                        
+-----------------------------------------------------
+
+Arquivos .c:
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <sys/types.h>
+
+int main()
+{
+        int file=0;
+        char buffer[17];
+        file=open("./sc/a/teste1.txt",O_RDONLY);
+
+        read(file,buffer,17);
+        printf("%s\n",buffer);
+
+        if(lseek(file,6,SEEK_SET) < 0) return 1;
+
+        read(file,buffer,17);
+        printf("%s\n",buffer);
+
+        return 0;
+}
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex4 ex4.c
+$ ./ex4
+-----------------------------------------------------
+
+Resultado:
+Teste escrevendo
+escrevendo
+-----------------------------------------------------
+
+Conclusão:
+Primeiro eu abro o arquivo e leio o seu conteúdo(isso é o que aparece no primeiro print).Depois eu uso lseek para alterar o conteúdo do arquivo.Essa função recebe o arquivo que ela vai alterar e o numero de caracteres que o arquivo será movido(isso aqui funciona como se ele cortasse uma parte do texto do arquivo).No meu caso eu mandei cortar os 6 primeiros caracteres.Por isso no read que eu faço depois aparece só "escrevendo" e não "Teste escrevendo".
+-----------------------------------------------------
+
+Questão 5)Mudar a permissão de acesso ao arquivo.                        
+-----------------------------------------------------
+
+Arquivos .c:
+#include<stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <fcntl.h>
+
+void main(void) {
+    chmod("/sc/a/teste1.txt",0707);
+}
+
+-----------------------------------------------------
+
+Auxiliar .txt:
+Não houve arquivo auxiliar nessa questão.
+
+-----------------------------------------------------
+
+Compilação e Execução:
+$ gcc -Wall -o ex5 ex5.c
+$./ex5
+-----------------------------------------------------
+
+Resultado:
+Não ocorrem prints no console.
+-----------------------------------------------------
+
+Conclusão:
+Aqui eu uso chmod para alterar as permissões do arquivo.Essa função recebe o path do arquivo e as novas permissões que ele terá.As permissões antigas eram 777(que significa que qualquer um tem permissão para ler, escrever e executar) e as novas foram 707(agora ninguém tem mais permissão de escrita sobre o arquivo).
